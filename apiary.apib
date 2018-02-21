@@ -1,0 +1,1509 @@
+FORMAT: 1A
+HOST: NONE
+
+# so24apis:
+
+# HTTP REST API [/http://smart-24.net/]
+<hr/>
+
+### Базовая информация [PUT]
+
++ Response 200
+
+    + Body
+    
+            Версия: "1.2"
+            
+            Все передаваемые данные должны быть в кодировке "UTF-8"
+            
+            Все номера телефонов должны быть представлены в виде строк чисел в международном формате: 
+            "<3><код страны><код оператора><номер>"
+            
+            Пример: "380501111111"
+            
+            SCHEME: "http"
+            API_URL: "SCHEME://smart-24.net/api"
+            
+            Плотность экрана параметр (density):
+                
+                @1x (не Retina)
+                    0 - mdpi (1x)    320x163
+                    1 - hpdi (1x)    540x277
+                    2 - xhdpi (1x)   720x367
+                    3 - xxhdpi (1x)  1080x551
+                    4 - xxxhdpi (1x) 1600x817
+                
+                @2x (Retina, iPhone 4/5/6)
+                    5 - mdpi (2x)    640x326
+                    6 - hpdi (2x)    1080x554
+                    7 - xhdpi (2x)   1440x734
+                    8 - xxhdpi (2x)  2116x1079
+                    9 - xxxhdpi (2x) 3200x1634
+                
+                @3x (iPhone 6 plus)
+                    10 - mdpi (3x)    800x408
+                    11 - hpdi (3x)    1350x693
+                    12 - xhdpi (3x)   1800x918
+                    13 - xxhdpi (3x)  2700x1376
+                    14 - xxxhdpi (3x) 4000x2043
+
+### Регистрация (android и iOS) [POST/{user_photo}/{name}/{surname}/{phone}/{phone_model}/{password}/{password_confirm}/ (see location)]
+
++ Parameters
+    + user_photo (required) ... *фото пользователя в формате **Base64***
+    + name (required) ... *имя*
+    + surname (required) ... *фамилия*
+    + phone (required) ... *телефон*
+    + phone_model (required) ... *модель телефона*
+    + password (required) ... *пароль*
+    + password_confirm (required) ... *подтверждение пароля*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: register?user_photo=Base64&name=wezom&surname=mobile&phone=38050XXXXXXX@phone_model=LenovoA760
+            Method: POST
+
+    + Body
+
+            {
+                "success": true,
+                "errors": (array)
+            }
+            
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+### Регистрация через соц.сеть (android) [POST/{user_photo}/{username}/{social_type}/{social_id}/ (see location)]
+
++ Parameters
+    + user_photo (required) ... *ссылка на фото пользователя*
+    + username (required) ... *имя+фамилия (так как соц. сети выдают эту информацию вместе одной строкой)*
+    + social_type (required) ... *индикатор соц.сети*
+    + social_id (required, (int)) ... *id пользователя в соц.сети*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: registerSocial?user_photo=http://vk.com/images/pk.jpg&username=wezom.mobile&social_type=1@social_id=1565485652
+            Method: POST
+
+    + Body
+    
+                {
+                    "success": true,
+                    "errors": (array)
+                }
+            
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+            Индикатор "social_type":
+                0 - "google+"
+                1 - "facebook"
+                2 - "vk"
+                3 - "ok"
+
+### Проверка кода для завершения регистрации (iOS) [GET/{email}/{code}/ (see location)]
+
++ Parameters
+    + email (required) ... *почтовый адресс пользователя*
+    + code (required) ... *код полученный из почтового ящика*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: checkcode?email=tttt@tt.tt&code=XXXXX
+            Method: GET
+
+    + Body
+    
+            {
+                "uid": 1125,
+                "success": true,
+                "errors": (array)
+            }
+            
+            "uid" - уникальный идентификатор пользователя
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
+### Проверка кода для завершения регистрации (Android) [GET/{phone}/{code}/ (see location)]
+
++ Parameters
+    + phone (required) ... *телефон*
+    + code (required) ... *код полученныйиз СМС*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: checkcode?phone=38050XXXXXXX&code=XXXXX
+            Method: GET
+
+    + Body
+
+            {
+                "uid": 1125,
+                "success": true,
+                "errors": (array)
+            }
+            
+            "uid" - уникальный идентификатор пользователя
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
+### Авторизация (Android и iOS) [POST/{phone}/{passwd}/ (see location)]
+
++ Parameters
+    + phone (required) ... *телефон*
+    + passwd (required) ... *пароль*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: login?phone=38050XXXXXXX&passwd=XXXXX
+            Method: POST
+
+    + Body
+    
+            {
+                "name": "Петро",
+                "username": "Петров",
+                "telephone": 380953636369,
+                "user_photo": "SCHEME://API_URL/123456.png",
+                "success": true,
+                "errors": (array)
+            }
+            
+            "name" - имя
+            "username" - фамилия
+            "telephone" - телефон
+            "user_photo" - ссылка на фото пользователя
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
+### Авторизация через соц.сеть (Android) [POST/{social_type}/{social_id}/ (see location)]
+
++ Parameters
+    + social_type (required) ... *индификатор соц.сети*
+    + social_id (required, (int)) ... *id пользователя в соц.сети*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: loginSocial?social_type=1&social_id=123132135456
+            Method: POST
+
+    + Body
+
+            {
+                "name": "Петро",
+                "username": ”Петров",
+                "telephone": 380953636369,
+                "user_photo": "SCHEME://API_URL/123456.png",
+                "success": true,
+                "errors": "array"
+            }
+            
+            "name" - имя
+            "username" -фамилия
+            "telephone" - телефон
+            "user_photo" - ссылка на фото пользователя
+            "success" - результат операции(true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+### Восстановление пароля (iOS) [POST/{email}/ (see location)]
+
++ Parameters
+    + email (required) ... *почтовый адресс пользователя*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: sendpasswd?email=tttt@tt.tt&passwd
+            Method: POST
+
+    + Body
+
+            {
+                "success": true,
+                "errors": "array"
+            }
+            
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+### Проверка кода для завершения восстановления пароля (iOS) [POST/{email}/{code}/ (see location)]
+
++ Parameters
+    + email (required) ... *почтовый адресс пользователя*
+    + code (required) ... *код полученный из почтового ящика*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: sendpasswd?email=tttt@tt.tt&code=XXXXX
+            Method: POST
+
+    + Body
+
+            {
+                "success": true,
+                "errors": "array"
+            }
+            
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+### Восстановление пароля (Android) [POST/{phone}/ (see location)]
+
++ Parameters
+    + phone (required) ... *телефон*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: sendpasswd?phone=38050XXXXXXX
+            Method: POST
+
+    + Body
+
+            {
+                "success": true,
+                "errors": (array)
+            }
+            
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+### Проверка кода для завершения восстановления пароля (Android) [GET/{phone}/{code}// (see location)]
+
++ Parameters
+    + phone (required) ... *телефон*
+    + code (required) ... *код полученныйиз СМС*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: sendpasswd?phone=8050XXXXXXX&code=XXXXX
+            Method: GET
+
+    + Body
+
+            {
+                "success": true,
+                "errors": (array)
+            }
+            
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+### Изменение данных пользователя [POST/{uid}/{image_person}/{name}/{phone}/{surname}/{surname}/{passw}/{passwdcheck}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + image_person (required) ... *фото пользователя в формате Base64*
+    + name (required) ... *имя*
+    + phone (required) ... *телефон  уже добавлено в API сайте*
+    + surname (required) ... *фамилия* 
+    + passw (required) ... *старый пароль*
+    + passwdcheck (required) ... *новый пароль*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: changedata?image_person=Base64&name=wezom&surname=mobile&phone=38095256565&passwd=555555@passwdcheck=66666
+            Method: POST
+
+    + Body
+
+            {
+                "success": true,
+                "errors": (array)
+            }
+            
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
+### Получить информацию пользователя [POST/{uid}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: user_info?uid=456
+            Method: POST
+
+    + Body
+
+            {
+                "name": "Петро",
+                "username": "Петров",
+                "telephone": 380953636369,
+                "user_photo": "SCHEME://API_URL/user.png",
+                "success": true,
+                "errors": (array)
+            }
+            
+            "name" - имя
+            "username" - фамилия
+            "telephone" - телефон
+            "user_photo" - ссылка на фото пользователя
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
+### Запрос списка активированных услуг пользователя [GET/{uid}/{density}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + density (required) ... *плотность экрана. Возвращает картинку под нужную плотность экрана (mdpi – 0, hpdi - 1, xhdpi - 2, xxhdpi – 3, xxxhdpi – 4). Нужен для фона услуги*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: services?uid=XXXX
+            Method: GET
+
+    + Body
+    
+            {
+                "services":
+                    [{
+                        "name": "Абонентское обслуживание",
+                        "service_id": 2,
+                        "avto_prolong": true,
+                        "expired_time": "1427811446",
+                        "program_categories":
+                        [
+                            {
+                                "id": "1", 
+                                "name": "Защита от вирусов", 
+                                "description": "Описание..."
+                            },
+                            {
+                                "id": "2",
+                                "name": "Удаленное управление",
+                                "description": "Описание..."
+                            }
+                        ],              
+                        "program_list":
+                        [
+                            {
+                                "id": "1",
+                                "category": "1", // идентификатор категории
+                                "name": "Dr.Web",
+                                "description": "Описание программы",
+                                "version": "1.0", // версия программы
+                                "url": "http://server/dr_web.apk", // ссылка для скачивания
+                                "icon": "http://server/dr_web.png", // иконка
+                                "site": "https://www.drweb.ua/", // сайт разработчика
+                                "install_priority": "0"  // приоритет для установки
+                            }
+                        ]
+                    }], 
+                "programs":
+                    [{
+                        "program_id": 12,
+                        "name": "Dr.Web",
+                        "serial_keys":
+                        [
+                            {
+                                "key": "SSAW SDSA SWSW DSDS",
+                                "expire_date": 11263323554565
+                            }
+                        ],
+                        "description": "Антивирус..."
+                        "version": "1.1.36",
+                        "url": "http://...",
+                        "icon": "http://...",
+                        "site": "http://..."
+                    }],
+                "success": true, 
+                "errors": (array)
+            }
+
+            "services" - массив активированных услуг пользователя:
+            "service_id" - идентификатор услуги
+            "icon" - иконка
+            "avto_prolong" - установленно ли автопродление
+            "name" - наименование услуги
+            "serial_keys" - список серийных ключей
+            "key" - ключ
+            "expire_date" - срок действия
+            "expired_time" - время истечения услуги (в миллисекундах)
+            "program_categories" - массив категорий программ
+            "program_list" - массив программ для установки
+            "programs - масив активных услуг - програм (с серийным ключом)
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
+### Запрос списка всех услуг [GET/{density}/ (see location)]
+
++ Parameters
+    + density (required) ... *плотность экрана. Возвращает картинку под нужную плотность экрана (mdpi – 0, hpdi - 1, xhdpi - 2, xxhdpi – 3, xxxhdpi – 4). Нужен для фона услуги*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: allservices?density=XXXX
+            Method: GET
+
+    + Body
+    
+            {
+                "catalogs":
+                [
+                    {
+                        "name": "Абонентское обслуживание",
+                        "header": "http://",
+                        "is_novelty": true,
+                        "services":
+                        [
+                            {
+                                "service_id": "1", 
+                                "duration": "15 дней", 
+                                "price": "69",
+                                "currency": "UAH"
+                            }
+                        ]
+                    }
+                ],
+                "programs":
+                [
+                    {
+                        "program_id": 12,
+                        "name": "Dr.Web",
+                        "header": "http://",
+                        "is_novelty": true,
+                        "description": "Антивирус..."
+                        "version”: ”1.1.36",
+                        "url": "http://...",
+                        "icon”: ”http://...",
+                        "site": "http://..."
+                    }
+                ]
+            },
+            {
+                "success": true,
+                "errors": (array)
+            }
+            
+            header - ссылка на фон с эмблемой услуги/программы (без текстового названия) 
+            is_novelty - (true,false) новинка это или нет+ 
+            name - наименование услуги 
+            services - массив сервисов (на 1 месяц, 2месяца...) 
+            programs - масив услуг (тип "програма") 
+            program_id - идентификатор категории 
+            description - описание программы 
+            version - версия программы 
+            url - ссылка для скачивания 
+            icon - иконка "http://server/dr_web.png" 
+            site - сайт разработчика "https://www.drweb.ua/" 
+            success - результат операции (true/false) 
+            errors - массив содержащий сообщения об ошибках 
+            
+            Для услуги dr. Web (тип программы) нужны дополнительные данные:
+                "catalogs" - массив всех услуг "Абонентское обслуживание" на сайте
+
+### Запрос URL для покупки услуги [GET/{service_id}/{uid}/{auto}/ (see location)]
+
++ Parameters
+    + service_id (required, (int)) ... *идентификатор услуги в 1c*
+    + uid (required, (int)) ... *идентификатор пользователя*
+    + auto (required) ... *автоматически продлевать*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: buyurl?service_id =XXXX&uid=XXX&auto=false
+            Method: GET
+
+    + Body
+
+            {
+                "post_url": "https://",
+                "post_data":
+                [
+                    {
+                        "var1": "value1",
+                        "var2": "value2"
+                    }
+                ],
+                "success": true,
+                "errors": (array)
+            }
+            
+            "url" - ссылка для покупки услуги, сгенерированная сервером, 
+            в зависимости от rate_id который выбрал пользователь
+            "post_url" - url адрес перехода пользователя для совершения покупки
+            "post_data" - массив параметров необходимый для отправки методом POST для совершения покупки
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+            Опционально:
+                "currency" - валюта которой будет оплачивать клиент. Доступны значения (UAH|RUB)
+
+### Автоматическое продления услуги [POST/{uid}/{service_id}/{status}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + service_id (required, (int)) ... *идентификатор услуги*
+    + status (required) ... *установленно ли автопродление*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: prolong_service?uid=XXXX&service_id=2&status=true
+            Method: POST
+
+    + Body
+
+            {
+                "success": true,
+                "errors": (array)
+            }
+            
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
+### Послать вопрос оператору технической поддержки [POST/{uid}/{message}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + message (required) ... *вопрос к оператору технической поддержки*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: sendmessage?uid=XXXX&message=Добрый%20день
+            Method: POST
+
+    + Body
+
+            {
+                "expert_name": "Максим",
+                "time of receipt": 12312154231354354,
+                "expect": "false",
+                "success": true,
+                "errors": (array)
+            }
+
+            "expert_name" - имя оператора (если свободных экспертов нет, это значение пустое)
+            "expert_id" - (int) id эксперта
+            "cc_id" - (int) id эксперта для звонков в 3cx
+            "dialog_id" - номер диалога с оператором
+            "time_of_receipt" - время получения сервером сообщения
+            "expect" - ожидать на свободного оператора(true/false)
+            "success" - результат операции(true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            "notice" - иногда cодержит заметки разработчика PHP
+            
+            Необязательные параметры:
+                "dialog_id" - номер диалога с оператором (Если этого параметра нет - начинается новый диалог с оператором. Если есть - то пишем сообщение в текущий диалог)
+                "isVideo" (0|1) int
+                "partner_id" - id партнера. Например: 1006
+                "mobile_app_name" - (string) Название моб приложения, необходимое для его идентификации в отчетах
+
+### Получить ответ от оператора технической поддержки [GET/{uid}/{dialog_id}/{timestamp}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальныйидентификаторпользователя*
+    + dialog_id (required, (int)) ... *номер диалога с оператором*
+    + timestamp (required) ... *время последнего полученного ответа, в виде Unixtime. <br> Если этого параметра нет - начинается новый диалог с оператором. Если есть - то пишем сообщение в текущий диалог*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: getanswer?uid=XXXX&dialog_id=XXXX
+            Method: GET
+
+    + Body
+
+            {
+                "message": "Чем могу помочь?",
+                "expert_name": "Максим",
+                "expert_avatar": "http://",
+                "time": "86400000",
+                "success": "true", 
+                "errors": (array)
+            }
+
+            Необязательные параметры:
+            
+            "isVideo (0|1) int"
+            
+            "messages" - ответ
+            Так как оператор может написать несколько сообщений со момента последнего опроса, решено переделать это на массив.
+            Т.е. возвращаемое значение - массив вида:
+            
+            Messages:
+                [
+                    "message" - текст сообщения
+                    expert_name - имя оператора
+                    "expert_id (int)" - id эксперта
+                    "cc_id (int)" - id эксперта для звонков в 3cx
+                    "expert_avatar" - аватарка оператора
+                    "time" - время сообщения, Unixtime
+                    "type" - тип сообщения: system (автоматическое сообщение системы) или normal (сообщение от эксперта)
+                ],
+                [
+                    "message"
+                    "expert_name"
+                    "expert_avatar"
+                    "time"
+                    "type"
+                ],
+                ]
+                    "last_timestamp" - время последнего ответа оператора (если новых ответов не было – то возвращается переданное клиентом время)
+                    "expert_name" - имяоператора
+                    "expert_id (int)" - id эксперта
+                    "cc_id (int)" - id эксперта для звонков в 3cx
+                    "expert_avatar" - аватарка оператора
+                    "time" - время ответа (удалено)
+                    "success" - результатоперации (true/false)
+                    "errors" - массивсодержащий сообщения об ошибках
+                ]
+
+### Пользователь прочитал сообщения [GET/{uid}/{dialog_id}/{timestamp}// (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + dialog_id (required, (int)) ... *номер диалога с оператором*
+    + timestamp (required) ... *время последнего полученного сообщения который прочитал пользователь (это и все сообщения которые пришли раньше этого, должны на сервере автоматически стать прочитанами), в виде Unixtime*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: messagesread?uid=XXXX&dialog_id=XXXX&timestamp=1232335565454
+            Method: GET
+
+    + Body
+
+            {
+                "success": true,
+                "errors": (array)
+            }
+
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
+### Закрыть диалог с оператором [GET/{uid}/{dialog_id}/{grade}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + dialog_id (required, (int)) ... *номер диалога с оператором*
+    + grade (required) ... *оценка пользователя, значения: 1,2,3,4,5*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: closedialog?uid=XXXX&dialog_id=XXXX&grade=good&opinion=Super
+            Method: GET
+
+    + Body
+
+            {
+                "success": true,
+                "errors": (array)
+            }
+
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+            Необязательные параметры: 
+                "opinion" - комментарий пользователя
+            
+### Сделай сам (новости) [GET/{density} (see location)]
+
++ Parameters
+    + density (required) ... *плотность экрана. Возвращает картинку под нужную плотность экрана (mdpi – 0, hpdi - 1, xhdpi - 2, xxhdpi – 3, xxxhdpi – 4)*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: news?uid=123525density=2
+            Method: GET
+
+    + Body
+
+            {
+                "news":
+                [{
+                    "news_id": 256,
+                    "title": "Мастер  класс по фотографии",
+                    "description": "Мастер класс от лучших мастеров…"
+                    "news_url": "http://…."
+                    "header_image": "SCHEME://API_URL/news.png",
+                    "publish_date": 1427811446
+                }],
+                "success": true,
+                "errors": (array)
+            }
+            
+            "news_id" - идентификатор новости
+            "title" - заголовок новости
+            "description" - описание новости (html формат)
+            "header_image" - заголовок новости
+            "publish_date" - дата публикации
+
+### Активировать Услугу [GET/{uid}/{activation_code}/{activation_code}/{shop_code}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *индификатор пользователя*
+    + activation_code (required, (int)) ... *код активации услуги*
+    + shop_code (required, (int | max:4)) ... *код магазина*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: activatecard?uid=123525&activation_code=245464566542164
+            Method: GET
+
+    + Body
+
+            {
+                "success": true,
+                "errors": (array),
+                "gift": (array)
+            }
+
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            "errors" - подарки
+            
+### Получить данные о бекапе [GET/{uid}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *идентификатор пользователя*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: getinfo_backup?uid=123525
+            Method: GET
+
+    + Body
+
+            {
+                "success" :true,
+                "errors": (array),
+                "isbackup": 1,
+                "date": 1130304721
+            }
+
+            "isbackup" - статус бекапа (0 - нет бекапа, 1 - есть)
+            "date" - дата создания бекапа (timestamp или 0 если нет бекапа)
+
+### Записать данные о бекапе [GET/{uid}/{isbackup}/{date}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *идентификатор пользователя*
+    + isbackup (required) ... *статус бекапа int (0|1)*
+    + date (required) ... *дата создания бекапа string (timestamp)*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: putinfo_backup?uid=123525&isbackup=1&date=1130304721
+            Method: GET
+
+    + Body
+
+            {
+                "success": true,
+                "errors": (array)
+            }
+
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+### Формат ошибок [GET// (see location)]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/bonuses/get
+            Method: GET
+
+    + Body
+    
+            {
+                "error":
+                    {
+                        "code": 1,
+                        "message": "authenticationError",
+                        "data": "Wrong login or password"
+                    }
+            }
+
+            Ошибки возвращаются в соответствии со стандартом JSON-RPC. 
+            Пример возвращаемой ошибки, связанной с неверной регистрацией:
+
+            Все ошибки характеризуются тремя полями:
+                "error.message" - строковой код ошибки
+                "error.data" - детальное описание ошибки
+                "error.code" - в дальнейшем называется числовым кодом ошибки
+
+### Получить системные уведомления пользователя [GET/{uid} (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: notifications?uid=XXXX
+            Method: GET
+
+    + Body
+
+            {
+                "notifications":
+                [
+                    {
+                        "notification_id": 1,
+                        "title": ”Мастер класс по фотографии",
+                        "description": "Мастер класс от лучших мастеров…",
+                        "publish_date": 1427811446,
+                    }
+                ],
+                "success": true, 
+                "errors": (array)
+            }
+            
+            "notification_id" - идентификатор уведомления
+            "title" - заголовок уведомления
+            "description" - текст уведомления
+            "publish_date" - дата уведомления
+
+### Синхронизировать системные уведомления пользователя [POST/(ANY)/{uid}/{notifications}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + notifications (required) ... *массив объектов, где **action** = **delete** (уведомление удалено пользователем),  **action** = **read** (уведомление прочитано пользователем), **id** (идентификатор уведомления полученный ранее запросом **"API_URL/notifications"**)*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: sync-notifications?uid=XXXX
+            Method: ANY
+
+    + Body
+    
+            **-----------------------------Пример запроса-------------------------------------**
+            {
+                "uid": 100020, //id пользователя
+                "notifications":
+                [ //массив объектов уведомлений
+                    {
+                        "id": 235,
+                        "action": "delete" //удалено
+                    }
+                ],
+                "id": 236,
+                "action": "read" //прочитано
+            },
+            {
+                "id": 237,
+                "action": "read"
+            }
+
+            **-----------------------------Пример ответа-------------------------------------**
+
+            {
+                "success": true,
+                "errors": (array),
+                "notice" : "Иногда cодержит заметки разработчика PHP"
+            }
+            
+            Уведомляем сервер одним запросом об изменениях в статусе "notifications"
+
+            Неправильно оформлен запрос:
+                notifications%5Baction%5D=delete&notifications%5Bid%5D=735&uid=1030255
+
+            Пример при котором все работает:
+                http://pastenow.ru/2623e1d00e08ae5d191797a602cd8cbe
+
+# PRS API [/api]
+<hr/>
+
+### Получить статус [POST/{uid}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/prs_getstatus
+            Method: POST
+
+### Получить список услуг [POST/{uid} (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/prs_getservices
+            Method: POST
+            
+### Отправить заявку [POST/{uid}/{service_id}/{username}/{phone}/{comment}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + service_id (required, (int)) ... *идентификатор сервиса*
+    + username (required) ... *логин пользователя*
+    + phone (required) ... *телефон пользователя*
+    + comment (required) ... *комментарий*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/prs_sendrequest
+            Method: POST
+            
+### Получить список заявок для выбранной услуги [POST/{uid}/{service_id}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + service_id (required, (int)) ... *идентификатор сервиса*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/prs_getrequests
+            Method: POST
+            
+### Активация услуги [POST/{uid}/{code}/{shope_code}/{gift}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + code (required) ... *код*
+    + shope_code (required, (number)) ... *код магазина*
+    + gift (required) ... *подарок*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/prs_activateservice
+            Method: POST
+            
+### Оценить качество [POST/{uid}/{request_id}/{rating}/{comment}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + request_id (required, (int)) ... *идентификатор запроса*
+    + rating (required) ... *рейтинг*
+    + comment (required) ... *комментарий*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/prs_setgrade
+            Method: POST
+            
+### Создать услугу (кастомный метод) [POST/{uid}/{passw}/{code}/{shopping_date}/{product_name}/ (see location)]
+
++ Parameters
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
+    + passw (required) ... *пароль*
+    + code (required) ... *код*
+    + shopping_date (required) ... *дата/время шопинга*
+    + product_name (required) ... *имя продукта*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /api/prs_createservice
+            Method: POST
+            
+# Gift API [/base/mobile_api/gifts/]
+<hr>
+
+**Error codes:**
+
+**300** - *No codes for this gift type*
+
+**301** - *type_id is required*
+
+**302** - *Invalid XML-file*
+
+### Get available types [GET/ (see location)]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /base/mobile_api/gifts/get
+            Method: GET
+                    
+    + Body
+           
+            **-------------------IF USER HAVE AVAILABLE GIFTS-------------------**
+            
+            {
+                "success": true,
+                "errors": [],
+                "types": 
+                [
+                    {
+                        "id": 1,
+                        "title": "iTV",
+                        "description": "iTV description",
+                        "image_link": "http://iTV"
+                    },
+                    {
+                        "id": 3,
+                        "title": "ZORO",
+                        "description": "ZORO ZORO",
+                        "image_link": "http://exampleLink"
+                    }
+                ]
+            }
+            
+            **-------------------IF USER HAVEN'T AVAILABLE GIFTS----------------**
+            
+            {
+                "success": true,
+                "errors": [],
+                "types": []
+            }
+            
+            
+
+
+
+### Activate code [POST/{type_id} (see location)]
+
++ Parameters
+    + type_id (required, (int)) ... *идентификатор типа*
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /base/mobile_api/gifts/activate
+            Method: POST
+        
+
+    + Body
+    
+            **-------------------SUCCESSFUL CODE ACTIVATION-------------------**
+            
+            {
+                "success": true,
+                "errors": [],
+                "code": "666666666",
+                "app_link": "https://somelink.com",
+                "activation_success_text": "Some custom text related to the gitft_type"
+            }
+            
+            **------------------USER HAVEN'T AVAILABLE GIFTS------------------**
+            
+            {
+                "success": false,
+                "errors": 
+                [{
+                    "code": 301,
+                    "message": "User haven't available gifts",
+                    "data": ""
+                }]
+            }
+            
+            **-------------------NO CODES FOR THIS TYPE----------------------**
+            
+            {
+                "success": false,
+                "errors": 
+                [{
+                    "code": 300,
+                    "message": "No codes for iTV",
+                    "data": ""
+                }]
+            }
+            
+            
+
+
+### Clear user's gifts  [PUT/ (see location)]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /base/mobile_api/gifts/clear
+            Method: POST
+
+    + Body
+
+            {
+            
+            **-------------------SUCCESSFUL RESET USER'S AVAILABLES GIFTS -------------------**
+            
+                {
+                    "success": true,
+                    "errors": []
+                }
+            }
+
+
+# Bonus API [/messages/{id} (see location)]
+<hr>
+
+**Error codes:**
+
+**10** - *Not authorized*
+
+**11** - *Can't connect to server*
+
+**12** - *Invalid XML-file*
+
+**13** - *Empty name*
+
+**14** - *Invalid card number*
+
+**15** - *Invalid phone number*
+
+**16** - *Not relevance data*
+
+**17** - *User haven't cards*
+
+**18** - *Key card_id is required*
+
+**19** - *Card not found*
+
+* **NOTE #1:** *Every **card's array** has key **"available"**.*
+
+*If **available=1**, then everything is fine.* 
+
+*If **available=0**, then our card info and their server's info do not match.* 
+
+* **NOTE #2:** *In methods **add** and **delete** have been added messages:*
+
+*In **add:** "Карта успешно добавлена".* 
+
+*In **remove:** "Карта успешно удалена".* 
+
+### COMMON ERRORS [PUT]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/bonuses/*
+
+    + Body
+            
+            ERROR CODE: 10
+            **-------------------NOT AUTHORIZED-------------------**
+                {
+                    "success": false,
+                    "errors": [
+                        {
+                            "code": 10,
+                            "message": "Not authorized",
+                            "data": "Необходимо авторизоваться"
+                        }
+                    ]
+                }
+                
+            ERROR CODE: 11
+            **----------------CAN'T CONNECT TO SERVER-----------------**
+                {
+                    "success": false,
+                    "errors": {
+                        "code": 11,
+                        "message": "Can't connect to server",
+                        "data": "Не удалось подключиться к серверу"
+                    },
+                    "cards": []
+                }
+
+            ERROR CODE: 12
+            **----------------INVALID XML-FILE-----------------**
+                {
+                    "success": false,
+                    "errors": {
+                        "code": 12,
+                        "message": "Invalid XML-file",
+                        "data": "Ошибка сервера"
+                    },
+                    "cards": []
+                }
+                
+### Get all user's cards [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/bonuses/get
+            Method: GET
+
+    + Body
+    
+            **==============================FAILS=====================================**
+            
+            ERROR CODE: 17
+            **-----------------------USER HAVEN'T CARDS------------------------**  
+                {
+                    "success": true,
+                    "errors": {
+                        "code": 17,
+                        "message": "User haven't cards",
+                        "data": "У вас ещё нет действующих карт"
+                    },
+                    "cards": []
+                }
+    
+            **===========================SUCCESSFULLY=================================**
+
+            **-----------------------RETURNED LIST OF CARDS ------------------------** 
+                {
+                    "success": true,
+                    "errors": [],
+                    "cards": [
+                        {
+                            "id": 6,
+                            "name": "Пичугина Александра Олеговна",
+                            "card": "",
+                            "phone": "",
+                            "data": [],
+                            "available": 0
+                        },
+                        {
+                            "id": 7,
+                            "name": "Пичугина Александра Олеговна",
+                            "card": "000000000060",
+                            "phone": "375298704393",
+                            "data": {
+                                "activeBonuses": 0,
+                                "nextActivationSum": 0,
+                                "nextCancelingSum": 0,
+                                "nonActiveBonuses": 0
+                            },
+                            "available": 1
+                        }
+                    ]
+                }
+            
+### Add new card [POST]
+
+In add method **name**, **card** and **phone** are required.
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/bonuses/add
+            Method: POST
+            Request: (string)name, (int)card, (int)phone
+
+    + Body
+
+            **=========================FAILS=================================**
+               
+            ERROR CODE: 13
+            **-----------------------EMPTY NAME-----------------------**
+                {
+                    "success": true,
+                    "errors": {
+                        "code": 13,
+                        "message": "Empty name",
+                        "data": "Введи ваше полное имя"
+                    },
+                    "cards": []
+                }
+                
+            ERROR CODE: 14
+            **-------------------INVALID CARD NUMBER-------------------**
+                {
+                    "success": true,
+                    "errors": {
+                        "code": 14,
+                        "message": "Invalid card number",
+                        "data": "Введите корректный номер карты"
+                    },
+                    "cards": []
+                }
+                
+            ERROR CODE: 15
+            **-------------------INVALID PHONE NUMBER-------------------**
+                {
+                    "success": true,
+                    "errors": {
+                        "code": 15,
+                        "message": "Invalid phone number",
+                        "data": "Введите корректный номер телефона"
+                    },
+                    "cards": []
+                }
+            
+            ERROR CODE: 16
+            **--------------------NOT RELEVANCE DATA--------------------**
+                {
+                    "success": true,
+                    "errors": {
+                        "code": 16,
+                        "message": "Not relevance data",
+                        "data": "Карта с указанными данными не найдена"
+                    },
+                    "cards": []
+                }
+
+
+            **=========================SUCCESSFULLY=================================**
+            
+            **---------------RETURNED LIST OF CARDS WITH ADDED NEW------------------**            
+                {
+                    "success": true,
+                    "errors": [],
+                    "message": "Карта успешно добавлена",
+                    "cards": [
+                        {
+                            "id": 6,
+                            "name": "Пичугина Александра Олеговна",
+                            "card": "",
+                            "phone": "",
+                            "data": [],
+                            "available": 0
+                        },
+                        {
+                            "id": 7,
+                            "name": "Пичугина Александра Олеговна",
+                            "card": "000000000060",
+                            "phone": "375298704393",
+                            "data": {
+                                "activeBonuses": 0,
+                                "nextActivationSum": 0,
+                                "nextCancelingSum": 0,
+                                "nonActiveBonuses": 0
+                            },
+                            "available": 1
+                        },
+                        {
+                            "id": 9,
+                            "name": "Пичугина Александра Олеговна",
+                            "card": "000000000060",
+                            "phone": "375298704393",
+                            "data": {
+                                "activeBonuses": 0,
+                                "nextActivationSum": 0,
+                                "nextCancelingSum": 0,
+                                "nonActiveBonuses": 0
+                            },
+                            "available": 1
+                        }
+                    ]
+                }
+
+### Remove card [DELETE] 
+
+In remove method **card_id** is required.
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/bonuses/remove
+            Method: POST
+            Request: (int)card_id
+
+    + Body
+    
+            **==================================FAILS====================================**
+            
+            ERROR CODE: 18
+            **--------------------------CARD NOT FOUND IN DB-----------------------------**            
+                {
+                    "success": true,
+                    "errors": {
+                        "code": 19,
+                        "message": "Key card_id is required",
+                        "data": ""
+                    },
+                    "cards": []
+                }
+            
+            ERROR CODE: 19
+            **--------------------------CARD NOT FOUND-----------------------------**            
+                {
+                    "success": true,
+                    "errors": {
+                        "code": 19,
+                        "message": "Card not found",
+                        "data": "Карта не найдена"
+                    },
+                    "cards": []
+                } 
+               
+               
+            **============================SUCCESSFULLY=================================**
+
+            **----------------RETURNED LIST OF CARDS WITHOUT REMOVED------------------**            
+                {
+                    "success": true,
+                    "errors": [],
+                    "message": "Карта успешно удалена",
+                    "cards": [
+                        {
+                            "id": 6,
+                            "name": "Пичугина Александра Олеговна",
+                            "card": "",
+                            "phone": "",
+                            "data": [],
+                            "available": 0
+                        },
+                        {
+                            "id": 7,
+                            "name": "Пичугина Александра Олеговна",
+                            "card": "000000000060",
+                            "phone": "375298704393",
+                            "data": {
+                                "activeBonuses": 0,
+                                "nextActivationSum": 0,
+                                "nextCancelingSum": 0,
+                                "nonActiveBonuses": 0
+                            },
+                            "available": 1
+                        }
+                    ]
+                }

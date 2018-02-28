@@ -47,7 +47,7 @@ HOST: NONE
                     13 - xxhdpi (3x)  2700x1376
                     14 - xxxhdpi (3x) 4000x2043
 
-### Регистрация (android и iOS) [POST/{user_photo}/{name}/{surname}/{phone}/{phone_model}/{password}/{password_confirm}/ (see location)]
+### Регистрация (android и iOS) [POST/{user_photo}/{name}/{surname}/{phone}/{phone_model}/{password}/{password_confirm}/ (look in location)]
 
 + Parameters
     + user_photo (required) ... *фото пользователя в формате **Base64***
@@ -75,7 +75,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Регистрация через соц.сеть (android) [POST/{user_photo}/{username}/{social_type}/{social_id}/ (see location)]
+### Регистрация через соц.сеть (android) [POST/{user_photo}/{username}/{social_type}/{social_id}/ (look in location)]
 
 + Parameters
     + user_photo (required) ... *ссылка на фото пользователя*
@@ -106,7 +106,7 @@ HOST: NONE
                 2 - "vk"
                 3 - "ok"
 
-### Проверка кода для завершения регистрации (iOS) [GET/{email}/{code}/ (see location)]
+### Проверка кода для завершения регистрации (iOS) [GET/{email}/{code}/ (look in location)]
 
 + Parameters
     + email (required) ... *почтовый адресс пользователя*
@@ -131,7 +131,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Проверка кода для завершения регистрации (Android) [GET/{phone}/{code}/ (see location)]
+### Проверка кода для завершения регистрации (Android) [GET/{phone}/{code}/ (look in location)]
 
 + Parameters
     + phone (required) ... *телефон*
@@ -156,7 +156,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Авторизация (Android и iOS) [POST/{phone}/{passwd}/ (see location)]
+### Авторизация (Android и iOS) [POST/{phone}/{passwd}/ (look in location)]
 
 + Parameters
     + phone (required) ... *телефон*
@@ -187,7 +187,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Авторизация через соц.сеть (Android) [POST/{social_type}/{social_id}/ (see location)]
+### Авторизация через соц.сеть (Android) [POST/{social_type}/{social_id}/ (look in location)]
 
 + Parameters
     + social_type (required) ... *индификатор соц.сети*
@@ -218,7 +218,7 @@ HOST: NONE
             "success" - результат операции(true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Восстановление пароля (iOS) [POST/{email}/ (see location)]
+### Восстановление пароля (iOS) [POST/{email}/ (look in location)]
 
 + Parameters
     + email (required) ... *почтовый адресс пользователя*
@@ -240,7 +240,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Проверка кода для завершения восстановления пароля (iOS) [POST/{email}/{code}/ (see location)]
+### Проверка кода для завершения восстановления пароля (iOS) [POST/{email}/{code}/ (look in location)]
 
 + Parameters
     + email (required) ... *почтовый адресс пользователя*
@@ -263,7 +263,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Восстановление пароля (Android) [POST/{phone}/ (see location)]
+### Восстановление пароля (Android) [POST/{phone}/ (look in location)]
 
 + Parameters
     + phone (required) ... *телефон*
@@ -285,7 +285,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Проверка кода для завершения восстановления пароля (Android) [GET/{phone}/{code}// (see location)]
+### Проверка кода для завершения восстановления пароля (Android) [GET/{phone}/{code}// (look in location)]
 
 + Parameters
     + phone (required) ... *телефон*
@@ -308,7 +308,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Изменение данных пользователя [POST/{uid}/{image_person}/{name}/{phone}/{surname}/{surname}/{passw}/{passwdcheck}/ (see location)]
+### Изменение данных пользователя [POST/{uid}/{image_person}/{name}/{phone}/{surname}/{surname}/{passw}/{passwdcheck}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -336,7 +336,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Получить информацию пользователя [POST/{uid}/ (see location)]
+### Получить информацию пользователя [POST/{uid}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -366,7 +366,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Запрос списка активированных услуг пользователя [GET/{uid}/{density}/ (see location)]
+### Запрос списка активированных услуг пользователя [GET/{uid}/{density}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -452,7 +452,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Запрос списка всех услуг [GET/{density}/ (see location)]
+### Запрос списка всех услуг [GET/{density}/ (look in location)]
 
 + Parameters
     + density (required) ... *плотность экрана. Возвращает картинку под нужную плотность экрана (mdpi – 0, hpdi - 1, xhdpi - 2, xxhdpi – 3, xxxhdpi – 4). Нужен для фона услуги*
@@ -521,7 +521,7 @@ HOST: NONE
             Для услуги dr. Web (тип программы) нужны дополнительные данные:
                 "catalogs" - массив всех услуг "Абонентское обслуживание" на сайте
 
-### Запрос URL для покупки услуги [GET/{service_id}/{uid}/{auto}/ (see location)]
+### Запрос URL для покупки услуги [GET/{service_id}/{uid}/{auto}/ (look in location)]
 
 + Parameters
     + service_id (required, (int)) ... *идентификатор услуги в 1c*
@@ -560,7 +560,7 @@ HOST: NONE
             Опционально:
                 "currency" - валюта которой будет оплачивать клиент. Доступны значения (UAH|RUB)
 
-### Автоматическое продления услуги [POST/{uid}/{service_id}/{status}/ (see location)]
+### Автоматическое продления услуги [POST/{uid}/{service_id}/{status}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -584,7 +584,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Послать вопрос оператору технической поддержки [POST/{uid}/{message}/ (see location)]
+### Послать вопрос оператору технической поддержки [POST/{uid}/{message}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -623,7 +623,7 @@ HOST: NONE
                 "partner_id" - id партнера. Например: 1006
                 "mobile_app_name" - (string) Название моб приложения, необходимое для его идентификации в отчетах
 
-### Получить ответ от оператора технической поддержки [GET/{uid}/{dialog_id}/{timestamp}/ (see location)]
+### Получить ответ от оператора технической поддержки [GET/{uid}/{dialog_id}/{timestamp}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальныйидентификаторпользователя*
@@ -684,7 +684,7 @@ HOST: NONE
                     "errors" - массивсодержащий сообщения об ошибках
                 ]
 
-### Пользователь прочитал сообщения [GET/{uid}/{dialog_id}/{timestamp}// (see location)]
+### Пользователь прочитал сообщения [GET/{uid}/{dialog_id}/{timestamp}// (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -708,7 +708,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Закрыть диалог с оператором [GET/{uid}/{dialog_id}/{grade}/ (see location)]
+### Закрыть диалог с оператором [GET/{uid}/{dialog_id}/{grade}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -735,7 +735,7 @@ HOST: NONE
             Необязательные параметры: 
                 "opinion" - комментарий пользователя
             
-### Сделай сам (новости) [GET/{density} (see location)]
+### Сделай сам (новости) [GET/{density} (look in location)]
 
 + Parameters
     + density (required) ... *плотность экрана. Возвращает картинку под нужную плотность экрана (mdpi – 0, hpdi - 1, xhdpi - 2, xxhdpi – 3, xxxhdpi – 4)*
@@ -769,7 +769,7 @@ HOST: NONE
             "header_image" - заголовок новости
             "publish_date" - дата публикации
 
-### Активировать Услугу [GET/{uid}/{activation_code}/{activation_code}/{shop_code}/ (see location)]
+### Активировать Услугу [GET/{uid}/{activation_code}/{activation_code}/{shop_code}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *индификатор пользователя*
@@ -795,7 +795,7 @@ HOST: NONE
             "errors" - массив содержащий сообщения об ошибках
             "errors" - подарки
             
-### Получить данные о бекапе [GET/{uid}/ (see location)]
+### Получить данные о бекапе [GET/{uid}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *идентификатор пользователя*
@@ -819,7 +819,7 @@ HOST: NONE
             "isbackup" - статус бекапа (0 - нет бекапа, 1 - есть)
             "date" - дата создания бекапа (timestamp или 0 если нет бекапа)
 
-### Записать данные о бекапе [GET/{uid}/{isbackup}/{date}/ (see location)]
+### Записать данные о бекапе [GET/{uid}/{isbackup}/{date}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *идентификатор пользователя*
@@ -843,7 +843,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Формат ошибок [GET// (see location)]
+### Формат ошибок [GET// (look in location)]
 
 + Response 200 (application/json)
 
@@ -871,7 +871,7 @@ HOST: NONE
                 "error.data" - детальное описание ошибки
                 "error.code" - в дальнейшем называется числовым кодом ошибки
 
-### Получить системные уведомления пользователя [GET/{uid} (see location)]
+### Получить системные уведомления пользователя [GET/{uid} (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -904,7 +904,7 @@ HOST: NONE
             "description" - текст уведомления
             "publish_date" - дата уведомления
 
-### Синхронизировать системные уведомления пользователя [POST/(ANY)/{uid}/{notifications}/ (see location)]
+### Синхронизировать системные уведомления пользователя [POST/(ANY)/{uid}/{notifications}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -956,7 +956,7 @@ HOST: NONE
 # PRS API [/api]
 <hr/>
 
-### Получить статус [POST/{uid}/ (see location)]
+### Получить статус [POST/{uid}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -968,7 +968,7 @@ HOST: NONE
             Location: /api/prs_getstatus
             Method: POST
 
-### Получить список услуг [POST/{uid} (see location)]
+### Получить список услуг [POST/{uid} (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -980,7 +980,7 @@ HOST: NONE
             Location: /api/prs_getservices
             Method: POST
             
-### Отправить заявку [POST/{uid}/{service_id}/{username}/{phone}/{comment}/ (see location)]
+### Отправить заявку [POST/{uid}/{service_id}/{username}/{phone}/{comment}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -996,7 +996,7 @@ HOST: NONE
             Location: /api/prs_sendrequest
             Method: POST
             
-### Получить список заявок для выбранной услуги [POST/{uid}/{service_id}/ (see location)]
+### Получить список заявок для выбранной услуги [POST/{uid}/{service_id}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -1009,7 +1009,7 @@ HOST: NONE
             Location: /api/prs_getrequests
             Method: POST
             
-### Активация услуги [POST/{uid}/{code}/{shope_code}/{gift}/ (see location)]
+### Активация услуги [POST/{uid}/{code}/{shope_code}/{gift}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -1024,7 +1024,7 @@ HOST: NONE
             Location: /api/prs_activateservice
             Method: POST
             
-### Оценить качество [POST/{uid}/{request_id}/{rating}/{comment}/ (see location)]
+### Оценить качество [POST/{uid}/{request_id}/{rating}/{comment}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -1039,7 +1039,7 @@ HOST: NONE
             Location: /api/prs_setgrade
             Method: POST
             
-### Создать услугу (кастомный метод) [POST/{uid}/{passw}/{code}/{shopping_date}/{product_name}/ (see location)]
+### Создать услугу (кастомный метод) [POST/{uid}/{passw}/{code}/{shopping_date}/{product_name}/ (look in location)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -1066,7 +1066,7 @@ HOST: NONE
 
 **302** - *Invalid XML-file*
 
-### Get available types [GET/ (see location)]
+### Get available types [GET/ (look in location)]
 
 + Response 200 (application/json)
 
@@ -1111,7 +1111,7 @@ HOST: NONE
 
 
 
-### Activate code [POST/{type_id} (see location)]
+### Activate code [POST/{type_id} (look in location)]
 
 + Parameters
     + type_id (required, (int)) ... *идентификатор типа*
@@ -1163,7 +1163,7 @@ HOST: NONE
             
 
 
-### Clear user's gifts  [PUT/ (see location)]
+### Clear user's gifts  [PUT/ (look in location)]
 
 + Response 200 (application/json)
 
@@ -1185,7 +1185,7 @@ HOST: NONE
             }
 
 
-# Bonus API [/messages/{id} (see location)]
+# Bonus API [/messages/{id} (look in location)]
 <hr>
 
 **Error codes:**

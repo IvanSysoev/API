@@ -626,7 +626,7 @@ HOST: NONE
 ### Получить ответ от оператора технической поддержки [GET/{uid}/{dialog_id}/{timestamp}/ (look in location)]
 
 + Parameters
-    + uid (required, (int)) ... *уникальныйидентификаторпользователя*
+    + uid (required, (int)) ... *уникальный идентификатор пользователя*
     + dialog_id (required, (int)) ... *номер диалога с оператором*
     + timestamp (required) ... *время последнего полученного ответа, в виде Unixtime. <br> Если этого параметра нет - начинается новый диалог с оператором. Если есть - то пишем сообщение в текущий диалог*
     
@@ -1185,7 +1185,7 @@ HOST: NONE
             }
 
 
-# Bonus API [/messages/{id} (look in location)]
+# Bonus API [/base/mobile_api/bonuses (look in location)]
 <hr>
 
 **Error codes:**
@@ -1511,3 +1511,786 @@ In remove method **card_id** is required.
                         }
                     ]
                 }
+                
+# Insurance API [/base/insurance_api/]
+<hr>
+
+**Error codes:**
+
+<br>Smart errors:<br>
+
+&nbsp;&nbsp;&nbsp;**10** - *Not authorized*
+
+&nbsp;&nbsp;&nbsp;**100** - *unknown_error:[err, errno] (unknown error in response from Insurance)*
+
+&nbsp;&nbsp;&nbsp;**101** - *Invalid phone number*
+
+&nbsp;&nbsp;&nbsp;**102** - *Contract number is required*
+
+&nbsp;&nbsp;&nbsp;**103** - *[Required parameters: ||(&&) Wrong format in:] (required parameter was not entered or(and) wrong format in fields...)*
+
+&nbsp;&nbsp;&nbsp;**104** - *Parameters "smsid" and "otp" are required*
+
+&nbsp;&nbsp;&nbsp;**700** - *Server error, data was not received*
+
+<br>Insurance errors:<br>
+
+&nbsp;&nbsp;&nbsp;**401** - *Wrong phone number*
+
+&nbsp;&nbsp;&nbsp;**402** - *Phone number not found*
+
+&nbsp;&nbsp;&nbsp;**411** - *No contract number*
+
+&nbsp;&nbsp;&nbsp;**412** - *Contract number already used*
+
+&nbsp;&nbsp;&nbsp;**415** - *Invalid contract number*
+
+&nbsp;&nbsp;&nbsp;**416** - *Wrong phone number*
+
+&nbsp;&nbsp;&nbsp;**421** - *Incorrect one-time password*
+
+&nbsp;&nbsp;&nbsp;**422** - *One-time password not found*
+
+&nbsp;&nbsp;&nbsp;**423** - *Contract not found*
+
+&nbsp;&nbsp;&nbsp;**424** - *One-time password already used'*
+
+&nbsp;&nbsp;&nbsp;**431** - *Contract not found*
+
+&nbsp;&nbsp;&nbsp;**432** - *Invalid index*
+
+&nbsp;&nbsp;&nbsp;**433** - *No index*
+
+&nbsp;&nbsp;&nbsp;**434** - *Area not found*
+
+&nbsp;&nbsp;&nbsp;**435** - *Area not found*
+
+&nbsp;&nbsp;&nbsp;**436** - *Settlement not found*
+
+&nbsp;&nbsp;&nbsp;**437** - *Settlement not found*
+
+&nbsp;&nbsp;&nbsp;**438** - *Street not found*
+
+&nbsp;&nbsp;&nbsp;**439** - *Street not found*
+
+&nbsp;&nbsp;&nbsp;**441** - *Verification code not found*
+
+&nbsp;&nbsp;&nbsp;**442** - *Verification code already used*
+
+&nbsp;&nbsp;&nbsp;**453** - *Invalid token*
+
+&nbsp;&nbsp;&nbsp;**454** - *Token for another number*
+
+&nbsp;&nbsp;&nbsp;**511** - *Database error, the contract was not added*
+
+&nbsp;&nbsp;&nbsp;**512** - *One-time password was not added*
+
+&nbsp;&nbsp;&nbsp;**513** - *The status of the contract isn\'t changed*
+
+&nbsp;&nbsp;&nbsp;**522** - *One-time password not used*
+
+<br><br>
+
+**NOTE #1:** *Each response has key* **action**, *its values:* **auth**, **activate**, **error**, **success**  
+
+### LIST ERRORS [PUT]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/insurance/*
+
+    + Body
+
+            =====================Smart errors=======================
+            
+            ERROR CODE: 10
+            **-------------------Not authorized-------------------**
+                {
+                    "success": false,
+                    "action": "auth",
+                    "errors": [{
+                        "code": 10,
+                        "message": "Not authorized",
+                        "data": "Необходимо авторизоваться"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 100
+            **------------------Unknown error------------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 100,
+                        "message":  
+                            "unknown_error:" => {
+                                "errno" => 123,
+                                "err" => Error text,
+                            },
+                        "data": "Неизвестная ошибка"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 101
+            **----------------Invalid phone number--------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 101,
+                        "message": "Invalid phone number"
+                        "data": "Введите корректный номер телефона"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 102
+            **------------Contract number is required-----------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 102,
+                        "message": "Contract number is required",
+                        "data": "Введите корректный номер договора"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 103
+            **-----------Required params/Wrong format----------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 103,
+                        "message": {
+                            "require": "Required parameters: cid, name, passport, passportdate, model", (?)
+                            "wrong_format": "Wrong format in: email, index" (?)
+                        },
+                        "data": "Введите корректные данные"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 104
+            **----Parameters "smsid" and "otp" are required----**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 104,
+                        "message": "Parameters "smsid" and "otp" are required",
+                        "data": "Ошибка сервера"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 105
+            **----Parameters "smsid" and "otp" are required----**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 105,
+                        "message": "Contract not found",
+                        "data": "Ошибка сервера, указанный контракт не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 700
+            **-------Server error, data was not received-------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 700,
+                        "message": "Server error, data was not received",
+                        "data": "Ошибка сервера, данные не были получены"
+                    }],
+                    "data": []
+                }
+
+            ==================Insurance errors====================
+                
+            ERROR CODE: 401
+            **----------------Wrong phone number----------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 401,
+                        "message": "Wrong phone number",
+                        "data": "Неверный номер телефона"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 402
+            **--------------Phone number not found--------------**
+                {
+                    "success": true,
+                    "action": "activate",
+                    "errors": [{
+                        "code": 402,
+                        "message": "Phone number not found",
+                        "data": "Номер телефона не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 411
+            **----------------No contract number----------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 411,
+                        "message": "No contract number",
+                        "data": "Номер договора отсутствует"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 412
+            **-----------Contract number already used-----------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 412,
+                        "message": "Contract number already used",
+                        "data": "Номер договора уже использован"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 415
+            **--------------Invalid contract number-------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 415,
+                        "message": "Invalid contract number",
+                        "data": "Неверный номер договора"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 416
+            **----------------Wrong phone number----------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 416,
+                        "message": "Wrong phone number",
+                        "data": "Неверный номер телефона"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 421
+            **------------Incorrect one-time password------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 421,
+                        "message": "Incorrect one-time password",
+                        "data": "Неверный одноразовый пароль"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 422
+            **------------One-time password not found------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 422,
+                        "message": "One-time password not found",
+                        "data": "Одноразовый пароль не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 423
+            **---------------Contract not found------------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 423,
+                        "message": "Contract not found",
+                        "data": "Договор не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 424
+            **----------One-time password already used----------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 424,
+                        "message": "One-time password already used",
+                        "data": "Одноразовый пароль уже использован"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 431
+            **---------------Contract not found-----------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 431,
+                        "message": "Contract not found",
+                        "data": "Договор не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 432
+            **------------------Invalid index-------------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 432,
+                        "message": "Invalid index",
+                        "data": "Неверный индекс"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 433
+            **--------------------No index----------------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 433,
+                        "message": "No index",
+                        "data": "Индекс отсутствует"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 434
+            **------------------Area not found------------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 434,
+                        "message": "Area not found",
+                        "data": "Район не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 435
+            **------------------Area not found------------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 435,
+                        "message": "Area not found",
+                        "data": "Район не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 436
+            **---------------Settlement not found---------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 436,
+                        "message": "Settlement not found",
+                        "data": "Населенный пункт не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 437
+            **---------------Settlement not found---------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 437,
+                        "message": "Settlement not found",
+                        "data": "Населенный пункт не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 438
+            **-----------------Street not found-----------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 438,
+                        "message": "Street not found",
+                        "data": "Улица не найдена"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 439
+            **-----------------Street not found-----------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 439,
+                        "message": "Street not found",
+                        "data": "Улица не найдена"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 441
+            **-----------Verification code not found-----------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 441,
+                        "message": "Verification code not found",
+                        "data": "Код подтверждения не найден"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 442
+            **---------Verification code already used---------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 442,
+                        "message": "Verification code already used",
+                        "data": "Код подтверждения уже использован"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 453
+            **-----------------Invalid token------------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 453,
+                        "message": "Invalid token",
+                        "data": "Неверный токен"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 454
+            **------------Token for another number------------**
+                {
+                    "success": true,
+                    "action": "auth",
+                    "errors": [{
+                        "code": 454,
+                        "message": "Token for another number",
+                        "data": "Ошибка сервера, токен для другого номера"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 511
+            **---Database error, the contract was not added---**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 511,
+                        "message": "Database error, the contract was not added",
+                        "data": "Ошибка базы данных, договор не был добавлен"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 512
+            **---------One-time password was not added--------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 512,
+                        "message": "One-time password was not added",
+                        "data": "Одноразовый пароль не добавлен"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 513
+            **----The status of the contract isn\'t changed----**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 513,
+                        "message": "The status of the contract isn\'t changed",
+                        "data": "Статус договора не изменен"
+                    }],
+                    "data": []
+                }
+                
+            ERROR CODE: 522
+            **-----------One-time password not used-----------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [{
+                        "code": 522,
+                        "message": "One-time password not used",
+                        "data": "Одноразовый пароль не использован"
+                    }],
+                    "data": []
+                }
+
+### Auth [POST/{tel}/ (look in location)]
+
+In auth method **tel** is required
+
++ Parameters
+    + tel (required, (int)) ... *phone number*
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/insurance/auth
+            Method: POST
+            Request: tel
+
+    + Body
+    
+            {
+                "success": true,
+                "action": "success",
+                "errors": [],
+                "data": [
+                    {
+                        "smsid": 446,
+                        "expire": 1520064760
+                    }
+                ]
+            }
+
+### Activate [POST/{tel}/{num}/ (look in location)]
+
+In activate method **tel** and **num** are required
+
++ Parameters
+    + tel (required, (int)) ... *phone number*
+    + num (required, (string)) ... *contract number*
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/insurance/activate
+            Method: POST
+            Request: tel, num
+
+    + Body
+    
+            {
+                "success": true,
+                "action": "success",
+                "errors": [],
+                "data": [
+                    {
+                        "cid": 45,
+                        "smsid": 449,
+                        "expire": 1520073617
+                    }
+                ]
+            }
+
+### Sms confirm (otp) [POST/{smsid}/{otp}/ (look in location)]
+
+In sms confirm method **smsid** and **otp** are required
+
++ Parameters
+    + smsid (required, (int)) ... *sms id*
+    + otp (required, (string)) ... *sms otp*
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/insurance/sms_confirm
+            Method: POST
+            Request: smsid, otp
+
+    + Body
+    
+            {
+                "success": true,
+                "action": "success",
+                "errors": [],
+                "data": [
+                    {
+                        "cid": "43",
+                        "status": "4",
+                        "pdf": "https://dev.digins.ua/pdf/08LEx",
+                        "brand": "Apple",
+                        "model": "Android 10",
+                        "serial": "IMEI923089823728937",
+                        "expire": 1551532470,
+                        "amount": "1500.00"
+                    },
+                    {
+                        "cid": "44",
+                        "status": "3",
+                        "pdf": "",
+                        "brand": "",
+                        "model": "",
+                        "serial": "",
+                        "expire": "",
+                        "amount": ""
+                    },
+                    {
+                        "cid": "45",
+                        "status": "4",
+                        "pdf": "https://dev.digins.ua/pdf/0et4Z",
+                        "brand": "Apple",
+                        "model": "Android 10",
+                        "serial": "IMEI923089823728937",
+                        "expire": 1536142046,
+                        "amount": "2000.00"
+                    }
+                ]
+            }
+
+### Sign form [POST/{cid}/{name}/{secname}/{surname}/{email}/{inn}/{birthday}/{type}/{passport}/{passportdate}/{passportissued}/{index}/{region}/{district}/{city}/{street}/{brand}/{model}/{serial}/ (look in location)]
+
+In sign form method:
+
+Request: **cid**, **name**, **secname**, **surname**, **email**, **inn**, 
+**birthday**, **type**, **passport**, **passportdate**, **passportissued**, **index**, **region**, 
+**district**, **city**, **street**, **brand**, **model**, **serial**
+
+Required: **cid**, **name**, **secname**, **surname**, **birthday**, **type**, 
+**passport**, **passportdate**, **passportissued**, **region**, **district**, **city**, **brand**, 
+**model**, **serial**
+
+Not required: **email**, **inn**, **index**, **street**
+
++ Parameters
+    + cid (required, (int)) ... *contract id*
+    + name (required, (string)) ... *name*
+    + secname (required, (string)) ... *secname*
+    + surname (required, (string)) ... *surname*
+    + email ((string)) ... *email (not required)*
+    + inn ((int)) ... *inn (not required)*
+    + birthday (required, (string)) ... *birthday date*
+    + type (required, (int)) ... *type (passport or card number)*
+    + passport (required, (string)) ... *passport*
+    + passportdate (required, (string)) ... *passportdate date*
+    + passportissued (required, (string)) ... *passportissued*
+    + index ((int)) ... *index (not required)*
+    + region (required, (string)) ... *region*
+    + district (required, (string)) ... *district*
+    + city (required, (string)) ... *city*
+    + street ((string)) ... *street (not required)*
+    + brand (required, (string)) ... *brand*
+    + model (required, (string)) ... *model*
+    + serial (required, (string)) ... *serial*
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/insurance/sign_form
+            Method: POST
+            Request: cid, name, secname, surname, email, inn, birthday, type, passport, passportdate, passportissued, index, region, district, city, street, bran, model, serial
+
+    + Body
+    
+            {
+                "success": true,
+                "action": "success",
+                "errors": [],
+                "data": {
+                    "status": 4,
+                    "pdf": "https://dev.digins.ua/pdf/PyFi0"
+                }
+            }
+
+### List [POST/{tel}// (look in location)]
+
+In method list **tel** is required
+
++ Parameters
+    + tel (required, (int)) ... *phone number*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/insurance/list
+            Method: POST
+            Request: tel
+
+    + Body
+    
+            {
+                "success": true,
+                "action": "success",
+                "errors": [],
+                "data": [
+                    {
+                        "cid": "43",
+                        "status": "4",
+                        "pdf": "https://dev.digins.ua/pdf/08LEx",
+                        "brand": "Apple",
+                        "model": "Android 10",
+                        "serial": "IMEI923089823728937",
+                        "expire": 1551532470,
+                        "amount": "1500.00"
+                    },
+                    {
+                        "cid": "44",
+                        "status": "3",
+                        "pdf": "",
+                        "brand": "",
+                        "model": "",
+                        "serial": "",
+                        "expire": "",
+                        "amount": ""
+                    },
+                    {
+                        "cid": "45",
+                        "status": "4",
+                        "pdf": "https://dev.digins.ua/pdf/0et4Z",
+                        "brand": "Apple",
+                        "model": "Android 10",
+                        "serial": "IMEI923089823728937",
+                        "expire": 1536142046,
+                        "amount": "2000.00"
+                    }
+                ]
+            }

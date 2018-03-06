@@ -2129,13 +2129,14 @@ In activate method **tel** and **num** are required
                 ]
             }
 
-### Sms confirm (otp) [POST/{smsid}/{otp}/ (look in location)]
+### Sms confirm (otp) [POST/{smsid}/{otp}/{cid}/ (look in location)]
 
-In sms confirm method **smsid** and **otp** are required
+In sms confirm method **smsid** and **otp** are required, and if from method ***Activate*** parameter **cid** required too
 
 + Parameters
     + smsid (required, (int)) ... *sms id*
     + otp (required, (string)) ... *sms otp*
+    + cid ((string)) ... *contract id (required, if from method Activate)*
 
 + Response 200 (application/json)
 
@@ -2143,7 +2144,7 @@ In sms confirm method **smsid** and **otp** are required
 
             Location: base/mobile_api/insurance/sms_confirm
             Method: POST
-            Request: smsid, otp
+            Request: smsid, otp, cid
 
     + Body
     

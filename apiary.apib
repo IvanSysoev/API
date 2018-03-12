@@ -1512,7 +1512,7 @@ In remove method **card_id** is required.
                     ]
                 }
                 
-# Insurance API [/base/insurance_api/]
+# Insurance API [/base/mobile_api/insurance]
 <hr>
 
 **Error codes:**
@@ -1591,7 +1591,7 @@ In remove method **card_id** is required.
 
 <br><br>
 
-**NOTE #1:** *Each response has key* **action**, *its values:* **auth**, **activate**, **error**, **success**  
+**NOTE #1:** *Each response has key* ***action***, *its values:* ***auth***, ***activate***, ***error***, ***success***  
 
 ### LIST ERRORS [PUT]
 
@@ -1666,14 +1666,16 @@ In remove method **card_id** is required.
                 {
                     "success": true,
                     "action": "error",
-                    "errors": [{
-                        "code": 103,
-                        "message": {
-                            "require": "Required parameters: cid, name, passport, passportdate, model", (?)
-                            "wrong_format": "Wrong format in: email, index" (?)
-                        },
-                        "data": "Введите корректные данные"
-                    }],
+                    "errors": [
+                        {
+                            "code": 103,
+                            "message": {
+                                "require": "Required parameters: cid, name, passport, passportdate, model",
+                                "wrong_format": "Wrong format in: email, index"
+                            },
+                            "data": "Введите корректные данные"
+                        }
+                    ],
                     "data": []
                 }
                 
@@ -1691,7 +1693,7 @@ In remove method **card_id** is required.
                 }
                 
             ERROR CODE: 105
-            **----Parameters "smsid" and "otp" are required----**
+            **---------------Contract not found---------------**
                 {
                     "success": true,
                     "action": "error",
@@ -2088,7 +2090,7 @@ In auth method **tel** is required
     
             {
                 "success": true,
-                "action": "success",
+                "action": "auth",
                 "errors": [],
                 "data": [
                     {
@@ -2118,7 +2120,7 @@ In activate method **tel** and **num** are required
     
             {
                 "success": true,
-                "action": "success",
+                "action": "auth",
                 "errors": [],
                 "data": [
                     {
@@ -2235,15 +2237,17 @@ Not required: **email**, **inn**, **index**, **street**
                 "success": true,
                 "action": "success",
                 "errors": [],
-                "data": {
-                    "status": 4,
-                    "pdf": "https://dev.digins.ua/pdf/PyFi0"
-                }
+                "data": [
+                    {
+                        "status": 4,
+                        "pdf": "https://dev.digins.ua/pdf/mZaeF"
+                    }
+                ]
             }
 
 ### List [POST/{tel}// (look in location)]
 
-In method list **tel** is required
+In method list **tel** is required. If you whant get one contract add to request **cid**.
 
 + Parameters
     + tel (required, (int)) ... *phone number*
@@ -2295,3 +2299,95 @@ In method list **tel** is required
                     }
                 ]
             }
+
+# Chat API [/base/mobile_api/messages]
+
+### Get messages chunk [POST/{page}/{count}/  (look in location)]
+
+**NOTE #1:** *This method has key a **count** (messages count), if query has't a count, then **count=25** (default)*
+
+**NOTE #2:** *If query contains a key **page**, then you get messages from this page in response. If not, then you get **count** last messages*
+
+Keys **page** and **count** are not required
+
++ Parameters
+    + count ((int)) ... *(not required) messages count*
+    + page ((int)) ... *(not required) page number*
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/messages/chunk
+            Method: POST
+            Request: page
+
+    + Body
+
+            **============================SUCCESSFULLY=================================**
+            
+            {
+                "success": true,
+                "action": "success",
+                "errors": [],
+                "display": 3,
+                "total": 6,
+                "current_page": 1,
+                "last_page": 2,
+                "data": [
+                    [
+                        {
+                            "id": 225483,
+                            "name": "Илья Дегтяренко",
+                            "message": "закончил разговор",
+                            "user": "380505765684",
+                            "convid": 17577,
+                            "time": "2018-03-12 11:24:18",
+                            "class": "notice",
+                            "plevel": 1,
+                            "is_read": 0,
+                            "is_uread": 0
+                        },
+                        {
+                            "id": 225477,
+                            "name": "Илья Дегтяренко",
+                            "message": "Илья входит в чат.",
+                            "user": "23::380505765684",
+                            "convid": 17577,
+                            "time": "2018-03-07 11:55:20",
+                            "class": "notice",
+                            "plevel": 1,
+                            "is_read": 1,
+                            "is_uread": 1
+                        },
+                        {
+                            "id": 225475,
+                            "name": "Smart24",
+                            "message": "Добро пожаловать, оператор сейчас подключится.",
+                            "user": null,
+                            "convid": 17577,
+                            "time": "2018-03-07 09:53:11",
+                            "class": "notice",
+                            "plevel": 1,
+                            "is_read": 1,
+                            "is_uread": 1
+                        }
+                    ]
+                ]
+            }
+            
+            **==================================FAILS====================================**
+            
+            {
+                "success": true,
+                "action": "success",
+                "errors": [],
+                "display": "",
+                "total": "",
+                "current_page": "",
+                "last_page": "",
+                "data": []
+            }
+            
+            display - number of messages displayed
+            quantity - total number of messages

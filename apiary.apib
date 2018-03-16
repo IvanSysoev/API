@@ -1531,6 +1531,10 @@ In remove method **card_id** is required.
 
 &nbsp;&nbsp;&nbsp;**104** - *Parameters "smsid" and "otp" are required*
 
+&nbsp;&nbsp;&nbsp;**105** - *Contract not found*
+
+&nbsp;&nbsp;&nbsp;**106** - *Too long connection*
+
 &nbsp;&nbsp;&nbsp;**700** - *Server error, data was not received*
 
 <br>Insurance errors:<br>
@@ -1628,7 +1632,7 @@ In remove method **card_id** is required.
                         "message":  
                             "unknown_error:" => {
                                 "errno" => 123,
-                                "err" => Error text,
+                                "err" => "Error text",
                             },
                         "data": "Неизвестная ошибка"
                     }],
@@ -1702,6 +1706,21 @@ In remove method **card_id** is required.
                         "message": "Contract not found",
                         "data": "Ошибка сервера, указанный контракт не найден"
                     }],
+                    "data": []
+                }
+                
+            ERROR CODE: 106
+            **---------------Too long connection--------------**
+                {
+                    "success": true,
+                    "action": "error",
+                    "errors": [
+                        {
+                            "code": 106,
+                            "message": "Too long connection",
+                            "data": "Ошибка сервера, данные не были получены"
+                        }
+                    ],
                     "data": []
                 }
                 
@@ -2300,6 +2319,25 @@ In method list **tel** is required. If you whant get one contract add to request
                 ]
             }
 
+### Check filled contracts [POST// (look in location)]
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/insurance/check_filled_contracts
+            Method: POST
+
+    + Body
+    
+            {
+                "success": true,
+                "action": "success",
+                "errors": [],
+                "filled": 1 //(or 0, if no filled)
+            }
+
+
 # Chat API [/base/mobile_api/messages]
 
 ### Get messages chunk [POST/{page}/{count}/  (look in location)]
@@ -2334,45 +2372,34 @@ Keys **page** and **count** are not required
                 "total": 6,
                 "current_page": 1,
                 "last_page": 2,
+                "conv_id" => 23231,
                 "data": [
-                    [
-                        {
-                            "id": 225483,
-                            "name": "Илья Дегтяренко",
-                            "message": "закончил разговор",
-                            "user": "380505765684",
-                            "convid": 17577,
-                            "time": "2018-03-12 11:24:18",
-                            "class": "notice",
-                            "plevel": 1,
-                            "is_read": 0,
-                            "is_uread": 0
-                        },
-                        {
-                            "id": 225477,
-                            "name": "Илья Дегтяренко",
-                            "message": "Илья входит в чат.",
-                            "user": "23::380505765684",
-                            "convid": 17577,
-                            "time": "2018-03-07 11:55:20",
-                            "class": "notice",
-                            "plevel": 1,
-                            "is_read": 1,
-                            "is_uread": 1
-                        },
-                        {
-                            "id": 225475,
-                            "name": "Smart24",
-                            "message": "Добро пожаловать, оператор сейчас подключится.",
-                            "user": null,
-                            "convid": 17577,
-                            "time": "2018-03-07 09:53:11",
-                            "class": "notice",
-                            "plevel": 1,
-                            "is_read": 1,
-                            "is_uread": 1
-                        }
-                    ]
+                    {
+                        "id": 225485,
+                        "name": "Илья Дегтяренко",
+                        "message": "Илья входит в чат.",
+                        "user": null,
+                        "convid": 17578,
+                        "time": 1520846666,
+                        "class": "notice",
+                        "attached_file": "http://...../test.jpg",
+                        "plevel": 1,
+                        "is_read": 1,
+                        "is_uread": 1
+                    },
+                    {
+                        "id": 225486,
+                        "name": "Илья Дегтяренко",
+                        "message": "Во всех телевизорах выпуска 2016 года используются hdmi разъемы стандарта 1.4<br />\nВ hdmi 1.4 реализована поддержка разрешения 4K х 2К (3840×2160 при 24/25/30 Гц и 4096×2160 при 24 Гц);",
+                        "user": "23::380505765684",
+                        "convid": 17578,
+                        "time": 1520846673,
+                        "class": "admin",
+                        "attached_file": "http://...../test2.jpg",
+                        "plevel": 1,
+                        "is_read": 1,
+                        "is_uread": 1
+                    }
                 ]
             }
             
@@ -2386,8 +2413,143 @@ Keys **page** and **count** are not required
                 "total": "",
                 "current_page": "",
                 "last_page": "",
+                "conv_id" => 0,
                 "data": []
             }
             
             display - number of messages displayed
             quantity - total number of messages
+            conv_id (if conv_id=0 - dialog isn't active)
+            
+### Upload file [POST/{conv_id}/{file}/  (look in location)]
+
+Keys **conv_id** and **file** are required
+
++ Parameters
+    + conv_id ((int)) ... *dialog id*
+    + file ((file)) ... *file to upload*
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/files/upload
+            Method: POST
+            Request: conv_id, file
+
+    + Body
+            
+            **==================================FAILS====================================**
+            
+            ERROR CODE: 150
+            **-Parameter 'conv_id' is required and must be a integer-**
+            {
+                "success": true,
+                "action": "success",
+                "errors": [
+                    {
+                        "code": 150,
+                        "message": "Parameter 'conv_id' is required and must be a integer                        "data": "Ошибка сервера"
+                    }
+                ],
+                "display": "",
+                "total": "",
+                "current_page": "",
+                "last_page": "",
+                "conv_id": "",
+                "data": ""
+            }
+            
+            ERROR CODE: 151
+            **--Unknown chat id || No users chat || No insurance app--**
+            {
+                "success": true,
+                "action": "success",
+                "errors": [
+                    {
+                        "code": 151,
+                        "message": "Unknown chat id || No users chat || No insurance app",
+                        "data": "Ошибка сервера"
+                    }
+                ],
+                "display": "",
+                "total": "",
+                "current_page": "",
+                "last_page": "",
+                "conv_id": "",
+                "data": ""
+            }
+            
+            ERROR CODE: 152
+            **-----------Chat is closed-----------**
+            {
+                "success": true,
+                "action": "success",
+                "errors": [
+                    {
+                        "code": 152,
+                        "message": "Chat is closed",
+                        "data": "Ошибка сервера"
+                    }
+                ],
+                "display": "",
+                "total": "",
+                "current_page": "",
+                "last_page": "",
+                "conv_id": "",
+                "data": ""
+            }
+            
+            ERROR CODE: 153
+            **--------Parameter 'file' is required--------**
+            {
+                "success": true,
+                "action": "success",
+                "errors": [
+                    {
+                        "code": 153,
+                        "message": "Parameter 'file' is required",
+                        "data": "Ошибка сервера"
+                    }
+                ],
+                "display": "",
+                "total": "",
+                "current_page": "",
+                "last_page": "",
+                "conv_id": "",
+                "data": ""
+            }
+            
+            ERROR CODE: 154
+            **--------File extension not supported--------**
+            {
+                "success": true,
+                "action": "success",
+                "errors": [
+                    {
+                        "code": 154,
+                        "message": "File extension not supported",
+                        "data": "Поддерживаемые разрешения файла: png, jpg"
+                    }
+                ],
+                "display": "",
+                "total": "",
+                "current_page": "",
+                "last_page": "",
+                "conv_id": "",
+                "data": ""
+            }
+            
+            **============================SUCCESSFULLY=================================**
+            
+            {
+                "success": true,
+                "action": "success",
+                "errors": [],
+                "display": "",
+                "total": "",
+                "current_page": "",
+                "last_page": "",
+                "conv_id": "",
+                "data": []
+            }

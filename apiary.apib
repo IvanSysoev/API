@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: NONE
+HOST: http://so24.net
 
 # so24apis:
 
@@ -47,7 +47,7 @@ HOST: NONE
                     13 - xxhdpi (3x)  2700x1376
                     14 - xxxhdpi (3x) 4000x2043
 
-### Регистрация (android и iOS) [POST/{user_photo}/{name}/{surname}/{phone}/{phone_model}/{password}/{password_confirm}/ (look in location)]
+### Регистрация (android и iOS) [POST/{user_photo}/{name}/{surname}/{phone}/{phone_model}/{password}/{password_confirm}/ (use: api/register)]
 
 + Parameters
     + user_photo (required) ... *фото пользователя в формате **Base64***
@@ -62,10 +62,10 @@ HOST: NONE
 
     + Headers
 
-            Location: register?user_photo=Base64&name=wezom&surname=mobile&phone=38050XXXXXXX@phone_model=LenovoA760
+            Location: api/register?user_photo=Base64&name=wezom&surname=mobile&phone=38050XXXXXXX@phone_model=LenovoA760
             Method: POST
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -75,7 +75,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Регистрация через соц.сеть (android) [POST/{user_photo}/{username}/{social_type}/{social_id}/ (look in location)]
+### Регистрация через соц.сеть (android) [POST/{user_photo}/{username}/{social_type}/{social_id}/ (use: api/registerSocial)]
 
 + Parameters
     + user_photo (required) ... *ссылка на фото пользователя*
@@ -87,10 +87,10 @@ HOST: NONE
 
     + Headers
 
-            Location: registerSocial?user_photo=http://vk.com/images/pk.jpg&username=wezom.mobile&social_type=1@social_id=1565485652
+            Location: api/registerSocial?user_photo=http://vk.com/images/pk.jpg&username=wezom.mobile&social_type=1@social_id=1565485652
             Method: POST
 
-    + Body
+    + Schema
     
                 {
                     "success": true,
@@ -106,7 +106,7 @@ HOST: NONE
                 2 - "vk"
                 3 - "ok"
 
-### Проверка кода для завершения регистрации (iOS) [GET/{email}/{code}/ (look in location)]
+### Проверка кода для завершения регистрации (iOS) [GET/{email}/{code}/ (use: api/checkcode)]
 
 + Parameters
     + email (required) ... *почтовый адресс пользователя*
@@ -119,7 +119,7 @@ HOST: NONE
             Location: checkcode?email=tttt@tt.tt&code=XXXXX
             Method: GET
 
-    + Body
+    + Schema
     
             {
                 "uid": 1125,
@@ -131,7 +131,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Проверка кода для завершения регистрации (Android) [GET/{phone}/{code}/ (look in location)]
+### Проверка кода для завершения регистрации (Android) [GET/{phone}/{code}/ (use: api/checkcode)]
 
 + Parameters
     + phone (required) ... *телефон*
@@ -141,10 +141,10 @@ HOST: NONE
 
     + Headers
 
-            Location: checkcode?phone=38050XXXXXXX&code=XXXXX
+            Location: api/checkcode?phone=38050XXXXXXX&code=XXXXX
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "uid": 1125,
@@ -156,20 +156,20 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Авторизация (Android и iOS) [POST/{phone}/{passwd}/ (look in location)]
+### Авторизация (Android и iOS) [POST/{phone}/{passwd}/ (use: api/login)]
 
 + Parameters
-    + phone (required) ... *телефон*
+    + phone (required, (int), `3805012312312`) ... *телефон*
     + passwd (required) ... *пароль*
     
 + Response 200 (application/json)
 
     + Headers
 
-            Location: login?phone=38050XXXXXXX&passwd=XXXXX
+            Location: api/login?phone=38050XXXXXXX&passwd=XXXXX
             Method: POST
 
-    + Body
+    + Schema
     
             {
                 "name": "Петро",
@@ -187,20 +187,22 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Авторизация через соц.сеть (Android) [POST/{social_type}/{social_id}/ (look in location)]
+### Авторизация через соц.сеть (Android) [POST/{social_type}/{social_id}/{app_name}/{partner_name} (use: api/loginSocial)]
 
 + Parameters
-    + social_type (required) ... *индификатор соц.сети*
+    + social_type (required, (int)) ... *индификатор соц.сети*
     + social_id (required, (int)) ... *id пользователя в соц.сети*
+    + app_name ((string, not required)) ... *название приложения*
+    + partner_name ((string, not required)) ... *название приложения партнёра*
     
 + Response 200 (application/json)
 
     + Headers
 
-            Location: loginSocial?social_type=1&social_id=123132135456
+            Location: api/loginSocial?social_type=1&social_id=123132135456
             Method: POST
 
-    + Body
+    + Schema
 
             {
                 "name": "Петро",
@@ -218,7 +220,7 @@ HOST: NONE
             "success" - результат операции(true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Восстановление пароля (iOS) [POST/{email}/ (look in location)]
+### Восстановление пароля (iOS) [POST/{email}/ (use: api/sendpasswd)]
 
 + Parameters
     + email (required) ... *почтовый адресс пользователя*
@@ -227,10 +229,10 @@ HOST: NONE
 
     + Headers
 
-            Location: sendpasswd?email=tttt@tt.tt&passwd
+            Location: api/sendpasswd?email=tttt@tt.tt&passwd
             Method: POST
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -240,7 +242,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Проверка кода для завершения восстановления пароля (iOS) [POST/{email}/{code}/ (look in location)]
+### Проверка кода для завершения восстановления пароля (iOS) [POST/{email}/{code}/ (use: api/sendpasswd)]
 
 + Parameters
     + email (required) ... *почтовый адресс пользователя*
@@ -250,10 +252,10 @@ HOST: NONE
 
     + Headers
 
-            Location: sendpasswd?email=tttt@tt.tt&code=XXXXX
+            Location: api/sendpasswd?email=tttt@tt.tt&code=XXXXX
             Method: POST
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -263,7 +265,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Восстановление пароля (Android) [POST/{phone}/ (look in location)]
+### Восстановление пароля (Android) [POST/{phone}/ (use: api/sendpasswd)]
 
 + Parameters
     + phone (required) ... *телефон*
@@ -272,10 +274,10 @@ HOST: NONE
 
     + Headers
 
-            Location: sendpasswd?phone=38050XXXXXXX
+            Location: api/sendpasswd?phone=38050XXXXXXX
             Method: POST
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -285,7 +287,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Проверка кода для завершения восстановления пароля (Android) [GET/{phone}/{code}// (look in location)]
+### Проверка кода для завершения восстановления пароля (Android) [GET/{phone}/{code}/ (use: api/sendpasswd)]
 
 + Parameters
     + phone (required) ... *телефон*
@@ -295,10 +297,10 @@ HOST: NONE
 
     + Headers
 
-            Location: sendpasswd?phone=8050XXXXXXX&code=XXXXX
+            Location: api/sendpasswd?phone=8050XXXXXXX&code=XXXXX
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -308,7 +310,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Изменение данных пользователя [POST/{uid}/{image_person}/{name}/{phone}/{surname}/{surname}/{passw}/{passwdcheck}/ (look in location)]
+### Изменение данных пользователя [POST/{uid}/{image_person}/{name}/{phone}/{surname}/{surname}/{passw}/{passwdcheck}/ (use: api/changedata)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -323,10 +325,10 @@ HOST: NONE
 
     + Headers
 
-            Location: changedata?image_person=Base64&name=wezom&surname=mobile&phone=38095256565&passwd=555555@passwdcheck=66666
+            Location: api/changedata?image_person=Base64&name=wezom&surname=mobile&phone=38095256565&passwd=555555@passwdcheck=66666
             Method: POST
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -336,7 +338,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Получить информацию пользователя [POST/{uid}/ (look in location)]
+### Получить информацию пользователя [POST/{uid}/ (use: api/user_info)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -345,10 +347,10 @@ HOST: NONE
 
     + Headers
 
-            Location: user_info?uid=456
+            Location: api/user_info?uid=456
             Method: POST
 
-    + Body
+    + Schema
 
             {
                 "name": "Петро",
@@ -366,7 +368,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Запрос списка активированных услуг пользователя [GET/{uid}/{density}/ (look in location)]
+### Запрос списка активированных услуг пользователя [GET/{uid}/{density}/ (use: api/services)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -376,10 +378,10 @@ HOST: NONE
 
     + Headers
 
-            Location: services?uid=XXXX
+            Location: api/services?uid=XXXX
             Method: GET
 
-    + Body
+    + Schema
     
             {
                 "services":
@@ -452,7 +454,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Запрос списка всех услуг [GET/{density}/ (look in location)]
+### Запрос списка всех услуг [GET/{density}/ (use: api/allservices)]
 
 + Parameters
     + density (required) ... *плотность экрана. Возвращает картинку под нужную плотность экрана (mdpi – 0, hpdi - 1, xhdpi - 2, xxhdpi – 3, xxxhdpi – 4). Нужен для фона услуги*
@@ -461,10 +463,10 @@ HOST: NONE
 
     + Headers
 
-            Location: allservices?density=XXXX
+            Location: api/allservices?density=XXXX
             Method: GET
 
-    + Body
+    + Schema
     
             {
                 "catalogs":
@@ -521,7 +523,7 @@ HOST: NONE
             Для услуги dr. Web (тип программы) нужны дополнительные данные:
                 "catalogs" - массив всех услуг "Абонентское обслуживание" на сайте
 
-### Запрос URL для покупки услуги [GET/{service_id}/{uid}/{auto}/ (look in location)]
+### Запрос URL для покупки услуги [GET/{service_id}/{uid}/{auto}/ (use: api/buyurl)]
 
 + Parameters
     + service_id (required, (int)) ... *идентификатор услуги в 1c*
@@ -532,10 +534,10 @@ HOST: NONE
 
     + Headers
 
-            Location: buyurl?service_id =XXXX&uid=XXX&auto=false
+            Location: api/buyurl?service_id =XXXX&uid=XXX&auto=false
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "post_url": "https://",
@@ -560,7 +562,7 @@ HOST: NONE
             Опционально:
                 "currency" - валюта которой будет оплачивать клиент. Доступны значения (UAH|RUB)
 
-### Автоматическое продления услуги [POST/{uid}/{service_id}/{status}/ (look in location)]
+### Автоматическое продления услуги [POST/{uid}/{service_id}/{status}/ (use: api/prolong_service)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -571,10 +573,10 @@ HOST: NONE
 
     + Headers
 
-            Location: prolong_service?uid=XXXX&service_id=2&status=true
+            Location: api/prolong_service?uid=XXXX&service_id=2&status=true
             Method: POST
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -584,7 +586,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Послать вопрос оператору технической поддержки [POST/{uid}/{message}/ (look in location)]
+### Послать вопрос оператору технической поддержки [POST/{uid}/{message}/ (use: api/sendmessage)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -594,10 +596,10 @@ HOST: NONE
 
     + Headers
 
-            Location: sendmessage?uid=XXXX&message=Добрый%20день
+            Location: api/sendmessage?uid=XXXX&message=Добрый%20день
             Method: POST
 
-    + Body
+    + Schema
 
             {
                 "expert_name": "Максим",
@@ -623,7 +625,7 @@ HOST: NONE
                 "partner_id" - id партнера. Например: 1006
                 "mobile_app_name" - (string) Название моб приложения, необходимое для его идентификации в отчетах
 
-### Получить ответ от оператора технической поддержки [GET/{uid}/{dialog_id}/{timestamp}/ (look in location)]
+### Получить ответ от оператора технической поддержки [GET/{uid}/{dialog_id}/{timestamp}/ (use: api/getanswer)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -634,10 +636,10 @@ HOST: NONE
 
     + Headers
 
-            Location: getanswer?uid=XXXX&dialog_id=XXXX
+            Location: api/getanswer?uid=XXXX&dialog_id=XXXX
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "message": "Чем могу помочь?",
@@ -684,7 +686,7 @@ HOST: NONE
                     "errors" - массивсодержащий сообщения об ошибках
                 ]
 
-### Пользователь прочитал сообщения [GET/{uid}/{dialog_id}/{timestamp}// (look in location)]
+### Пользователь прочитал сообщения [GET/{uid}/{dialog_id}/{timestamp}// (use: api/messagesread)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -695,10 +697,10 @@ HOST: NONE
 
     + Headers
 
-            Location: messagesread?uid=XXXX&dialog_id=XXXX&timestamp=1232335565454
+            Location: api/messagesread?uid=XXXX&dialog_id=XXXX&timestamp=1232335565454
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -708,7 +710,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
 
-### Закрыть диалог с оператором [GET/{uid}/{dialog_id}/{grade}/ (look in location)]
+### Закрыть диалог с оператором [GET/{uid}/{dialog_id}/{grade}/ (use: api/closedialog)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -719,10 +721,10 @@ HOST: NONE
 
     + Headers
 
-            Location: closedialog?uid=XXXX&dialog_id=XXXX&grade=good&opinion=Super
+            Location: api/closedialog?uid=XXXX&dialog_id=XXXX&grade=good&opinion=Super
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -735,7 +737,7 @@ HOST: NONE
             Необязательные параметры: 
                 "opinion" - комментарий пользователя
             
-### Сделай сам (новости) [GET/{density} (look in location)]
+### Сделай сам (новости) [GET/{density} (use: api/news)]
 
 + Parameters
     + density (required) ... *плотность экрана. Возвращает картинку под нужную плотность экрана (mdpi – 0, hpdi - 1, xhdpi - 2, xxhdpi – 3, xxxhdpi – 4)*
@@ -744,10 +746,10 @@ HOST: NONE
 
     + Headers
 
-            Location: news?uid=123525density=2
+            Location: api/news?uid=123525density=2
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "news":
@@ -769,7 +771,7 @@ HOST: NONE
             "header_image" - заголовок новости
             "publish_date" - дата публикации
 
-### Активировать Услугу [GET/{uid}/{activation_code}/{activation_code}/{shop_code}/ (look in location)]
+### Активировать Услугу [GET/{uid}/{activation_code}/{activation_code}/{shop_code}/ (use: api/activatecard)]
 
 + Parameters
     + uid (required, (int)) ... *индификатор пользователя*
@@ -780,10 +782,10 @@ HOST: NONE
 
     + Headers
 
-            Location: activatecard?uid=123525&activation_code=245464566542164
+            Location: api/activatecard?uid=123525&activation_code=245464566542164
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -795,7 +797,7 @@ HOST: NONE
             "errors" - массив содержащий сообщения об ошибках
             "errors" - подарки
             
-### Получить данные о бекапе [GET/{uid}/ (look in location)]
+### Получить данные о бекапе [GET/{uid}/ (use: api/getinfo_backup)]
 
 + Parameters
     + uid (required, (int)) ... *идентификатор пользователя*
@@ -804,10 +806,10 @@ HOST: NONE
 
     + Headers
 
-            Location: getinfo_backup?uid=123525
+            Location: api/getinfo_backup?uid=123525
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "success" :true,
@@ -819,7 +821,7 @@ HOST: NONE
             "isbackup" - статус бекапа (0 - нет бекапа, 1 - есть)
             "date" - дата создания бекапа (timestamp или 0 если нет бекапа)
 
-### Записать данные о бекапе [GET/{uid}/{isbackup}/{date}/ (look in location)]
+### Записать данные о бекапе [GET/{uid}/{isbackup}/{date}/ (use: api/putinfo_backup)]
 
 + Parameters
     + uid (required, (int)) ... *идентификатор пользователя*
@@ -830,10 +832,10 @@ HOST: NONE
 
     + Headers
 
-            Location: putinfo_backup?uid=123525&isbackup=1&date=1130304721
+            Location: api/putinfo_backup?uid=123525&isbackup=1&date=1130304721
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "success": true,
@@ -843,7 +845,7 @@ HOST: NONE
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
-### Формат ошибок [GET// (look in location)]
+### Формат ошибок [GET/ (use: base/mobile_api/bonuses/get)]
 
 + Response 200 (application/json)
 
@@ -852,7 +854,7 @@ HOST: NONE
             Location: base/mobile_api/bonuses/get
             Method: GET
 
-    + Body
+    + Schema
     
             {
                 "error":
@@ -871,7 +873,7 @@ HOST: NONE
                 "error.data" - детальное описание ошибки
                 "error.code" - в дальнейшем называется числовым кодом ошибки
 
-### Получить системные уведомления пользователя [GET/{uid} (look in location)]
+### Получить системные уведомления пользователя [GET/{uid} (use: api/notifications)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -880,10 +882,10 @@ HOST: NONE
 
     + Headers
 
-            Location: notifications?uid=XXXX
+            Location: api/notifications?uid=XXXX
             Method: GET
 
-    + Body
+    + Schema
 
             {
                 "notifications":
@@ -904,7 +906,7 @@ HOST: NONE
             "description" - текст уведомления
             "publish_date" - дата уведомления
 
-### Синхронизировать системные уведомления пользователя [POST/(ANY)/{uid}/{notifications}/ (look in location)]
+### Синхронизировать системные уведомления пользователя [POST/(ANY)/{uid}/{notifications}/ (use: api/sync-notifications)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -914,10 +916,10 @@ HOST: NONE
 
     + Headers
 
-            Location: sync-notifications?uid=XXXX
+            Location: api/sync-notifications?uid=XXXX
             Method: ANY
 
-    + Body
+    + Schema
     
             **-----------------------------Пример запроса-------------------------------------**
             {
@@ -956,7 +958,7 @@ HOST: NONE
 # PRS API [/api]
 <hr/>
 
-### Получить статус [POST/{uid}/ (look in location)]
+### Получить статус [POST/{uid}/ (use: api/prs_getstatus)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -965,10 +967,10 @@ HOST: NONE
 
     + Headers
 
-            Location: /api/prs_getstatus
+            Location: api/prs_getstatus
             Method: POST
 
-### Получить список услуг [POST/{uid} (look in location)]
+### Получить список услуг [POST/{uid} (use: api/prs_getservices)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -977,10 +979,10 @@ HOST: NONE
 
     + Headers
 
-            Location: /api/prs_getservices
+            Location: api/prs_getservices
             Method: POST
             
-### Отправить заявку [POST/{uid}/{service_id}/{username}/{phone}/{comment}/ (look in location)]
+### Отправить заявку [POST/{uid}/{service_id}/{username}/{phone}/{comment}/ (use: api/prs_sendrequest)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -993,10 +995,10 @@ HOST: NONE
 
     + Headers
 
-            Location: /api/prs_sendrequest
+            Location: api/prs_sendrequest
             Method: POST
             
-### Получить список заявок для выбранной услуги [POST/{uid}/{service_id}/ (look in location)]
+### Получить список заявок для выбранной услуги [POST/{uid}/{service_id}/ (use: api/prs_getrequests)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -1006,10 +1008,10 @@ HOST: NONE
 
     + Headers
 
-            Location: /api/prs_getrequests
+            Location: api/prs_getrequests
             Method: POST
             
-### Активация услуги [POST/{uid}/{code}/{shope_code}/{gift}/ (look in location)]
+### Активация услуги [POST/{uid}/{code}/{shope_code}/{gift}/ (use: api/prs_activateservice)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -1021,10 +1023,10 @@ HOST: NONE
 
     + Headers
 
-            Location: /api/prs_activateservice
+            Location: api/prs_activateservice
             Method: POST
             
-### Оценить качество [POST/{uid}/{request_id}/{rating}/{comment}/ (look in location)]
+### Оценить качество [POST/{uid}/{request_id}/{rating}/{comment}/ (use: api/prs_setgrade)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -1036,10 +1038,10 @@ HOST: NONE
 
     + Headers
 
-            Location: /api/prs_setgrade
+            Location: api/prs_setgrade
             Method: POST
             
-### Создать услугу (кастомный метод) [POST/{uid}/{passw}/{code}/{shopping_date}/{product_name}/ (look in location)]
+### Создать услугу (кастомный метод) [POST/{uid}/{passw}/{code}/{shopping_date}/{product_name}/ (use: api/prs_createservice)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
@@ -1052,7 +1054,7 @@ HOST: NONE
 
     + Headers
 
-            Location: /api/prs_createservice
+            Location: api/prs_createservice
             Method: POST
             
 # Gift API [/base/mobile_api/gifts/]
@@ -1066,16 +1068,16 @@ HOST: NONE
 
 **302** - *Invalid XML-file*
 
-### Get available types [GET/ (look in location)]
+### Get available types [GET/ (use: base/mobile_api/gifts/get)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: /base/mobile_api/gifts/get
+            Location: base/mobile_api/gifts/get
             Method: GET
                     
-    + Body
+    + Schema
            
             **-------------------IF USER HAVE AVAILABLE GIFTS-------------------**
             
@@ -1111,7 +1113,7 @@ HOST: NONE
 
 
 
-### Activate code [POST/{type_id} (look in location)]
+### Activate code [POST/{type_id} (use: base/mobile_api/gifts/activate)]
 
 + Parameters
     + type_id (required, (int)) ... *идентификатор типа*
@@ -1120,11 +1122,11 @@ HOST: NONE
 
     + Headers
 
-            Location: /base/mobile_api/gifts/activate
+            Location: base/mobile_api/gifts/activate
             Method: POST
         
 
-    + Body
+    + Schema
     
             **-------------------SUCCESSFUL CODE ACTIVATION-------------------**
             
@@ -1163,16 +1165,16 @@ HOST: NONE
             
 
 
-### Clear user's gifts  [PUT/ (look in location)]
+### Clear user's gifts  [POST/ (use: base/mobile_api/gifts/clear)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: /base/mobile_api/gifts/clear
+            Location: base/mobile_api/gifts/clear
             Method: POST
 
-    + Body
+    + Schema
 
             {
             
@@ -1185,7 +1187,7 @@ HOST: NONE
             }
 
 
-# Bonus API [/base/mobile_api/bonuses (look in location)]
+# Bonus API [/base/mobile_api/bonuses]
 <hr>
 
 **Error codes:**
@@ -1230,7 +1232,7 @@ HOST: NONE
 
             Location: base/mobile_api/bonuses/*
 
-    + Body
+    + Schema
             
             ERROR CODE: 10
             **-------------------NOT AUTHORIZED-------------------**
@@ -1269,7 +1271,7 @@ HOST: NONE
                     "cards": []
                 }
                 
-### Get all user's cards [GET]
+### Get all user's cards [GET/ (use: base/mobile_api/bonuses/get)]
 
 + Response 200 (application/json)
 
@@ -1278,7 +1280,7 @@ HOST: NONE
             Location: base/mobile_api/bonuses/get
             Method: GET
 
-    + Body
+    + Schema
     
             **==============================FAILS=====================================**
             
@@ -1326,7 +1328,7 @@ HOST: NONE
                     ]
                 }
             
-### Add new card [POST]
+### Add new card [POST/ (use: base/mobile_api/bonuses/add)]
 
 In add method **name**, **card** and **phone** are required.
 
@@ -1338,7 +1340,7 @@ In add method **name**, **card** and **phone** are required.
             Method: POST
             Request: (string)name, (int)card, (int)phone
 
-    + Body
+    + Schema
 
             **=========================FAILS=================================**
                
@@ -1438,7 +1440,7 @@ In add method **name**, **card** and **phone** are required.
                     ]
                 }
 
-### Remove card [DELETE] 
+### Remove card [POST/ (use: base/mobile_api/bonuses/remove)] 
 
 In remove method **card_id** is required.
 
@@ -1450,7 +1452,7 @@ In remove method **card_id** is required.
             Method: POST
             Request: (int)card_id
 
-    + Body
+    + Schema
     
             **==================================FAILS====================================**
             
@@ -1605,7 +1607,7 @@ In remove method **card_id** is required.
 
             Location: base/mobile_api/insurance/*
 
-    + Body
+    + Schema
 
             =====================Smart errors=======================
             
@@ -2090,12 +2092,12 @@ In remove method **card_id** is required.
                     "data": []
                 }
 
-### Auth [POST/{tel}/ (look in location)]
+### Auth [POST/{tel}/ (use: base/mobile_api/insurance/auth)]
 
 In auth method **tel** is required
 
 + Parameters
-    + tel (required, (int)) ... *phone number*
+    + tel (required, (int), `3805012312312`) ... *phone number -*
 
 + Response 200 (application/json)
 
@@ -2105,7 +2107,7 @@ In auth method **tel** is required
             Method: POST
             Request: tel
 
-    + Body
+    + Schema
     
             {
                 "success": true,
@@ -2119,13 +2121,13 @@ In auth method **tel** is required
                 ]
             }
 
-### Activate [POST/{tel}/{num}/ (look in location)]
+### Activate [POST/{tel}/{num}/ (use: base/mobile_api/insurance/activate)]
 
 In activate method **tel** and **num** are required
 
 + Parameters
-    + tel (required, (int)) ... *phone number*
-    + num (required, (string)) ... *contract number*
+    + tel (required, (int), `3805012312312`) ... *phone number -*
+    + num (required, (string), `SGTS06000011`) ... *contract number -*
 
 + Response 200 (application/json)
 
@@ -2135,7 +2137,7 @@ In activate method **tel** and **num** are required
             Method: POST
             Request: tel, num
 
-    + Body
+    + Schema
     
             {
                 "success": true,
@@ -2150,14 +2152,14 @@ In activate method **tel** and **num** are required
                 ]
             }
 
-### Sms confirm (otp) [POST/{smsid}/{otp}/{cid}/ (look in location)]
+### Sms confirm (otp) [POST/{smsid}/{otp}/{cid}/ (use: base/mobile_api/insurance/sms_confirm)]
 
 In sms confirm method **smsid** and **otp** are required, and if from method ***Activate*** parameter **cid** required too
 
 + Parameters
-    + smsid (required, (int)) ... *sms id*
-    + otp (required, (string)) ... *sms otp*
-    + cid ((string)) ... *contract id (required, if from method Activate)*
+    + smsid (required, (int), `509`) ... *sms id -*
+    + otp (required, (string), `834741`) ... *sms otp -*
+    + cid (optional, (int), `36`) ... *contract id (required, if from method @Activate) -*
 
 + Response 200 (application/json)
 
@@ -2167,7 +2169,7 @@ In sms confirm method **smsid** and **otp** are required, and if from method ***
             Method: POST
             Request: smsid, otp, cid
 
-    + Body
+    + Schema
     
             {
                 "success": true,
@@ -2207,7 +2209,7 @@ In sms confirm method **smsid** and **otp** are required, and if from method ***
                 ]
             }
 
-### Sign form [POST/{cid}/{name}/{secname}/{surname}/{email}/{inn}/{birthday}/{type}/{passport}/{passportdate}/{passportissued}/{index}/{region}/{district}/{city}/{street}/{brand}/{model}/{serial}/ (look in location)]
+### Sign form [POST/{cid}/{name}/{secname}/{surname}/{email}/{inn}/{birthday}/{type}/{passport}/{passportdate}/{passportissued}/{index}/{region}/{district}/{city}/{street}/{brand}/{model}/{serial}/ (use: base/mobile_api/insurance/sign_form)]
 
 In sign form method:
 
@@ -2222,25 +2224,28 @@ Required: **cid**, **name**, **secname**, **surname**, **birthday**, **type**,
 Not required: **email**, **inn**, **index**, **street**
 
 + Parameters
-    + cid (required, (int)) ... *contract id*
-    + name (required, (string)) ... *name*
-    + secname (required, (string)) ... *secname*
-    + surname (required, (string)) ... *surname*
-    + email ((string)) ... *email (not required)*
-    + inn ((int)) ... *inn (not required)*
-    + birthday (required, (string)) ... *birthday date*
-    + type (required, (int)) ... *type (passport or card number)*
-    + passport (required, (string)) ... *passport*
-    + passportdate (required, (string)) ... *passportdate date*
-    + passportissued (required, (string)) ... *passportissued*
-    + index ((int)) ... *index (not required)*
-    + region (required, (string)) ... *region*
-    + district (required, (string)) ... *district*
-    + city (required, (string)) ... *city*
-    + street ((string)) ... *street (not required)*
-    + brand (required, (string)) ... *brand*
-    + model (required, (string)) ... *model*
-    + serial (required, (string)) ... *serial*
+    + cid (required, (int), `37`) ... *contract id -*
+    + name (required, (string), `Bill`) ... *name -*
+    + secname (required, (string), `Bobovich`) ... *secname -*
+    + surname (required, (string), `Jhonson`) ... *surname -*
+    + email (optional, (string), `mail@gmail.com`) ... *email -*
+    + inn (optional, (int), `1112212321`) ... *inn -*
+    + birthday (required, (string), `31.12.2022`) ... *birthday date -*
+    + type: `1` (required, (int)) - *type (passport or card number) -*
+        + Members
+            - `1`
+            - `2`
+    + passport (required, (string), `АВ123456`) ... *passport -*
+    + passportdate (required, (string), `10.12.2018`) ... *passportdate date -*
+    + passportissued (required, (string), `RO MVD Voenkom`) ... *passportissued -*
+    + index (optional, (int), `49000`) ... *index -*
+    + region (required, (string), `Dnepropetrovskiy`) ... *region -*
+    + district (required, (string), `Dnepr`) ... *district -*
+    + city (required, (string, `Dnepr`)) ... *city -*
+    + street (optional, (string), `Shevchenko`) ... *street -*
+    + brand (required, (string), `Apple`) ... *brand -*
+    + model (required, (string), `Android 10`) ... *model -*
+    + serial (required, (string), `IMEI923089823728937`) ... *serial -*
 
 + Response 200 (application/json)
 
@@ -2250,7 +2255,7 @@ Not required: **email**, **inn**, **index**, **street**
             Method: POST
             Request: cid, name, secname, surname, email, inn, birthday, type, passport, passportdate, passportissued, index, region, district, city, street, bran, model, serial
 
-    + Body
+    + Schema
     
             {
                 "success": true,
@@ -2264,12 +2269,12 @@ Not required: **email**, **inn**, **index**, **street**
                 ]
             }
 
-### List [POST/{tel}// (look in location)]
+### List [POST/{tel}// (use: base/mobile_api/insurance/list)]
 
 In method list **tel** is required. If you whant get one contract add to request **cid**.
 
 + Parameters
-    + tel (required, (int)) ... *phone number*
+    + tel (required, (int), `3805012312312`) ... *phone number -*
     
 + Response 200 (application/json)
 
@@ -2279,7 +2284,7 @@ In method list **tel** is required. If you whant get one contract add to request
             Method: POST
             Request: tel
 
-    + Body
+    + Schema
     
             {
                 "success": true,
@@ -2319,7 +2324,7 @@ In method list **tel** is required. If you whant get one contract add to request
                 ]
             }
 
-### Check filled contracts [POST// (look in location)]
+### Check filled contracts [POST// (use: base/mobile_api/insurance/check_filled_contracts)]
     
 + Response 200 (application/json)
 
@@ -2328,7 +2333,7 @@ In method list **tel** is required. If you whant get one contract add to request
             Location: base/mobile_api/insurance/check_filled_contracts
             Method: POST
 
-    + Body
+    + Schema
     
             {
                 "success": true,
@@ -2337,10 +2342,10 @@ In method list **tel** is required. If you whant get one contract add to request
                 "filled": 1 //(or 0, if no filled)
             }
 
-
 # Chat API [/base/mobile_api/messages]
+<hr/>
 
-### Get messages chunk [POST/{page}/{count}/  (look in location)]
+### Get messages chunk [POST/{page}/{count}/  (use: base/mobile_api/messages/chunk)]
 
 **NOTE #1:** *This method has key a **count** (messages count), if query has't a count, then **count=25** (default)*
 
@@ -2349,18 +2354,26 @@ In method list **tel** is required. If you whant get one contract add to request
 Keys **page** and **count** are not required
 
 + Parameters
-    + count ((int)) ... *(not required) messages count*
-    + page ((int)) ... *(not required) page number*
-
+    + count: `5` (optional, (int)) - *messages count -*
+        + Default: `25`
+    + page: `2` (optional, (int)) - *page number -*
+    
 + Response 200 (application/json)
 
     + Headers
 
             Location: base/mobile_api/messages/chunk
             Method: POST
-            Request: page
-
+            Request: count, page
+            
     + Body
+
+            display - number of messages displayed
+            quantity - total number of messages
+            conv_id (if conv_id=0 - dialog isn't active)
+
+
+    + Schema
 
             **============================SUCCESSFULLY=================================**
             
@@ -2416,18 +2429,14 @@ Keys **page** and **count** are not required
                 "conv_id" => 0,
                 "data": []
             }
-            
-            display - number of messages displayed
-            quantity - total number of messages
-            conv_id (if conv_id=0 - dialog isn't active)
-            
-### Upload file [POST/{conv_id}/{file}/  (look in location)]
 
-Keys **conv_id** and **file** are required
+### Upload file [POST/{conv_id}/{file}/  (use: base/mobile_api/files/upload)]
+
+Key **conv_id** and **file** are required
 
 + Parameters
-    + conv_id ((int)) ... *dialog id*
-    + file ((file)) ... *file to upload*
+    + conv_id ((int), `102922`) ... *dialog id -* 
+    + file ((file), `{file}`) ... *file to upload -* 
 
 + Response 200 (application/json)
 
@@ -2437,7 +2446,7 @@ Keys **conv_id** and **file** are required
             Method: POST
             Request: conv_id, file
 
-    + Body
+    + Schema
             
             **==================================FAILS====================================**
             
@@ -2449,7 +2458,8 @@ Keys **conv_id** and **file** are required
                 "errors": [
                     {
                         "code": 150,
-                        "message": "Parameter 'conv_id' is required and must be a integer                        "data": "Ошибка сервера"
+                        "message": "Parameter 'conv_id' is required and must be a integer                        
+                        "data": "Ошибка сервера"
                     }
                 ],
                 "display": "",
@@ -2530,6 +2540,26 @@ Keys **conv_id** and **file** are required
                         "code": 154,
                         "message": "File extension not supported",
                         "data": "Поддерживаемые разрешения файла: png, jpg"
+                    }
+                ],
+                "display": "",
+                "total": "",
+                "current_page": "",
+                "last_page": "",
+                "conv_id": "",
+                "data": ""
+            }
+            
+            ERROR CODE: 155
+            **------Field connection with file-server------**
+            {
+                "success": true,
+                "action": "success",
+                "errors": [
+                    {
+                        "code": 155,
+                        "message": "Field connection with file-server",
+                        "data": "Отправка фотографий в данный момент недоступна"
                     }
                 ],
                 "display": "",

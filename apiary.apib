@@ -65,16 +65,18 @@ HOST: http://so24.net
             Location: api/register?user_photo=Base64&name=wezom&surname=mobile&phone=38050XXXXXXX@phone_model=LenovoA760
             Method: POST
 
+    + Body
+
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
                 "success": true,
                 "errors": (array)
             }
-            
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
-            
+
 ### Регистрация через соц.сеть (android) [POST/{user_photo}/{username}/{social_type}/{social_id}/ (use: api/registerSocial)]
 
 + Parameters
@@ -90,13 +92,8 @@ HOST: http://so24.net
             Location: api/registerSocial?user_photo=http://vk.com/images/pk.jpg&username=wezom.mobile&social_type=1@social_id=1565485652
             Method: POST
 
-    + Schema
-    
-                {
-                    "success": true,
-                    "errors": (array)
-                }
-            
+    + Body
+
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             
@@ -105,6 +102,13 @@ HOST: http://so24.net
                 1 - "facebook"
                 2 - "vk"
                 3 - "ok"
+
+    + Schema
+    
+            {
+                "success": true,
+                "errors": (array)
+            }
 
 ### Проверка кода для завершения регистрации (iOS) [GET/{email}/{code}/ (use: api/checkcode)]
 
@@ -119,6 +123,12 @@ HOST: http://so24.net
             Location: checkcode?email=tttt@tt.tt&code=XXXXX
             Method: GET
 
+    + Body
+
+            "uid" - уникальный идентификатор пользователя
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
     
             {
@@ -126,10 +136,6 @@ HOST: http://so24.net
                 "success": true,
                 "errors": (array)
             }
-            
-            "uid" - уникальный идентификатор пользователя
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
 
 ### Проверка кода для завершения регистрации (Android) [GET/{phone}/{code}/ (use: api/checkcode)]
 
@@ -144,6 +150,12 @@ HOST: http://so24.net
             Location: api/checkcode?phone=38050XXXXXXX&code=XXXXX
             Method: GET
 
+    + Body
+
+            "uid" - уникальный идентификатор пользователя
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
@@ -151,10 +163,6 @@ HOST: http://so24.net
                 "success": true,
                 "errors": (array)
             }
-            
-            "uid" - уникальный идентификатор пользователя
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
 
 ### Авторизация (Android и iOS) [POST/{phone}/{passwd}/ (use: api/login)]
 
@@ -169,6 +177,15 @@ HOST: http://so24.net
             Location: api/login?phone=38050XXXXXXX&passwd=XXXXX
             Method: POST
 
+    + Body
+
+            "name" - имя
+            "username" - фамилия
+            "telephone" - телефон
+            "user_photo" - ссылка на фото пользователя
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
     
             {
@@ -179,13 +196,6 @@ HOST: http://so24.net
                 "success": true,
                 "errors": (array)
             }
-            
-            "name" - имя
-            "username" - фамилия
-            "telephone" - телефон
-            "user_photo" - ссылка на фото пользователя
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
 
 ### Авторизация через соц.сеть (Android) [POST/{social_type}/{social_id}/{app_name}/{partner_name} (use: api/loginSocial)]
 
@@ -202,6 +212,15 @@ HOST: http://so24.net
             Location: api/loginSocial?social_type=1&social_id=123132135456
             Method: POST
 
+    + Body
+    
+            "name" - имя
+            "username" -фамилия
+            "telephone" - телефон
+            "user_photo" - ссылка на фото пользователя
+            "success" - результат операции(true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
@@ -212,14 +231,7 @@ HOST: http://so24.net
                 "success": true,
                 "errors": "array"
             }
-            
-            "name" - имя
-            "username" -фамилия
-            "telephone" - телефон
-            "user_photo" - ссылка на фото пользователя
-            "success" - результат операции(true/false)
-            "errors" - массив содержащий сообщения об ошибках
-            
+
 ### Восстановление пароля (iOS) [POST/{email}/ (use: api/sendpasswd)]
 
 + Parameters
@@ -232,16 +244,18 @@ HOST: http://so24.net
             Location: api/sendpasswd?email=tttt@tt.tt&passwd
             Method: POST
 
+    + Body
+    
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
                 "success": true,
                 "errors": "array"
             }
-            
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
-            
+
 ### Проверка кода для завершения восстановления пароля (iOS) [POST/{email}/{code}/ (use: api/sendpasswd)]
 
 + Parameters
@@ -255,16 +269,18 @@ HOST: http://so24.net
             Location: api/sendpasswd?email=tttt@tt.tt&code=XXXXX
             Method: POST
 
+    + Body
+            
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
                 "success": true,
                 "errors": "array"
             }
-            
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
-            
+
 ### Восстановление пароля (Android) [POST/{phone}/ (use: api/sendpasswd)]
 
 + Parameters
@@ -277,16 +293,18 @@ HOST: http://so24.net
             Location: api/sendpasswd?phone=38050XXXXXXX
             Method: POST
 
+    + Body
+    
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
                 "success": true,
                 "errors": (array)
             }
-            
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
-            
+
 ### Проверка кода для завершения восстановления пароля (Android) [GET/{phone}/{code}/ (use: api/sendpasswd)]
 
 + Parameters
@@ -300,15 +318,17 @@ HOST: http://so24.net
             Location: api/sendpasswd?phone=8050XXXXXXX&code=XXXXX
             Method: GET
 
+    + Body
+    
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
                 "success": true,
                 "errors": (array)
             }
-            
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
             
 ### Изменение данных пользователя [POST/{uid}/{image_person}/{name}/{phone}/{surname}/{surname}/{passw}/{passwdcheck}/ (use: api/changedata)]
 
@@ -328,15 +348,17 @@ HOST: http://so24.net
             Location: api/changedata?image_person=Base64&name=wezom&surname=mobile&phone=38095256565&passwd=555555@passwdcheck=66666
             Method: POST
 
+    + Body
+    
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
                 "success": true,
                 "errors": (array)
             }
-            
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
 
 ### Получить информацию пользователя [POST/{uid}/ (use: api/user_info)]
 
@@ -350,6 +372,15 @@ HOST: http://so24.net
             Location: api/user_info?uid=456
             Method: POST
 
+    + Body
+    
+            "name" - имя
+            "username" - фамилия
+            "telephone" - телефон
+            "user_photo" - ссылка на фото пользователя
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
@@ -360,13 +391,6 @@ HOST: http://so24.net
                 "success": true,
                 "errors": (array)
             }
-            
-            "name" - имя
-            "username" - фамилия
-            "telephone" - телефон
-            "user_photo" - ссылка на фото пользователя
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
 
 ### Запрос списка активированных услуг пользователя [GET/{uid}/{density}/ (use: api/services)]
 
@@ -380,6 +404,23 @@ HOST: http://so24.net
 
             Location: api/services?uid=XXXX
             Method: GET
+
+    + Body
+
+            "services" - массив активированных услуг пользователя:
+            "service_id" - идентификатор услуги
+            "icon" - иконка
+            "avto_prolong" - установленно ли автопродление
+            "name" - наименование услуги
+            "serial_keys" - список серийных ключей
+            "key" - ключ
+            "expire_date" - срок действия
+            "expired_time" - время истечения услуги (в миллисекундах)
+            "program_categories" - массив категорий программ
+            "program_list" - массив программ для установки
+            "programs - масив активных услуг - програм (с серийным ключом)
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
 
     + Schema
     
@@ -439,21 +480,6 @@ HOST: http://so24.net
                 "errors": (array)
             }
 
-            "services" - массив активированных услуг пользователя:
-            "service_id" - идентификатор услуги
-            "icon" - иконка
-            "avto_prolong" - установленно ли автопродление
-            "name" - наименование услуги
-            "serial_keys" - список серийных ключей
-            "key" - ключ
-            "expire_date" - срок действия
-            "expired_time" - время истечения услуги (в миллисекундах)
-            "program_categories" - массив категорий программ
-            "program_list" - массив программ для установки
-            "programs - масив активных услуг - програм (с серийным ключом)
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
-
 ### Запрос списка всех услуг [GET/{density}/ (use: api/allservices)]
 
 + Parameters
@@ -465,6 +491,25 @@ HOST: http://so24.net
 
             Location: api/allservices?density=XXXX
             Method: GET
+    
+    + Body
+    
+            "header" - ссылка на фон с эмблемой услуги/программы (без текстового названия) 
+            "is_novelty" - (true,false) новинка это или нет+ 
+            "name" - наименование услуги 
+            "services" - массив сервисов (на 1 месяц, 2месяца...) 
+            "programs" - масив услуг (тип "програма") 
+            "program_id" - идентификатор категории 
+            "description" - описание программы 
+            "version" - версия программы 
+            "url" - ссылка для скачивания 
+            "icon" - иконка "http://server/dr_web.png" 
+            "site" - сайт разработчика "https://www.drweb.ua/" 
+            "success" - результат операции (true/false) 
+            "errors" - массив содержащий сообщения об ошибках 
+            
+            Для услуги dr. Web (тип программы) нужны дополнительные данные:
+                "catalogs" - массив всех услуг "Абонентское обслуживание" на сайте
 
     + Schema
     
@@ -505,23 +550,6 @@ HOST: http://so24.net
                 "success": true,
                 "errors": (array)
             }
-            
-            header - ссылка на фон с эмблемой услуги/программы (без текстового названия) 
-            is_novelty - (true,false) новинка это или нет+ 
-            name - наименование услуги 
-            services - массив сервисов (на 1 месяц, 2месяца...) 
-            programs - масив услуг (тип "програма") 
-            program_id - идентификатор категории 
-            description - описание программы 
-            version - версия программы 
-            url - ссылка для скачивания 
-            icon - иконка "http://server/dr_web.png" 
-            site - сайт разработчика "https://www.drweb.ua/" 
-            success - результат операции (true/false) 
-            errors - массив содержащий сообщения об ошибках 
-            
-            Для услуги dr. Web (тип программы) нужны дополнительные данные:
-                "catalogs" - массив всех услуг "Абонентское обслуживание" на сайте
 
 ### Запрос URL для покупки услуги [GET/{service_id}/{uid}/{auto}/ (use: api/buyurl)]
 
@@ -537,6 +565,18 @@ HOST: http://so24.net
             Location: api/buyurl?service_id =XXXX&uid=XXX&auto=false
             Method: GET
 
+    + Body
+    
+            "url" - ссылка для покупки услуги, сгенерированная сервером, 
+            в зависимости от rate_id который выбрал пользователь
+            "post_url" - url адрес перехода пользователя для совершения покупки
+            "post_data" - массив параметров необходимый для отправки методом POST для совершения покупки
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+            Опционально:
+                "currency" - валюта которой будет оплачивать клиент. Доступны значения (UAH|RUB)
+
     + Schema
 
             {
@@ -551,16 +591,6 @@ HOST: http://so24.net
                 "success": true,
                 "errors": (array)
             }
-            
-            "url" - ссылка для покупки услуги, сгенерированная сервером, 
-            в зависимости от rate_id который выбрал пользователь
-            "post_url" - url адрес перехода пользователя для совершения покупки
-            "post_data" - массив параметров необходимый для отправки методом POST для совершения покупки
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
-            
-            Опционально:
-                "currency" - валюта которой будет оплачивать клиент. Доступны значения (UAH|RUB)
 
 ### Автоматическое продления услуги [POST/{uid}/{service_id}/{status}/ (use: api/prolong_service)]
 
@@ -576,15 +606,17 @@ HOST: http://so24.net
             Location: api/prolong_service?uid=XXXX&service_id=2&status=true
             Method: POST
 
+    + Body 
+    
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
                 "success": true,
                 "errors": (array)
             }
-            
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
 
 ### Послать вопрос оператору технической поддержки [POST/{uid}/{message}/ (use: api/sendmessage)]
 
@@ -599,16 +631,8 @@ HOST: http://so24.net
             Location: api/sendmessage?uid=XXXX&message=Добрый%20день
             Method: POST
 
-    + Schema
-
-            {
-                "expert_name": "Максим",
-                "time of receipt": 12312154231354354,
-                "expect": "false",
-                "success": true,
-                "errors": (array)
-            }
-
+    + Body
+            
             "expert_name" - имя оператора (если свободных экспертов нет, это значение пустое)
             "expert_id" - (int) id эксперта
             "cc_id" - (int) id эксперта для звонков в 3cx
@@ -624,6 +648,16 @@ HOST: http://so24.net
                 "isVideo" (0|1) int
                 "partner_id" - id партнера. Например: 1006
                 "mobile_app_name" - (string) Название моб приложения, необходимое для его идентификации в отчетах
+    
+    + Schema
+
+            {
+                "expert_name": "Максим",
+                "time of receipt": 12312154231354354,
+                "expect": "false",
+                "success": true,
+                "errors": (array)
+            }
 
 ### Получить ответ от оператора технической поддержки [GET/{uid}/{dialog_id}/{timestamp}/ (use: api/getanswer)]
 
@@ -639,17 +673,8 @@ HOST: http://so24.net
             Location: api/getanswer?uid=XXXX&dialog_id=XXXX
             Method: GET
 
-    + Schema
-
-            {
-                "message": "Чем могу помочь?",
-                "expert_name": "Максим",
-                "expert_avatar": "http://",
-                "time": "86400000",
-                "success": "true", 
-                "errors": (array)
-            }
-
+    + Body
+            
             Необязательные параметры:
             
             "isVideo (0|1) int"
@@ -686,6 +711,17 @@ HOST: http://so24.net
                     "errors" - массивсодержащий сообщения об ошибках
                 ]
 
+    + Schema
+
+            {
+                "message": "Чем могу помочь?",
+                "expert_name": "Максим",
+                "expert_avatar": "http://",
+                "time": "86400000",
+                "success": "true", 
+                "errors": (array)
+            }
+
 ### Пользователь прочитал сообщения [GET/{uid}/{dialog_id}/{timestamp}// (use: api/messagesread)]
 
 + Parameters
@@ -700,15 +736,17 @@ HOST: http://so24.net
             Location: api/messagesread?uid=XXXX&dialog_id=XXXX&timestamp=1232335565454
             Method: GET
 
+    + Body
+
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
                 "success": true,
                 "errors": (array)
             }
-
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
 
 ### Закрыть диалог с оператором [GET/{uid}/{dialog_id}/{grade}/ (use: api/closedialog)]
 
@@ -724,6 +762,14 @@ HOST: http://so24.net
             Location: api/closedialog?uid=XXXX&dialog_id=XXXX&grade=good&opinion=Super
             Method: GET
 
+    + Body
+
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            
+            Необязательные параметры: 
+                "opinion" - комментарий пользователя
+
     + Schema
 
             {
@@ -731,12 +777,6 @@ HOST: http://so24.net
                 "errors": (array)
             }
 
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
-            
-            Необязательные параметры: 
-                "opinion" - комментарий пользователя
-            
 ### Сделай сам (новости) [GET/{density} (use: api/news)]
 
 + Parameters
@@ -748,6 +788,14 @@ HOST: http://so24.net
 
             Location: api/news?uid=123525density=2
             Method: GET
+
+    + Body
+
+            "news_id" - идентификатор новости
+            "title" - заголовок новости
+            "description" - описание новости (html формат)
+            "header_image" - заголовок новости
+            "publish_date" - дата публикации
 
     + Schema
 
@@ -764,12 +812,6 @@ HOST: http://so24.net
                 "success": true,
                 "errors": (array)
             }
-            
-            "news_id" - идентификатор новости
-            "title" - заголовок новости
-            "description" - описание новости (html формат)
-            "header_image" - заголовок новости
-            "publish_date" - дата публикации
 
 ### Активировать Услугу [GET/{uid}/{activation_code}/{activation_code}/{shop_code}/ (use: api/activatecard)]
 
@@ -785,6 +827,12 @@ HOST: http://so24.net
             Location: api/activatecard?uid=123525&activation_code=245464566542164
             Method: GET
 
+    + Body
+    
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            "errors" - подарки
+
     + Schema
 
             {
@@ -793,10 +841,6 @@ HOST: http://so24.net
                 "gift": (array)
             }
 
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
-            "errors" - подарки
-            
 ### Получить данные о бекапе [GET/{uid}/ (use: api/getinfo_backup)]
 
 + Parameters
@@ -809,6 +853,11 @@ HOST: http://so24.net
             Location: api/getinfo_backup?uid=123525
             Method: GET
 
+    + Body
+
+            "isbackup" - статус бекапа (0 - нет бекапа, 1 - есть)
+            "date" - дата создания бекапа (timestamp или 0 если нет бекапа)
+
     + Schema
 
             {
@@ -817,9 +866,6 @@ HOST: http://so24.net
                 "isbackup": 1,
                 "date": 1130304721
             }
-
-            "isbackup" - статус бекапа (0 - нет бекапа, 1 - есть)
-            "date" - дата создания бекапа (timestamp или 0 если нет бекапа)
 
 ### Записать данные о бекапе [GET/{uid}/{isbackup}/{date}/ (use: api/putinfo_backup)]
 
@@ -835,6 +881,11 @@ HOST: http://so24.net
             Location: api/putinfo_backup?uid=123525&isbackup=1&date=1130304721
             Method: GET
 
+    + Body
+
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+
     + Schema
 
             {
@@ -842,9 +893,6 @@ HOST: http://so24.net
                 "errors": (array)
             }
 
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
-            
 ### Формат ошибок [GET/ (use: base/mobile_api/bonuses/get)]
 
 + Response 200 (application/json)
@@ -853,6 +901,16 @@ HOST: http://so24.net
 
             Location: base/mobile_api/bonuses/get
             Method: GET
+
+    + Body
+            
+            Ошибки возвращаются в соответствии со стандартом JSON-RPC. 
+            Пример возвращаемой ошибки, связанной с неверной регистрацией:
+
+            Все ошибки характеризуются тремя полями:
+                "error.message" - строковой код ошибки
+                "error.data" - детальное описание ошибки
+                "error.code" - в дальнейшем называется числовым кодом ошибки
 
     + Schema
     
@@ -865,14 +923,6 @@ HOST: http://so24.net
                     }
             }
 
-            Ошибки возвращаются в соответствии со стандартом JSON-RPC. 
-            Пример возвращаемой ошибки, связанной с неверной регистрацией:
-
-            Все ошибки характеризуются тремя полями:
-                "error.message" - строковой код ошибки
-                "error.data" - детальное описание ошибки
-                "error.code" - в дальнейшем называется числовым кодом ошибки
-
 ### Получить системные уведомления пользователя [GET/{uid} (use: api/notifications)]
 
 + Parameters
@@ -884,6 +934,13 @@ HOST: http://so24.net
 
             Location: api/notifications?uid=XXXX
             Method: GET
+
+    + Body
+
+            "notification_id" - идентификатор уведомления
+            "title" - заголовок уведомления
+            "description" - текст уведомления
+            "publish_date" - дата уведомления
 
     + Schema
 
@@ -900,11 +957,6 @@ HOST: http://so24.net
                 "success": true, 
                 "errors": (array)
             }
-            
-            "notification_id" - идентификатор уведомления
-            "title" - заголовок уведомления
-            "description" - текст уведомления
-            "publish_date" - дата уведомления
 
 ### Синхронизировать системные уведомления пользователя [POST/(ANY)/{uid}/{notifications}/ (use: api/sync-notifications)]
 
@@ -918,6 +970,16 @@ HOST: http://so24.net
 
             Location: api/sync-notifications?uid=XXXX
             Method: ANY
+
+    + Body
+
+            Уведомляем сервер одним запросом об изменениях в статусе "notifications"
+
+            Неправильно оформлен запрос:
+                notifications%5Baction%5D=delete&notifications%5Bid%5D=735&uid=1030255
+
+            Пример при котором все работает:
+                http://pastenow.ru/2623e1d00e08ae5d191797a602cd8cbe
 
     + Schema
     
@@ -946,14 +1008,6 @@ HOST: http://so24.net
                 "errors": (array),
                 "notice" : "Иногда cодержит заметки разработчика PHP"
             }
-            
-            Уведомляем сервер одним запросом об изменениях в статусе "notifications"
-
-            Неправильно оформлен запрос:
-                notifications%5Baction%5D=delete&notifications%5Bid%5D=735&uid=1030255
-
-            Пример при котором все работает:
-                http://pastenow.ru/2623e1d00e08ae5d191797a602cd8cbe
 
 # PRS API [/api]
 <hr/>
@@ -2368,8 +2422,8 @@ Keys **page** and **count** are not required
             
     + Body
 
-            display - number of messages displayed
-            quantity - total number of messages
+            display - count of displayed messages
+            quantity - total count of messages
             conv_id (if conv_id=0 - dialog isn't active)
 
 

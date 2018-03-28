@@ -1310,6 +1310,63 @@ HOST: http://so24.net
                 }
             }
 
+### Get user's codes [GET/ (use: base/mobile_api/gifts/user/all)]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/gifts/user/all
+            Method: GET
+
+    + Schema
+    
+            **----------------IF USER HASN'T CODES-----------------**
+            {
+                "success": true,
+                "errors": [],
+                "data": []
+            }
+            
+            **----------------IF USER HAS CODES-----------------**
+            {
+                "success": true,
+                "errors": [],
+                "data": [
+                    {
+                        "id": 18036,
+                        "user_id": 1090122,
+                        "code": "2323",
+                        "created_at": "2018-03-16 13:56:18",
+                        "updated_at": "2018-03-16 13:56:18",
+                        "type": {
+                            "id": 3,
+                            "title": "Third type",
+                            "description": "RRRRRRRRRRRRRRRRRR",
+                            "image_link": "8d60a53828d59f85638b2d55e196ba74.jpg",
+                            "app_link": "RRRRRRRRRRRRRR",
+                            "created_at": "2018-03-06 16:55:45",
+                            "updated_at": "2018-03-06 16:55:45"
+                        }
+                    },
+                    {
+                        "id": 18041,
+                        "user_id": 1090122,
+                        "code": "2323",
+                        "created_at": "2018-03-16 14:02:30",
+                        "updated_at": "2018-03-16 14:02:30",
+                        "type": {
+                            "id": 4,
+                            "title": "Metallic",
+                            "description": "Metall",
+                            "image_link": "4a9e48fdfe7b34982a908c691babc7c6.jpg",
+                            "app_link": "Metall",
+                            "created_at": "2018-03-15 14:05:37",
+                            "updated_at": "2018-03-16 15:40:06"
+                        }
+                    }
+                ]
+            }
 
 # Bonus API [/base/mobile_api/bonuses]
 <hr>

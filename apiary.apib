@@ -47,7 +47,7 @@ HOST: http://so24.net
                     13 - xxhdpi (3x)  2700x1376
                     14 - xxxhdpi (3x) 4000x2043
 
-### Регистрация (android и iOS) [POST/{user_photo}/{name}/{surname}/{phone}/{phone_model}/{password}/{password_confirm}/ (use: api/register)]
+### Регистрация (android и iOS) [POST/{user_photo}/{name}/{surname}/{phone}/{phone_model}/{password}/{password_confirm}/{app_name}/{partner_name}/ (use: api/register)]
 
 + Parameters
     + user_photo (required) ... *фото пользователя в формате **Base64***
@@ -57,6 +57,8 @@ HOST: http://so24.net
     + phone_model (required) ... *модель телефона*
     + password (required) ... *пароль*
     + password_confirm (required) ... *подтверждение пароля*
+    + app_name (optional, (string)) ... *название приложения*
+    + partner_name (optional, (string)) ... *название партнёра*
     
 + Response 200 (application/json)
 
@@ -77,13 +79,15 @@ HOST: http://so24.net
                 "errors": (array)
             }
 
-### Регистрация через соц.сеть (android) [POST/{user_photo}/{username}/{social_type}/{social_id}/ (use: api/registerSocial)]
+### Регистрация через соц.сеть (android) [POST/{user_photo}/{username}/{social_type}/{social_id}/{app_name}/{partner_name} (use: api/registerSocial)]
 
 + Parameters
     + user_photo (required) ... *ссылка на фото пользователя*
     + username (required) ... *имя+фамилия (так как соц. сети выдают эту информацию вместе одной строкой)*
     + social_type (required) ... *индикатор соц.сети*
     + social_id (required, (int)) ... *id пользователя в соц.сети*
+    + app_name (optional, (string)) ... *название приложения*
+    + partner_name (optional, (string)) ... *название партнёра*
     
 + Response 200 (application/json)
 
@@ -164,12 +168,14 @@ HOST: http://so24.net
                 "errors": (array)
             }
 
-### Авторизация (Android и iOS) [POST/{phone}/{passwd}/ (use: api/login)]
+### Авторизация (Android и iOS) [POST/{phone}/{passwd}/{app_name}/{partner_name}/ (use: api/login)]
 
 + Parameters
     + phone (required, (int), `3805012312312`) ... *телефон*
     + passwd (required) ... *пароль*
-    
+    + app_name (optional, (string)) ... *название приложения*
+    + partner_name (optional, (string)) ... *название партнёра*
+
 + Response 200 (application/json)
 
     + Headers
@@ -179,22 +185,28 @@ HOST: http://so24.net
 
     + Body
 
+            "success" - результат операции (true/false)
+            "errors" - массив содержащий сообщения об ошибках
+            "uid" - id пользователя
             "name" - имя
             "username" - фамилия
             "telephone" - телефон
             "user_photo" - ссылка на фото пользователя
-            "success" - результат операции (true/false)
-            "errors" - массив содержащий сообщения об ошибках
+            "backup_link" - ссылка на backup
+            "gift" - доступ к подаркам
 
     + Schema
     
             {
-                "name": "Петро",
-                "username": "Петров",
-                "telephone": 380953636369,
-                "user_photo": "SCHEME://API_URL/123456.png",
                 "success": true,
-                "errors": (array)
+                "errors": [],
+                "uid": "1090122",
+                "name": "Илья",
+                "username": "Дегтяренко",
+                "telephone": "380505765684",
+                "user_photo": "http://sodev2.so24.net/assets/images/users/1090122_9848.png",
+                "backup_link": "HtTp://uRl.CoM",
+                "gift": false
             }
 
 ### Авторизация через соц.сеть (Android) [POST/{social_type}/{social_id}/{app_name}/{partner_name} (use: api/loginSocial)]
@@ -202,8 +214,8 @@ HOST: http://so24.net
 + Parameters
     + social_type (required, (int)) ... *индификатор соц.сети*
     + social_id (required, (int)) ... *id пользователя в соц.сети*
-    + app_name ((string, not required)) ... *название приложения*
-    + partner_name ((string, not required)) ... *название приложения партнёра*
+    + app_name (optional, (string)) ... *название приложения*
+    + partner_name (optional, (string)) ... *название партнёра*
     
 + Response 200 (application/json)
 
@@ -220,6 +232,7 @@ HOST: http://so24.net
             "user_photo" - ссылка на фото пользователя
             "success" - результат операции(true/false)
             "errors" - массив содержащий сообщения об ошибках
+            "gift" - доступ к подаркам
 
     + Schema
 
@@ -229,7 +242,8 @@ HOST: http://so24.net
                 "telephone": 380953636369,
                 "user_photo": "SCHEME://API_URL/123456.png",
                 "success": true,
-                "errors": "array"
+                "errors": "array",
+                "gift": false
             }
 
 ### Восстановление пароля (iOS) [POST/{email}/ (use: api/sendpasswd)]
@@ -380,16 +394,17 @@ HOST: http://so24.net
             "user_photo" - ссылка на фото пользователя
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
-
+            "backup_link" - ссылка на backup
     + Schema
 
             {
-                "name": "Петро",
-                "username": "Петров",
-                "telephone": 380953636369,
-                "user_photo": "SCHEME://API_URL/user.png",
                 "success": true,
-                "errors": (array)
+                "errors": [],
+                "name": "Илья",
+                "username": "Дегтяренко",
+                "backup_link": "HtTp://uRl.CoM",
+                "telephone": "380505765684",
+                "user_photo": "http://sodev2.so24.net/assets/images/users/1090122_9848.png"
             }
 
 ### Запрос списка активированных услуг пользователя [GET/{uid}/{density}/ (use: api/services)]
@@ -618,11 +633,15 @@ HOST: http://so24.net
                 "errors": (array)
             }
 
-### Послать вопрос оператору технической поддержки [POST/{uid}/{message}/ (use: api/sendmessage)]
+### Послать вопрос оператору технической поддержки [POST/{uid}/{message}/{language}/{app_name}/{partner_name} (use: api/sendmessage)]
 
 + Parameters
     + uid (required, (int)) ... *уникальный идентификатор пользователя*
-    + message (required) ... *вопрос к оператору технической поддержки*
+    + message (required, (string)) ... *вопрос к оператору технической поддержки*
+    + language: `uk` (optional, (string)) - *system messages language -*
+        + Default: `ru`
+    + app_name (optional, (string)) ... *название приложения*
+    + partner_name (optional, (string)) ... *название партнёра*
     
 + Response 200 (application/json)
 
@@ -632,7 +651,8 @@ HOST: http://so24.net
             Method: POST
 
     + Body
-            
+    
+            "language" - если указан несуществующий в базе язык, то будет установлен стандартный
             "expert_name" - имя оператора (если свободных экспертов нет, это значение пустое)
             "expert_id" - (int) id эксперта
             "cc_id" - (int) id эксперта для звонков в 3cx
@@ -1009,6 +1029,56 @@ HOST: http://so24.net
                 "notice" : "Иногда cодержит заметки разработчика PHP"
             }
 
+### Сохранить бэкап-ссылку для приложения [POST/{backup_link} (use: base/mobile_api/save/user/backup_link)]
+
++ Parameters
+    + backup_link: `http://backup.su?key=value` (required, (string)) - *app backup-link -*
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            Location: base/mobile_api/save/user/backup_link
+            Method: POST
+
+    + Schema
+            
+            **================================FAILS======================================**
+            ERROR CODE: 120
+            **------Parameter 'backup_link' is required------**
+            {
+                "success": true,
+                "status": false,
+                "errors": [
+                    {
+                        "code": 120,
+                        "message": "Parameter 'backup_link' is required",
+                        "data": "Приносим извинения за временные неудобства, сервер не может обработать данный запрос на текущий момент"
+                    }
+                ]
+            }
+            
+            ERROR CODE: 121
+            **------Something went wrong! Can't write to DB------**
+            {
+                "success": false,
+                "status": false,
+                "errors": [
+                    {
+                        "code": 121,
+                        "message": "Something went wrong! Can't write to DB",
+                        "data": "Приносим извинения за временные неудобства, сервер не может обработать данный запрос на текущий момент"
+                    }
+                ]
+            }
+            
+            **============================SUCCESSFULLY===================================**
+            {
+                "success": true,
+                "status": true,
+                "errors": []
+            }
+
 # PRS API [/api]
 <hr/>
 
@@ -1358,30 +1428,38 @@ HOST: http://so24.net
                     "errors": [],
                     "cards": [
                         {
-                            "id": 6,
-                            "name": "Пичугина Александра Олеговна",
-                            "card": "",
-                            "phone": "",
-                            "data": [],
-                            "available": 0
+                            "id": 1,
+                            "name": "Проскурский Сергей Сергеевич",
+                            "card": "000000704040",
+                            "phone": "375291114804",
+                            "data": {
+                                "activeBonuses": 15852,
+                                "nextActivationDate": "2018-04-06T00:00:00+03:00",
+                                "nextActivationSum": 440,
+                                "nextCancelingDate": "2018-08-27T00:00:00+03:00",
+                                "nextCancelingSum": 250,
+                                "nonActiveBonuses": 440
+                            },
+                            "available": 1
                         },
                         {
-                            "id": 7,
+                            "id": 4,
                             "name": "Пичугина Александра Олеговна",
                             "card": "000000000060",
                             "phone": "375298704393",
                             "data": {
-                                "activeBonuses": 0,
-                                "nextActivationDate": "2018-03-19T00:00:00+03:00",
+                                "activeBonuses": 2040,
+                                "nextActivationDate": null,
                                 "nextActivationSum": 0,
-                                "nextCancelingSum": 0,
+                                "nextCancelingDate": "2018-09-19T00:00:00+03:00",
+                                "nextCancelingSum": 2040,
                                 "nonActiveBonuses": 0
                             },
                             "available": 1
                         }
                     ]
                 }
-            
+
 ### Add new card [POST/ (use: base/mobile_api/bonuses/add)]
 
 In add method **name**, **card** and **phone** are required.

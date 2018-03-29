@@ -1368,6 +1368,74 @@ HOST: http://so24.net
                 ]
             }
 
+### View code [POST/{code_id} (use: base/mobile_api/gifts/view)]
+
+In View code method **code_id** is required
+
++ Parameters
+    + code_id: `18037` (required, (int)) - *code id -*
+
++ Response 200 (application/json)
+    
+    + Headers
+
+            Location: base/mobile_api/gifts/view
+            Method: POST
+
+    + Schema
+    
+            **==========================UNSUCCESSFULLY==========================**
+            
+            ERROR CODE: 130
+            **----Parameter 'code_id' is required and must be an integer----**
+            {
+                "success": true,
+                "status": false,
+                "errors": [
+                    {
+                        "code": 130,
+                        "message": "Parameter 'code_id' is required and must be an integer",
+                        "data": "Приносим извинения за временные неудобства, сервер не может обработать данный запрос на текущий момент"
+                    }
+                ]
+            }
+            
+            ERROR CODE: 121,
+            **-----------Something went wrong! Can't write to DB-----------**
+            {
+                "success": false,
+                "status": false,
+                "errors": [
+                    {
+                        "code": 121,
+                        "message": "Something went wrong! Can't write to DB",
+                        "data": "Приносим извинения за временные неудобства, сервер не может обработать данный запрос на текущий момент"
+                    }
+                ]
+            }
+            
+            ERROR CODE: 122,
+            **---Something went wrong! Can't write to DB. Check your code_id---**
+            {
+                "success": false,
+                "status": false,
+                "errors": [
+                    {
+                        "code": 122,
+                        "message": "Something went wrong! Can't write to DB. Check your code_id",
+                        "data": "Приносим извинения за временные неудобства, сервер не может обработать данный запрос на текущий момент"
+                    }
+                ]
+            }
+            
+            **===========================SUCCESSFULLY===========================**
+            
+            {
+                "success": true,
+                "status": true,
+                "errors": []
+            }
+
 # Bonus API [/base/mobile_api/bonuses]
 <hr>
 

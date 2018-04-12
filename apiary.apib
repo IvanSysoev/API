@@ -1795,6 +1795,15 @@ In remove method **card_id** is required.
 &nbsp;&nbsp;&nbsp;**activate** - *Need activation (registration)*
 <br><br>
 
+**Available statuses of the contract:**
+
+&nbsp;&nbsp;&nbsp;**2** - *Need confirmation by sms*
+
+&nbsp;&nbsp;&nbsp;**3** - *Form is not filled*
+
+&nbsp;&nbsp;&nbsp;**4** - *Completed contract*
+<br><br>
+
 **Error codes:**
 
 Smart errors:<br>
@@ -2454,37 +2463,33 @@ In sms confirm method **smsid** and **otp** are required, and if from method ***
                 "action": "success",
                 "errors": [],
                 "data": [
-                    {
-                        "cid": "43",
-                        "status": "4",
-                        "pdf": "https://dev.digins.ua/pdf/08LEx",
-                        "brand": "Apple",
-                        "model": "Android 10",
-                        "serial": "IMEI923089823728937",
-                        "expire": 1551532470,
-                        "amount": "1500.00"
-                    },
-                    {
-                        "cid": "44",
-                        "status": "3",
-                        "pdf": "",
-                        "brand": "",
-                        "model": "",
-                        "serial": "",
-                        "expire": "",
-                        "amount": ""
-                    },
-                    {
-                        "cid": "45",
-                        "status": "4",
-                        "pdf": "https://dev.digins.ua/pdf/0et4Z",
-                        "brand": "Apple",
-                        "model": "Android 10",
-                        "serial": "IMEI923089823728937",
-                        "expire": 1536142046,
-                        "amount": "2000.00"
-                    }
-                ]
+                            {
+                                "cid": "3",
+                                "num": "SGTS06000011",
+                                "status": "4",
+                                "pdf": "https://dev.digins.ua/pdf/jwmod",
+                                "brand": "Apple",
+                                "model": "Android 10",
+                                "serial": "IMEI923089823728937",
+                                "expire": 1537090484,
+                                "amount": "2500.00",
+                                "name": "Name",
+                                "secname": "Secname"
+                            },
+                            {
+                                "cid": "15",
+                                "num": "SGTS12000030",
+                                "status": "4",
+                                "pdf": "https://dev.digins.ua/pdf/Gg9lQ",
+                                "brand": "MEIZU",
+                                "model": "m2",
+                                "serial": "867576024920705",
+                                "expire": 1553003619,
+                                "amount": "12000.00",
+                                "name": "Илья",
+                                "secname": "Илья"
+                            }
+                        ]
             }
 
 ### Sign form [POST/{cid}/{name}/{secname}/{surname}/{email}/{inn}/{birthday}/{type}/{passport}/{passportdate}/{passportissued}/{index}/{region}/{district}/{city}/{street}/{brand}/{model}/{serial}/ (use: base/mobile_api/insurance/sign_form)]
@@ -2569,36 +2574,32 @@ In method list **tel** is required. If you whant get one contract add to request
                 "action": "success",
                 "errors": [],
                 "data": [
-                    {
-                        "cid": "43",
-                        "status": "4",
-                        "pdf": "https://dev.digins.ua/pdf/08LEx",
-                        "brand": "Apple",
-                        "model": "Android 10",
-                        "serial": "IMEI923089823728937",
-                        "expire": 1551532470,
-                        "amount": "1500.00"
-                    },
-                    {
-                        "cid": "44",
-                        "status": "3",
-                        "pdf": "",
-                        "brand": "",
-                        "model": "",
-                        "serial": "",
-                        "expire": "",
-                        "amount": ""
-                    },
-                    {
-                        "cid": "45",
-                        "status": "4",
-                        "pdf": "https://dev.digins.ua/pdf/0et4Z",
-                        "brand": "Apple",
-                        "model": "Android 10",
-                        "serial": "IMEI923089823728937",
-                        "expire": 1536142046,
-                        "amount": "2000.00"
-                    }
+                            {
+                                "cid": "3",
+                                "num": "SGTS06000011",
+                                "status": "4",
+                                "pdf": "https://dev.digins.ua/pdf/jwmod",
+                                "brand": "Apple",
+                                "model": "Android 10",
+                                "serial": "IMEI923089823728937",
+                                "expire": 1537090484,
+                                "amount": "2500.00",
+                                "name": "Name",
+                                "secname": "Secname"
+                            },
+                            {
+                                "cid": "15",
+                                "num": "SGTS12000030",
+                                "status": "4",
+                                "pdf": "https://dev.digins.ua/pdf/Gg9lQ",
+                                "brand": "MEIZU",
+                                "model": "m2",
+                                "serial": "867576024920705",
+                                "expire": 1553003619,
+                                "amount": "12000.00",
+                                "name": "Илья",
+                                "secname": "Илья"
+                            }
                 ]
             }
 

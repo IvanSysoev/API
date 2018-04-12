@@ -168,15 +168,16 @@ HOST: http://so24.net
                 "errors": (array)
             }
 
-### Авторизация (Android и iOS) [POST/{phone}/{passwd}/{app_name}/{partner_name}/ (use: api/login)]
+### Авторизация (Android и iOS) [POST/{phone}/{passwd}/{app_name}/{partner_name}/{fcm_token} (use: api/login)]
 
 + Parameters
     + phone (required, (int), `3805012312312`) ... *телефон*
     + passwd (required) ... *пароль*
     + app_name (optional, (string)) ... *название приложения*
     + partner_name (optional, (string)) ... *название партнёра*
+    + fcm_token (required, (string)) ... *токен для уведомлений*
 
-+ Response 200 (application/json)
++ Response 200 (text/html)
 
     + Headers
 
@@ -194,6 +195,7 @@ HOST: http://so24.net
             "user_photo" - ссылка на фото пользователя
             "backup_link" - ссылка на backup
             "gift" - доступ к подаркам
+            "codes_not_viewed" - коды, которые еще не просмотрены
 
     + Schema
     
@@ -206,6 +208,7 @@ HOST: http://so24.net
                 "telephone": "380505765684",
                 "user_photo": "http://sodev2.so24.net/assets/images/users/1090122_9848.png",
                 "backup_link": "HtTp://uRl.CoM",
+                "codes_not_viewed": 0,
                 "gift": false
             }
 
@@ -395,6 +398,8 @@ HOST: http://so24.net
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             "backup_link" - ссылка на backup
+            "codes_not_viewed" - коды, которые еще не просмотрены
+            
     + Schema
 
             {
@@ -405,6 +410,7 @@ HOST: http://so24.net
                 "backup_link": "HtTp://uRl.CoM",
                 "telephone": "380505765684",
                 "user_photo": "http://sodev2.so24.net/assets/images/users/1090122_9848.png"
+                "codes_not_viewed": 2,
             }
 
 ### Запрос списка активированных услуг пользователя [GET/{uid}/{density}/ (use: api/services)]
@@ -875,7 +881,7 @@ HOST: http://so24.net
 
     + Body
 
-            "isbackup" - статус бекапа (0 - нет бекапа, 1 - есть)
+            "isbackup" - статус бекапа
             "date" - дата создания бекапа (timestamp или 0 если нет бекапа)
 
     + Schema
@@ -891,8 +897,8 @@ HOST: http://so24.net
 
 + Parameters
     + uid (required, (int)) ... *идентификатор пользователя*
-    + isbackup (required) ... *статус бекапа int (0|1)*
-    + date (required) ... *дата создания бекапа string (timestamp)*
+    + isbackup (required, (string)) ... *статус бекапа*
+    + date (required,  (timestamp)) ... *дата создания бекапа string*
     
 + Response 200 (application/json)
 
@@ -1029,7 +1035,7 @@ HOST: http://so24.net
                 "notice" : "Иногда cодержит заметки разработчика PHP"
             }
 
-### Сохранить бэкап-ссылку для приложения [POST/{backup_link} (use: base/mobile_api/save/user/backup_link)]
+### Сохранить бэкап-ссылку для приложения [POST/{backup_link} (use: base/mobile_api/user/update_backup_link)]
 
 + Parameters
     + backup_link: `http://backup.su?key=value` (required, (string)) - *app backup-link -*
@@ -1038,7 +1044,7 @@ HOST: http://so24.net
 
     + Headers
     
-            Location: base/mobile_api/save/user/backup_link
+            Location: base/mobile_api/user/update_backup_link
             Method: POST
 
     + Schema
@@ -1192,6 +1198,12 @@ HOST: http://so24.net
 
 **302** - *Invalid XML-file*
 
+**130** - *Parameter 'code_id' is required and must be an integer*
+
+**121** - *Something went wrong! Can't write to DB*
+
+**122** - *Something went wrong! Can't write to DB. Check your code_id*
+
 ### Get available types [GET/ (use: base/mobile_api/gifts/get)]
 
 + Response 200 (application/json)
@@ -1339,14 +1351,13 @@ HOST: http://so24.net
                         "code": "2323",
                         "created_at": "2018-03-16 13:56:18",
                         "updated_at": "2018-03-16 13:56:18",
+                        "viewed": 1,
                         "type": {
                             "id": 3,
                             "title": "Third type",
                             "description": "RRRRRRRRRRRRRRRRRR",
                             "image_link": "8d60a53828d59f85638b2d55e196ba74.jpg",
-                            "app_link": "RRRRRRRRRRRRRR",
-                            "created_at": "2018-03-06 16:55:45",
-                            "updated_at": "2018-03-06 16:55:45"
+                            "app_link": "RRRRRRRRRRRRRR"
                         }
                     },
                     {
@@ -1355,14 +1366,13 @@ HOST: http://so24.net
                         "code": "2323",
                         "created_at": "2018-03-16 14:02:30",
                         "updated_at": "2018-03-16 14:02:30",
+                        "viewed": 1,
                         "type": {
                             "id": 4,
                             "title": "Metallic",
                             "description": "Metall",
                             "image_link": "4a9e48fdfe7b34982a908c691babc7c6.jpg",
-                            "app_link": "Metall",
-                            "created_at": "2018-03-15 14:05:37",
-                            "updated_at": "2018-03-16 15:40:06"
+                            "app_link": "Metall"
                         }
                     }
                 ]
@@ -1774,9 +1784,20 @@ In remove method **card_id** is required.
 # Insurance API [/base/mobile_api/insurance]
 <hr>
 
+**Actions:**
+
+&nbsp;&nbsp;&nbsp;**success** - *Everything is good*
+
+&nbsp;&nbsp;&nbsp;**error** - *Error*
+
+&nbsp;&nbsp;&nbsp;**auth** - *Need login*
+
+&nbsp;&nbsp;&nbsp;**activate** - *Need activation (registration)*
+<br><br>
+
 **Error codes:**
 
-<br>Smart errors:<br>
+Smart errors:<br>
 
 &nbsp;&nbsp;&nbsp;**10** - *Not authorized*
 
@@ -2728,14 +2749,14 @@ Key **conv_id** and **file** are required
             }
             
             ERROR CODE: 151
-            **--Unknown chat id || No users chat || No insurance app--**
+            **--Unknown chat || Chat does not belong to the user--**
             {
                 "success": true,
                 "action": "success",
                 "errors": [
                     {
                         "code": 151,
-                        "message": "Unknown chat id || No users chat || No insurance app",
+                        "message": "Unknown chat || Chat does not belong to the user",
                         "data": "Ошибка сервера"
                     }
                 ],

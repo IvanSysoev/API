@@ -1605,7 +1605,7 @@ In add method **name**, **card** and **phone** are required.
 
             Location: base/mobile_api/bonuses/add
             Method: POST
-            Request: (string)name, (int)card, (int)phone
+            Request: (string)name, (numeric)card, (int)phone
 
     + Schema
 
@@ -2552,12 +2552,13 @@ Not required: **email**, **inn**, **index**, **street**
                 ]
             }
 
-### List [POST/{tel}// (use: base/mobile_api/insurance/list)]
+### List [POST/{tel}/{cid}/ (use: base/mobile_api/insurance/get_list_contracts)]
 
 In method list **tel** is required. If you whant get one contract add to request **cid**.
 
 + Parameters
     + tel (required, (int), `3805012312312`) ... *phone number -*
+    + cid (optional, (int), `3`) ... *contract number -*
     
 + Response 200 (application/json)
 
@@ -2565,7 +2566,7 @@ In method list **tel** is required. If you whant get one contract add to request
 
             Location: base/mobile_api/insurance/list
             Method: POST
-            Request: tel
+            Request: tel, cid
 
     + Schema
     
@@ -2862,3 +2863,222 @@ Key **conv_id** and **file** are required
                 "conv_id": "",
                 "data": []
             }
+
+ 
+# Martlet API [/base/mobile_api/martlet]
+<hr/>
+
+**Innovation:**  *Returned response array will now have new key **status**, that indicates whether the request is successful or not.*
+
+### Activate code [POST/{code} (use: base/mobile_api/martlet/store)]
+
+Parameter **code** is required
+
++ Parameters
+    + code: `'1234567890000000'` (required, (string))
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/martlet/store
+            Method: POST
+            Request: code
+            
+            
+    + Body
+            
+            Click on "SHOW JSON SCHEMA" to see examples of response
+            
+            data['dependence'] - Dependent code data
+
+    + Schema
+    
+            **==================================FAILS====================================**
+
+            ERROR CODE: 500
+            **-----Something went wrong-----**
+            {
+                "success": false,
+                "status": false,
+                "errors": [
+                    {
+                        "code": 500,
+                        "message": "Something went wrong in MartletController@store. Request method: POST. Url: mobile_api/martlet/store",
+                        "data": "Ошибка сервера, данные не были получены."
+                    }
+                ],
+                "data": []
+            }
+            
+            ERROR CODE: 501
+            **-----Code required, must be an integer equal to 16 characters-----**
+            {
+                "success": true,
+                "status": false,
+                "errors": [
+                    {
+                        "code": 501,
+                        "message": "Field 'code' is required, must be an integer equal to 16 characters",
+                        "data": "Введите корректный код"
+                    }
+                ],
+                "data": []
+            }
+            
+            ERROR CODE: 502
+            **-----This code has already been used-----**
+            {
+                "success": true,
+                "status": false,
+                "errors": [
+                    {
+                        "code": 502,
+                        "message": "This code has already been used",
+                        "data": "Этот код уже использован"
+                    }
+                ],
+                "data": []
+            }
+            
+            ERROR CODE: 503
+            **-----Can't find the code-----**
+            {
+                "success": true,
+                "status": false,
+                "errors": [
+                    {
+                        "code": 503,
+                        "message": "Can't find the code",
+                        "data": "Невозможно найти указанный код"
+                    }
+                ],
+                "data": []
+            }
+            
+            **============================SUCCESSFULLY=================================**
+            
+            LIST OF USER CODES
+            **-----User has no codes-----**
+            {
+                "success": true,
+                "status": true,
+                "errors": [],
+                "data": []
+            }
+
+            LIST OF USER CODES
+            **-----User has codes-----**
+            {
+                "success": true,
+                "status": true,
+                "errors": [],
+                "data": [
+                    {
+                        "id": 1,
+                        "code": "0000000000001111",
+                        "user_id": 1090122,
+                        "created_at": "2018-05-18 17:49:15",
+                        "updated_at": "2018-05-18 17:49:15",
+                        "dependence": [
+                            {
+                                "id": 1,
+                                "type": "second",
+                                "product": "Золотой Статус Xbox Live Gold 3 месяца",
+                                "licence": "09QH7-4WCUD-4VGS1-K1LU4",
+                                "about": "Войдите на страницу https://xbox.com/redeemcode в свою учетную запись Microsoft® (ее можно создать на сайте https://live.xbox.com) и введите 25-значный код. Дополнительные сведения см. на странице https://xbox.com/howtoredeem-console\n* Предложение с бесплатными играми: только для участников с платным Золотым статусом Xbox Live Gold. Для использования загруженных бесплатных игр на Xbox One необходима действующая подписка на Золотой статус Xbox Live Gold. Действуют ограничения. Эксклюзивные скидки для участников с Золотым статусом Gold: скидки составляют от 15 % до 75 %. Требования и доступные функции зависят от консоли. Не во всех играх предусмотрен режим многопользовательской игры. Kросс-платформенная многопользовательская игра между Xbox One и Xbox 360 не поддерживается. Подробности на веб-сайте: https://xbox.com/live.",
+                                "created_at": "2018-05-18 17:49:15",
+                                "updated_at": "2018-05-18 17:49:15",
+                                "code_id": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": 2,
+                        "code": "0000000000002222",
+                        "user_id": 1090122,
+                        "created_at": "2018-05-18 17:50:20",
+                        "updated_at": "2018-05-18 17:50:20",
+                        "dependence": [
+                            {
+                                "id": 2,
+                                "type": "second",
+                                "product": "Золотой Статус Xbox Live Gold 3 месяца",
+                                "licence": "412LB-OKKU8-KZ843-6X6A3",
+                                "about": "Войдите на страницу https://xbox.com/redeemcode в свою учетную запись Microsoft® (ее можно создать на сайте https://live.xbox.com) и введите 25-значный код. Дополнительные сведения см. на странице https://xbox.com/howtoredeem-console\n* Предложение с бесплатными играми: только для участников с платным Золотым статусом Xbox Live Gold. Для использования загруженных бесплатных игр на Xbox One необходима действующая подписка на Золотой статус Xbox Live Gold. Действуют ограничения. Эксклюзивные скидки для участников с Золотым статусом Gold: скидки составляют от 15 % до 75 %. Требования и доступные функции зависят от консоли. Не во всех играх предусмотрен режим многопользовательской игры. Kросс-платформенная многопользовательская игра между Xbox One и Xbox 360 не поддерживается. Подробности на веб-сайте: https://xbox.com/live.",
+                                "created_at": "2018-05-18 17:50:20",
+                                "updated_at": "2018-05-18 17:50:20",
+                                "code_id": 2
+                            }
+                        ]
+                    },
+                ]
+            }
+            
+### List user codes [GET/ (use: base/mobile_api/martlet/show)]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/mobile_api/martlet/show
+            Method: GET
+
+    + Schema
+
+                LIST OF USER CODES
+                **-----User has no codes-----**
+                {
+                    "success": true,
+                    "status": true,
+                    "errors": [],
+                    "data": []
+                }
+    
+                LIST OF USER CODES
+                **-----User has codes-----**
+                {
+                    "success": true,
+                    "status": true,
+                    "errors": [],
+                    "data": [
+                        {
+                            "id": 1,
+                            "code": "0000000000001111",
+                            "user_id": 1090122,
+                            "created_at": "2018-05-18 17:49:15",
+                            "updated_at": "2018-05-18 17:49:15",
+                            "dependence": [
+                                {
+                                    "id": 1,
+                                    "type": "second",
+                                    "product": "Золотой Статус Xbox Live Gold 3 месяца",
+                                    "licence": "09QH7-4WCUD-4VGS1-K1LU4",
+                                    "about": "Войдите на страницу https://xbox.com/redeemcode в свою учетную запись Microsoft® (ее можно создать на сайте https://live.xbox.com) и введите 25-значный код. Дополнительные сведения см. на странице https://xbox.com/howtoredeem-console\n* Предложение с бесплатными играми: только для участников с платным Золотым статусом Xbox Live Gold. Для использования загруженных бесплатных игр на Xbox One необходима действующая подписка на Золотой статус Xbox Live Gold. Действуют ограничения. Эксклюзивные скидки для участников с Золотым статусом Gold: скидки составляют от 15 % до 75 %. Требования и доступные функции зависят от консоли. Не во всех играх предусмотрен режим многопользовательской игры. Kросс-платформенная многопользовательская игра между Xbox One и Xbox 360 не поддерживается. Подробности на веб-сайте: https://xbox.com/live.",
+                                    "created_at": "2018-05-18 17:49:15",
+                                    "updated_at": "2018-05-18 17:49:15",
+                                    "code_id": 1
+                                }
+                            ]
+                        },
+                        {
+                            "id": 2,
+                            "code": "0000000000002222",
+                            "user_id": 1090122,
+                            "created_at": "2018-05-18 17:50:20",
+                            "updated_at": "2018-05-18 17:50:20",
+                            "dependence": [
+                                {
+                                    "id": 2,
+                                    "type": "second",
+                                    "product": "Золотой Статус Xbox Live Gold 3 месяца",
+                                    "licence": "412LB-OKKU8-KZ843-6X6A3",
+                                    "about": "Войдите на страницу https://xbox.com/redeemcode в свою учетную запись Microsoft® (ее можно создать на сайте https://live.xbox.com) и введите 25-значный код. Дополнительные сведения см. на странице https://xbox.com/howtoredeem-console\n* Предложение с бесплатными играми: только для участников с платным Золотым статусом Xbox Live Gold. Для использования загруженных бесплатных игр на Xbox One необходима действующая подписка на Золотой статус Xbox Live Gold. Действуют ограничения. Эксклюзивные скидки для участников с Золотым статусом Gold: скидки составляют от 15 % до 75 %. Требования и доступные функции зависят от консоли. Не во всех играх предусмотрен режим многопользовательской игры. Kросс-платформенная многопользовательская игра между Xbox One и Xbox 360 не поддерживается. Подробности на веб-сайте: https://xbox.com/live.",
+                                    "created_at": "2018-05-18 17:50:20",
+                                    "updated_at": "2018-05-18 17:50:20",
+                                    "code_id": 2
+                                }
+                            ]
+                        },
+                    ]
+                }

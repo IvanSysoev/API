@@ -6,6 +6,71 @@ HOST: http://example.net
 # TOKEN API [/api/client/edit/{firstname}{surname}{phone}{password}{photo}]
 <hr/>
 
+### Базовая информация [PUT]
+
++ Response 200
+
+    + Body
+    
+            Во всех запросах должен быть указан заголовок:
+                Authorization: Bearer #TOKEN#
+            Здесь вместо '#TOKEN#' должен быить указан токен переданный при регистрации
+            Исключения составляют страницы на которых #TOKEN# еще не выдан:
+                api/register/password - регистрация с логином и паролем
+                api/login/password - аутентификация по логину и паролю
+                api/login/social - аутентификация через соцсети (регистрирует если не был создан аккаунт)
+
+            =====================================
+
+            Ответ
+            Ответ в формате json имеет следующие обязательные параметры:
+                "message" - string - Строка с сообщение от сервера
+                "data" - mixed - Формат может быть любой и зависит от конкретного запроса API
+                "errors" - array - Массив ошибок
+            
+            Пример ответа
+                {
+                    "message": "Saved",
+                    "data":"Saved",
+                    "errors":[]
+                }
+
+            =====================================
+            
+            Ошибки
+            Ошибки указываются в массиве. В одном ответе может быть несколько ошибок в том числе и с один и тем же кодом (пример - ошибки валидации формы ввода).
+
+            Обязательные параметры в обьекте конкретной ошибки:
+                "code" - integer - Код ошибки из списка указанного ниже,
+                "message" - string - Строка с описание ошибки,
+                "data" - mixed - Формат зависит от кода ошибки и может содержать дополнительные данные для обработки ошибки.
+            
+            Список ошибок
+                1000 'Server error',
+                1001 'Validation error',
+                1002 'client_id not found',
+                1003 'bad client_id',
+                1004 'Unsupported social provider',
+                1005 'The user credentials were incorrect.',
+                1006 'The user credentials were incorrect.'
+                1007 'Nothing to change',
+                1008 'Wrong file format',
+                1009 'Field connection with file-server',
+
+            Пример ответа с ошибкой:
+            {
+                "message": "no message",
+                "data": "no data",
+                "errors": [
+                    {
+                        "code": 1007,
+                        "message": "Nothing to change",
+                        "data": "Nothing to change"
+                    }
+                ]
+            }
+
+
 ### Изменение данных пользователя [POST]
 
 + Parameters
@@ -58,7 +123,7 @@ HOST: http://example.net
             Пример: "380501111111"
             
             SCHEME: "http"
-            API_URL: "SCHEME://smart-24.net/api"
+            API_URL: "SCHEME://example.net/api"
             
             Плотность экрана параметр (density):
                 
@@ -242,7 +307,7 @@ HOST: http://example.net
                 "name": "Илья",
                 "username": "Дегтяренко",
                 "telephone": "380505765684",
-                "user_photo": "http://sodev2.so24.net/assets/images/users/1090122_9848.png",
+                "user_photo": "http://example.net/assets/images/users/1090122_9848.png",
                 "backup_link": "HtTp://uRl.CoM",
                 "codes_not_viewed": 0,
                 "gift": false
@@ -445,7 +510,7 @@ HOST: http://example.net
                 "username": "Дегтяренко",
                 "backup_link": "HtTp://uRl.CoM",
                 "telephone": "380505765684",
-                "user_photo": "http://sodev2.so24.net/assets/images/users/1090122_9848.png"
+                "user_photo": "http://example.net/assets/images/users/1090122_9848.png"
                 "codes_not_viewed": 2,
             }
 

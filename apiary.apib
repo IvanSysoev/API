@@ -1,9 +1,45 @@
 FORMAT: 1A
-HOST: http://so24.net
+HOST: http://example.net
 
 # so24apis:
 
-# HTTP REST API [/http://smart-24.net/]
+# TOKEN API [/api/client/edit/{firstname}{surname}{phone}{password}{photo}]
+<hr/>
+
+### Изменение данных пользователя [POST]
+
++ Parameters
+    + firstname (optional, (string)) ... *имя*
+    + surname (optional, (string)) ... *фамилия*
+    + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера*
+    + password (optional, (string)) ... *пароль минимум 6 символов*
+    + photo (optional, (string)) ... *фото пользователя в формате **Base64***
+
+    
++ Response 200 (application/json)
+    + Headers
+    
+            Location: api/client/edit
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+            Возможные ошибки:
+                1001 'Validation error',
+                1007 'Nothing to change',
+                1008 'Wrong file format',
+                1009 'Field connection with file-server',
+
+    + Schema
+
+            {
+                "message": "Saved",
+                "data":"Saved",
+                "errors": (array)
+            }
+
+# HTTP REST API [/api/]
 <hr/>
 
 ### Базовая информация [PUT]

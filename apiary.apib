@@ -12,10 +12,11 @@ HOST: http://example.net
 
     + Body
     
-            Во всех запросах должен быть указан заголовок:
+            Во всех запросах должены быть указаны заголовоки:
                 Authorization: Bearer #TOKEN#
+                Accept: application/json
             Здесь вместо '#TOKEN#' должен быить указан токен переданный при регистрации
-            Исключения составляют страницы на которых #TOKEN# еще не выдан:
+            Заголовок "Authorization" не указывается в запросах для которых #TOKEN# еще не выдан:
                 api/register/password - регистрация с логином и паролем
                 api/login/password - аутентификация по логину и паролю
                 api/login/social - аутентификация через соцсети (регистрирует если не был создан аккаунт)
@@ -66,8 +67,122 @@ HOST: http://example.net
                         "code": 1007,
                         "message": "Nothing to change",
                         "data": "Nothing to change"
+                    },
+                    {
+                        "code": 1008,
+                        "message": "Wrong file format",
+                        "data": "Wrong file format"
                     }
                 ]
+            }
+            
+            Если пользователь не авторизован (не верный токен, не указан токен и т.д.).
+            Ответ будет иметь статус: 401 Unauthorized
+            Тело ответа будет содержать:
+            {
+                "message": "Unauthenticated."
+            }
+
+### Регистрация (username + password) [POST/{client_id}/{client_secret}/{phone}/{firstname}/{surname}/{patronymic}/{email}/{password}/ (use: base/api/auth/register)]
+
++ Parameters
+    + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
+    + client_secret (required, (string)) ... *выдается сервером oauth*
+    + phone (required, (integer)) ... *телефон длина зависит от настроек партнера*
+    + firstname (required, (string)) ... *имя*
+    + surname (optional, (string)) ... *фамилия*
+    + patronymic (optional, (string)) ... *отчество*
+    + email (optional, (string)) ... *Email*
+    + password (required, (string)) ... *пароль*
+
+    
++ Response 200 (application/json)
+    + Headers
+    
+            Location: api/auth/register
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+            Возможные ошибки:
+                1000 'Server error',
+                1001 'Validation error',
+                1006 'The user credentials were incorrect.',
+                1010 'Can`t save client at this moment. Try again later.'
+
+    + Schema
+
+            {
+                "message": "Validation error",
+                "data": "Validation error",
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "phone",
+                        "data": "Такое значения поля  phone уже занято"
+                    }
+                ]
+            }
+            {
+                "message": "no message",
+                "data": {
+                    "token_type": "Bearer",
+                    "expires_in": 31536000,
+                    "access_token": "token_string",
+                    "refresh_token": "refresh_token_string"
+                },
+                "errors": []
+            }
+
+
+### аутентификация по логину и паролю [POST/{client_id}/{client_secret}/{phone}/{password}/ (use: base/api/auth/login_password)]
+
++ Parameters
+    + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
+    + client_secret (required, (string)) ... *выдается сервером oauth*
+    + phone (required, (integer)) ... *телефон длина зависит от настроек партнера*
+    + password (required, (string)) ... *пароль*
+
+    
++ Response 200 (application/json)
+    + Headers
+    
+            Location: api/auth/login_password
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+            Возможные ошибки:
+                1000 'Server error',
+                1001 'Validation error',
+                1002 'client_id not found',
+                1003 'bad client_id',
+                1006 'The user credentials were incorrect.',
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": "no data",
+                "errors": [
+                    {
+                        "code": 1006,
+                        "message": "The user credentials were incorrect.",
+                        "data": "The user credentials were incorrect."
+                    }
+                ]
+            }
+            {
+                "message": "no message",
+                "data": {
+                    "token_type": "Bearer",
+                    "expires_in": 31536000,
+                    "access_token": "token_string",
+                    "refresh_token": "refresh_token_string"
+                },
+                "errors": []
             }
 
 
@@ -1572,6 +1687,8 @@ In View code method **code_id** is required
 
 **19** - *Card not found*
 
+**20** - *You alredy save this card before*
+
 * **NOTE #1:** *Every **card's array** has key **"available"**.*
 
 *If **available=1**, then everything is fine.* 
@@ -2722,6 +2839,190 @@ In method list **tel** is required. If you whant get one contract add to request
                 "errors": [],
                 "filled": 1 //(or 0, if no filled)
             }
+
+### Send push Errors [PUT/ (use void)]
+
++ Response 200
+
+    + Body
+    
+            В ответе сервера могут быть указаны ошибки в массиве.
+            Если массив ошибок пуст то запрос выполнен успешно.
+
+            Обьект ошибки имеет следующие параметры:
+                "code" - int - Код ошибки
+                "message" - string - Тест ошибки
+            
+            Пример ответа с ошибкой
+                {
+                    "message": "Ошибка отправки сообщения",
+                    "errors": [
+                        {
+                            "code": 4,
+                            "message": "Параметр text_uk не может быть пустым",
+                        },
+                        {
+                            "code": 3,
+                            "message": "Параметр text_ru не может быть пустым",
+                        },
+                    ]
+                }
+
+            Список ошибок
+                1 Не верный ключ
+                2 Номер договора не может быть пустым
+                3 Параметр text_ru не может быть пустым
+                4 Параметр text_uk не может быть пустым
+                5 Нет клиента с данным номером договора
+                6 Нет токена для связи с устройством или его срок действия истек
+                7 Не верный формат списка договоров
+
+
+### Send push to app [POST/{cid}/{public_key}/{text_ru}/{text_uk}/ (use: base/api/insurance/insurance/send_push)]
+
++ Parameters
+    + cid (required, (string), `2`) ... *ID контракта/договора в системе -*
+    + public_key (required, (int), `3`) ... *Ключ доступа -*
+    + text_ru (required, (int), `3`) ... *Текст сообщения на русском -*
+    + text_uk (required, (int), `3`) ... *Текст сообщения на украинском -*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/api/insurance/insurance/send_push
+            Method: POST
+
+    + Body 
+
+            {
+            "cid": "2",
+            "text_ru": "Договор истекает через 3 дня",
+            "text_uk": "Договір закінчується через 3 дні",
+            "public_key": "some_key"
+            }
+
+    + Schema
+    
+            {
+                "data": "Ошибка отправки сообщения",
+                "errors": [
+                    {
+                        "code": 4,
+                        "message": "Параметр text_uk не может быть пустым",
+                    },
+                ]
+            }
+
+
+### Send push to multiple divaces [POST/{cids}/{public_key}/{text_ru}/{text_uk}/ (use: base/api/insurance/insurance/send_push_multiple)]
+    
++ Parameters
+    + cids (required, (array), `2`) ... *Массив ID контрактов/договоров в системе -*
+    + public_key (required, (int), `somekey`) ... *Ключ доступа -*
+    + text_ru (required, (int), `3`) ... *Текст сообщения на русском -*
+    + text_uk (required, (int), `3`) ... *Текст сообщения на украинском -*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/api/insurance/insurance/send_push_multiple
+            Method: POST
+
+    + Body 
+
+            {
+            "text_ru":"Договор истекает через 3 дня",
+            "text_uk":"Договір закінчується через 3 дні",
+            "public_key":"some_key",
+            "cids": ["1003","1004"]
+            }
+
+    + Schema
+    
+            {
+                "cids": [
+                    {
+                        "cid": 1003,
+                        "data": 'Сообщение не отправлено',
+                        "errors": [
+                            {
+                                "code": 6,
+                                'message' => 'Нет токена для связи с устройством или его срок действия истек '
+                            }
+                        ]
+                    },
+                    {
+                        "cid": 1004,
+                        "data": 'Сообщение отправлено',
+                        "errors": []
+                    }
+                ],
+                "data": "Запрос выполнен успешно",
+                "errors": [
+                    {
+                        "code": 4,
+                        "message": "Параметр text_uk не может быть пустым"
+                    }
+                ],
+            }
+
+### Send push to multiple divaces [POST/{cids}/{public_key}/ (use: base/api/insurance/insurance/send_push_multiple_personalized)]
+    
++ Parameters
+    + cids (required, (array), `2`) ... *Массив ID контрактов/договоров в системе -*
+    + public_key (required, (int), `somekey`) ... *Ключ доступа -*
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/api/insurance/insurance/send_push_multiple_personalized
+            Method: POST
+
+    + Body 
+
+            {
+            "public_key": "some_key",
+            "cids": [
+            {
+            "text_ru": "Договор 1002 истекает через 3 дня",
+            "text_uk": "Договір 1002 закінчується через 3 дні",
+            "cid": "1006"
+            },
+            {
+            "text_ru": "Договор 1003 истекает через 3 дня",
+            "text_uk": "Договір 1003 закінчується через 3 дні",
+            "cid": "1005"
+            }
+            ]
+            }
+
+    + Schema
+    
+            {
+                "cids": [
+                    {
+                        "cid": "1002",
+                        "data": "Сообщение отправлено",
+                        "errors": []
+                    },
+                    {
+                        "cid": "1005",
+                        "data": "Ошибка отправки сообщения",
+                        "errors": [
+                            {
+                                "code": 5,
+                                "message": "Нет клиента с данным номером договора"
+                            }
+                        ]
+                    }
+                ],
+                "data": "Запрос выполнен успешно",
+                "errors": []
+            } 
+
 
 # Chat API [/base/mobile_api/messages]
 <hr/>

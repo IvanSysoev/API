@@ -101,7 +101,6 @@ HOST: http://example.net
     
             Location: api/auth/register
             Method: POST
-            Authorization: Bearer #TOKEN#
 
     + Body
     
@@ -150,7 +149,6 @@ HOST: http://example.net
     
             Location: api/auth/login_password
             Method: POST
-            Authorization: Bearer #TOKEN#
 
     + Body
     
@@ -185,6 +183,61 @@ HOST: http://example.net
                 "errors": []
             }
 
+### аутентификация/регистрация соцсети [POST/{client_id}/{client_secret}/{provider}/{accessToken}/ (use: base/api/auth/login_social)]
+
++ Parameters
+    + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
+    + client_secret (required, (string)) ... *выдается сервером oauth*
+    + provider (required, (integer)) ... *кодовый ключ соцсети, например 'google'*
+    + accessToken (required, (string)) ... *токен выданный соцсетью*
+
+    
++ Response 200 (application/json)
+    + Headers
+    
+            Location: api/auth/login_social
+            Method: POST
+
+    + Body
+    
+            Кодовые имена соцсетей:
+                'google',
+                'facebook',
+                'vkontakte',
+                'odnoklassniki'
+    
+            Возможные ошибки:
+                1000 'Server error',
+                1001 'Validation error',
+                1002 'client_id not found',
+                1003 'bad client_id',
+                1004 'Unsupported social provider',
+                1005 'The user credentials were incorrect. Check social access_token.',
+                1006 'The user credentials were incorrect.',
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": "no data",
+                "errors": [
+                    {
+                        "code": 1006,
+                        "message": "The user credentials were incorrect.",
+                        "data": "The user credentials were incorrect."
+                    }
+                ]
+            }
+            {
+                "message": "no message",
+                "data": {
+                    "token_type": "Bearer",
+                    "expires_in": 31536000,
+                    "access_token": "token_string",
+                    "refresh_token": "refresh_token_string"
+                },
+                "errors": []
+            }
 
 ### Изменение данных пользователя [POST]
 

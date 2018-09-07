@@ -15,7 +15,7 @@ HOST: http://example.net
             Во всех запросах должены быть указаны заголовоки:
                 Authorization: Bearer #TOKEN#
                 Accept: application/json
-            Здесь вместо '#TOKEN#' должен быить указан токен переданный при регистрации
+            Здесь вместо '#TOKEN#' должен быить указан токен переданный при регистрации/входе
             Заголовок "Authorization" не указывается в запросах для которых #TOKEN# еще не выдан:
                 api/register/password - регистрация с логином и паролем
                 api/login/password - аутентификация по логину и паролю
@@ -57,6 +57,14 @@ HOST: http://example.net
                 1007 'Nothing to change',
                 1008 'Wrong file format',
                 1009 'Field connection with file-server',
+                1010 'Can`t save client at this moment. Try again later.',
+                1011 'Wrong otp number.',
+                1012 'Allowed interval between sms - 1 minute',
+                1013 'Too many OTP sms requested. Try again later',
+                1014 'OTP required. OTP code sended to given phone.',
+                1015 'Phone verification is required.',
+                1016 'Need phone for verification.',
+                
 
             Пример ответа с ошибкой:
             {
@@ -83,7 +91,7 @@ HOST: http://example.net
                 "message": "Unauthenticated."
             }
 
-### Регистрация (username + password) [POST/{client_id}/{client_secret}/{phone}/{firstname}/{surname}/{patronymic}/{email}/{password}/ (use: base/api/auth/register)]
+### Регистрация (username + password) [POST/{client_id}/{client_secret}/{phone}/{firstname}/{surname}/{patronymic}/{email}/{password}/{otp}/{fcm_token}/ (use: base/api/auth/register)]
 
 + Parameters
     + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
@@ -94,7 +102,8 @@ HOST: http://example.net
     + patronymic (optional, (string)) ... *отчество*
     + email (optional, (string)) ... *Email*
     + password (required, (string)) ... *пароль*
-
+    + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регситрация с otp"*
+    + fcm_token (optional, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
     
 + Response 200 (application/json)
     + Headers
@@ -109,6 +118,11 @@ HOST: http://example.net
                 1001 'Validation error',
                 1006 'The user credentials were incorrect.',
                 1010 'Can`t save client at this moment. Try again later.'
+                1011 'Wrong otp number.',
+                1012 'Allowed interval between sms - 1 minute',
+                1013 'Too many OTP sms requested. Try again later',
+                1014 'OTP required. OTP code sended to given phone.',
+                1016 'Need phone for verification.',
 
     + Schema
 
@@ -129,20 +143,29 @@ HOST: http://example.net
                     "token_type": "Bearer",
                     "expires_in": 31536000,
                     "access_token": "token_string",
-                    "refresh_token": "refresh_token_string"
+                    "refresh_token": "refresh_token_string",
+                    "uid": 1104938,
+                    "firstname": "Василий",
+                    "surname": "Зеленцов",
+                    "phone": "380970000001",
+                    "user_photo": "",
+                    "backup_link": "",
+                    "codes_not_viewed": 0,
+                    "gift": false
                 },
                 "errors": []
             }
 
 
-### аутентификация по логину и паролю [POST/{client_id}/{client_secret}/{phone}/{password}/ (use: base/api/auth/login_password)]
+### аутентификация по логину и паролю [POST/{client_id}/{client_secret}/{phone}/{password}/{otp}/{fcm_token}/ (use: base/api/auth/login_password)]
 
 + Parameters
     + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
     + client_secret (required, (string)) ... *выдается сервером oauth*
-    + phone (required, (integer)) ... *телефон длина зависит от настроек партнера*
     + password (required, (string)) ... *пароль*
-
+    + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера. Только если у партнера включена опция "регситрация с otp" + у пользователя нет привязанного верифицированного телефона.*
+    + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регситрация с otp" + у пользователя нет привязанного верифицированного телефона."*
+    + fcm_token (optional, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
     
 + Response 200 (application/json)
     + Headers
@@ -158,6 +181,13 @@ HOST: http://example.net
                 1002 'client_id not found',
                 1003 'bad client_id',
                 1006 'The user credentials were incorrect.',
+                1010 'Can`t save client at this moment. Try again later.'
+                1011 'Wrong otp number.',
+                1012 'Allowed interval between sms - 1 minute',
+                1013 'Too many OTP sms requested. Try again later',
+                1014 'OTP required. OTP code sended to given phone.',
+                1015 'Phone verification is required.',
+                1016 'Need phone for verification.',
 
     + Schema
 
@@ -178,18 +208,29 @@ HOST: http://example.net
                     "token_type": "Bearer",
                     "expires_in": 31536000,
                     "access_token": "token_string",
-                    "refresh_token": "refresh_token_string"
+                    "refresh_token": "refresh_token_string",
+                    "uid": 1104938,
+                    "firstname": "Василий",
+                    "surname": "Зеленцов",
+                    "phone": "380970000001",
+                    "user_photo": "",
+                    "backup_link": "",
+                    "codes_not_viewed": 0,
+                    "gift": false
                 },
                 "errors": []
             }
 
-### аутентификация/регистрация соцсети [POST/{client_id}/{client_secret}/{provider}/{accessToken}/ (use: base/api/auth/login_social)]
+### аутентификация/регистрация соцсети [POST/{client_id}/{client_secret}/{provider}/{accessToken}/{otp}/{phone}/{fcm_token}/ (use: base/api/auth/login_social)]
 
 + Parameters
     + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
     + client_secret (required, (string)) ... *выдается сервером oauth*
     + provider (required, (integer)) ... *кодовый ключ соцсети, например 'google'*
     + accessToken (required, (string)) ... *токен выданный соцсетью*
+    + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера. Только если у партнера включена опция "регситрация с otp" + у пользователя нет привязанного верифицированного телефона.*
+    + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регситрация с otp. Только если у пользователя нет привязанного верифицированного телефона."*
+    + fcm_token (optional, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
 
     
 + Response 200 (application/json)
@@ -214,6 +255,13 @@ HOST: http://example.net
                 1004 'Unsupported social provider',
                 1005 'The user credentials were incorrect. Check social access_token.',
                 1006 'The user credentials were incorrect.',
+                1010 'Can`t save client at this moment. Try again later.'
+                1011 'Wrong otp number.',
+                1012 'Allowed interval between sms - 1 minute',
+                1013 'Too many OTP sms requested. Try again later',
+                1014 'OTP required. OTP code sended to given phone.',
+                1015 'Phone verification is required.',
+                1016 'Need phone for verification.',
 
     + Schema
 
@@ -234,19 +282,28 @@ HOST: http://example.net
                     "token_type": "Bearer",
                     "expires_in": 31536000,
                     "access_token": "token_string",
-                    "refresh_token": "refresh_token_string"
+                    "refresh_token": "refresh_token_string",
+                    "uid": 1104938,
+                    "firstname": "Василий",
+                    "surname": "Зеленцов",
+                    "phone": "380970000001",
+                    "user_photo": "",
+                    "backup_link": "",
+                    "codes_not_viewed": 0,
+                    "gift": false
                 },
                 "errors": []
             }
 
-### Изменение данных пользователя [POST]
+### Изменение данных пользователя [POST/{firstname}/{surname}/{password}/{photo}/{otp}/{phone}/ (use: base/api/client/edit)]
 
 + Parameters
     + firstname (optional, (string)) ... *имя*
     + surname (optional, (string)) ... *фамилия*
-    + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера*
     + password (optional, (string)) ... *пароль минимум 6 символов*
     + photo (optional, (string)) ... *фото пользователя в формате **Base64***
+    + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера. Нужен при изменении телефона.*
+    + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регситрация с otp + пользователь меняет телефон."*
 
     
 + Response 200 (application/json)
@@ -263,6 +320,12 @@ HOST: http://example.net
                 1007 'Nothing to change',
                 1008 'Wrong file format',
                 1009 'Field connection with file-server',
+                1010 'Can`t save client at this moment. Try again later.'
+                1011 'Wrong otp number.',
+                1012 'Allowed interval between sms - 1 minute',
+                1013 'Too many OTP sms requested. Try again later',
+                1014 'OTP required. OTP code sended to given phone.',
+                1016 'Need phone for verification.',
 
     + Schema
 
@@ -270,6 +333,45 @@ HOST: http://example.net
                 "message": "Saved",
                 "data":"Saved",
                 "errors": (array)
+            }
+
+
+### Получение данных пользователя [GET/ (use: base/api/client/info)]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: api/client/info
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+
+    + Schema
+
+            {
+                "id": 1104914,
+                "username": "default-laravelcaFVsC4g208JMxu",
+                "available_gifts": 2,
+                "firstname": "Ричард1",
+                "surname": "Фейнман",
+                "patronymic": "Филлипс",
+                "phone": "380979300001",
+                "phone_verified": 1,
+                "email": "physics@example.com",
+                "partner_id": 1,
+                "created_at": "2018-04-11 10:29:37",
+                "updated_at": "2018-09-07 13:07:54",
+                "modx_web_user_add": {
+                    "isbackup": 1,
+                    "backup_date": "1130304721",
+                    "app_backup_link": "test"
+                },
+                "modx_web_user_attributes": {
+                    "email": "physics@example.com",
+                    "photo": "zcBOIwRQ5LebGxYhobzW7Wf4hMRRFdSQFs0cWzek.png"
+                }
             }
 
 # HTTP REST API [/api/]

@@ -32,7 +32,7 @@ HOST: http://example.net
             Пример ответа
                 {
                     "message": "Saved",
-                    "data":"Saved",
+                    "data": null,
                     "errors":[]
                 }
 
@@ -88,7 +88,15 @@ HOST: http://example.net
             Ответ будет иметь статус: 401 Unauthorized
             Тело ответа будет содержать:
             {
-                "message": "Unauthenticated."
+                "message": "The user credentials were incorrect.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1005,
+                        "message": "The user credentials were incorrect.",
+                        "data": "The user credentials were incorrect. Check social access_token."
+                    }
+                ]
             }
 
 ### Регистрация (username + password) [POST/{client_id}/{client_secret}/{phone}/{firstname}/{surname}/{patronymic}/{email}/{password}/{otp}/{fcm_token}/ (use: base/api/auth/register)]
@@ -129,7 +137,7 @@ HOST: http://example.net
 
             {
                 "message": "Validation error",
-                "data": "Validation error",
+                "data": null,
                 "errors": [
                     {
                         "code": 1001,
@@ -199,7 +207,7 @@ HOST: http://example.net
 
             {
                 "message": "no message",
-                "data": "no data",
+                "data": null,
                 "errors": [
                     {
                         "code": 1006,
@@ -278,7 +286,7 @@ HOST: http://example.net
 
             {
                 "message": "no message",
-                "data": "no data",
+                "data": null,
                 "errors": [
                     {
                         "code": 1006,
@@ -347,7 +355,7 @@ HOST: http://example.net
 
             {
                 "message": "Saved",
-                "data":"Saved",
+                "data": null,
                 "errors": (array)
             }
 

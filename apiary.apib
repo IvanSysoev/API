@@ -1302,13 +1302,13 @@ HOST: http://example.net
                 "errors": (array)
             }
 
-### Формат ошибок [GET/ (use: base/mobile_api/bonuses/get)]
+### Формат ошибок [GET/ (use: base/api/bonuses/get)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/mobile_api/bonuses/get
+            Location: base/api/bonuses/get
             Method: GET
 
     + Body
@@ -1418,7 +1418,7 @@ HOST: http://example.net
                 "notice" : "Иногда cодержит заметки разработчика PHP"
             }
 
-### Сохранить бэкап-ссылку для приложения [POST/{backup_link} (use: base/mobile_api/user/update_backup_link)]
+### Сохранить бэкап-ссылку для приложения [POST/{backup_link} (use: base/api/user/update_backup_link)]
 
 + Parameters
     + backup_link: `http://backup.su?key=value` (required, (string)) - *app backup-link -*
@@ -1427,7 +1427,7 @@ HOST: http://example.net
 
     + Headers
     
-            Location: base/mobile_api/user/update_backup_link
+            Location: base/api/user/update_backup_link
             Method: POST
 
     + Schema
@@ -1570,7 +1570,7 @@ HOST: http://example.net
             Location: api/prs_createservice
             Method: POST
             
-# Gift API [/base/mobile_api/gifts/]
+# Gift API [/base/api/gifts/]
 <hr>
 
 **Error codes:**
@@ -1587,13 +1587,13 @@ HOST: http://example.net
 
 **122** - *Something went wrong! Can't write to DB. Check your code_id*
 
-### Get available types [GET/ (use: base/mobile_api/gifts/get)]
+### Get available types [GET/ (use: base/api/gifts/get)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/mobile_api/gifts/get
+            Location: base/api/gifts/get
             Method: GET
                     
     + Schema
@@ -1632,7 +1632,7 @@ HOST: http://example.net
 
 
 
-### Activate code [POST/{type_id} (use: base/mobile_api/gifts/activate)]
+### Activate code [POST/{type_id} (use: base/api/gifts/activate)]
 
 + Parameters
     + type_id (required, (int)) ... *идентификатор типа*
@@ -1641,7 +1641,7 @@ HOST: http://example.net
 
     + Headers
 
-            Location: base/mobile_api/gifts/activate
+            Location: base/api/gifts/activate
             Method: POST
         
 
@@ -1684,13 +1684,13 @@ HOST: http://example.net
             
 
 
-### Clear user's gifts  [POST/ (use: base/mobile_api/gifts/clear)]
+### Clear user's gifts  [POST/ (use: base/api/gifts/clear)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/mobile_api/gifts/clear
+            Location: base/api/gifts/clear
             Method: POST
 
     + Schema
@@ -1705,13 +1705,13 @@ HOST: http://example.net
                 }
             }
 
-### Get user's codes [GET/ (use: base/mobile_api/gifts/user/all)]
+### Get user's codes [GET/ (use: base/api/gifts/user/all)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/mobile_api/gifts/user/all
+            Location: base/api/gifts/user/all
             Method: GET
 
     + Schema
@@ -1761,7 +1761,7 @@ HOST: http://example.net
                 ]
             }
 
-### View code [POST/{code_id} (use: base/mobile_api/gifts/view)]
+### View code [POST/{code_id} (use: base/api/gifts/view)]
 
 In View code method **code_id** is required
 
@@ -1772,7 +1772,7 @@ In View code method **code_id** is required
     
     + Headers
 
-            Location: base/mobile_api/gifts/view
+            Location: base/api/gifts/view
             Method: POST
 
     + Schema
@@ -1829,7 +1829,7 @@ In View code method **code_id** is required
                 "errors": []
             }
 
-# Bonus API [/base/mobile_api/bonuses]
+# Bonus API [/base/api/bonuses]
 <hr>
 
 **Error codes:**
@@ -1874,7 +1874,7 @@ In View code method **code_id** is required
 
     + Headers
 
-            Location: base/mobile_api/bonuses/*
+            Location: base/api/bonuses/*
 
     + Schema
             
@@ -1915,13 +1915,13 @@ In View code method **code_id** is required
                     "cards": []
                 }
                 
-### Get all user's cards [GET/ (use: base/mobile_api/bonuses/get)]
+### Get all user's cards [GET/ (use: base/api/bonuses/get)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/mobile_api/bonuses/get
+            Location: base/api/bonuses/get
             Method: GET
 
     + Schema
@@ -1980,7 +1980,7 @@ In View code method **code_id** is required
                     ]
                 }
 
-### Add new card [POST/ (use: base/mobile_api/bonuses/add)]
+### Add new card [POST/ (use: base/api/bonuses/add)]
 
 In add method **name**, **card** and **phone** are required.
 
@@ -1988,7 +1988,7 @@ In add method **name**, **card** and **phone** are required.
 
     + Headers
 
-            Location: base/mobile_api/bonuses/add
+            Location: base/api/bonuses/add
             Method: POST
             Request: (string)name, (numeric)card, (int)phone
 
@@ -2092,7 +2092,7 @@ In add method **name**, **card** and **phone** are required.
                     ]
                 }
 
-### Remove card [POST/ (use: base/mobile_api/bonuses/remove)] 
+### Remove card [POST/ (use: base/api/bonuses/remove)] 
 
 In remove method **card_id** is required.
 
@@ -2100,7 +2100,7 @@ In remove method **card_id** is required.
 
     + Headers
 
-            Location: base/mobile_api/bonuses/remove
+            Location: base/api/bonuses/remove
             Method: POST
             Request: (int)card_id
 
@@ -2166,7 +2166,7 @@ In remove method **card_id** is required.
                     ]
                 }
                 
-# Insurance API [/base/mobile_api/insurance]
+# Insurance API [/base/api/insurance]
 <hr>
 
 **Actions:**
@@ -2277,7 +2277,7 @@ Smart errors:<br>
 
     + Headers
 
-            Location: base/mobile_api/insurance/*
+            Location: base/api/insurance/*
 
     + Schema
 
@@ -2764,7 +2764,7 @@ Smart errors:<br>
                     "data": []
                 }
 
-### Auth [POST/{tel}/ (use: base/mobile_api/insurance/auth)]
+### Auth [POST/{tel}/ (use: base/api/insurance/auth)]
 
 In auth method **tel** is required
 
@@ -2775,7 +2775,7 @@ In auth method **tel** is required
 
     + Headers
 
-            Location: base/mobile_api/insurance/auth
+            Location: base/api/insurance/auth
             Method: POST
             Request: tel
 
@@ -2793,7 +2793,7 @@ In auth method **tel** is required
                 ]
             }
 
-### Activate [POST/{tel}/{num}/ (use: base/mobile_api/insurance/activate)]
+### Activate [POST/{tel}/{num}/ (use: base/api/insurance/activate)]
 
 In activate method **tel** and **num** are required
 
@@ -2805,7 +2805,7 @@ In activate method **tel** and **num** are required
 
     + Headers
 
-            Location: base/mobile_api/insurance/activate
+            Location: base/api/insurance/activate
             Method: POST
             Request: tel, num
 
@@ -2824,7 +2824,7 @@ In activate method **tel** and **num** are required
                 ]
             }
 
-### Sms confirm (otp) [POST/{smsid}/{otp}/{cid}/ (use: base/mobile_api/insurance/sms_confirm)]
+### Sms confirm (otp) [POST/{smsid}/{otp}/{cid}/ (use: base/api/insurance/sms_confirm)]
 
 In sms confirm method **smsid** and **otp** are required, and if from method ***Activate*** parameter **cid** required too
 
@@ -2837,7 +2837,7 @@ In sms confirm method **smsid** and **otp** are required, and if from method ***
 
     + Headers
 
-            Location: base/mobile_api/insurance/sms_confirm
+            Location: base/api/insurance/sms_confirm
             Method: POST
             Request: smsid, otp, cid
 
@@ -2877,7 +2877,7 @@ In sms confirm method **smsid** and **otp** are required, and if from method ***
                         ]
             }
 
-### Sign form [POST/{cid}/{name}/{secname}/{surname}/{email}/{inn}/{birthday}/{type}/{passport}/{passportdate}/{passportissued}/{index}/{region}/{district}/{city}/{street}/{brand}/{model}/{serial}/ (use: base/mobile_api/insurance/sign_form)]
+### Sign form [POST/{cid}/{name}/{secname}/{surname}/{email}/{inn}/{birthday}/{type}/{passport}/{passportdate}/{passportissued}/{index}/{region}/{district}/{city}/{street}/{brand}/{model}/{serial}/ (use: base/api/insurance/sign_form)]
 
 In sign form method:
 
@@ -2919,7 +2919,7 @@ Not required: **email**, **inn**, **index**, **street**
 
     + Headers
 
-            Location: base/mobile_api/insurance/sign_form
+            Location: base/api/insurance/sign_form
             Method: POST
             Request: cid, name, secname, surname, email, inn, birthday, type, passport, passportdate, passportissued, index, region, district, city, street, bran, model, serial
 
@@ -2937,7 +2937,7 @@ Not required: **email**, **inn**, **index**, **street**
                 ]
             }
 
-### List [POST/{tel}/{cid}/ (use: base/mobile_api/insurance/get_list_contracts)]
+### List [POST/{tel}/{cid}/ (use: base/api/insurance/get_list_contracts)]
 
 In method list **tel** is required. If you whant get one contract add to request **cid**.
 
@@ -2949,7 +2949,7 @@ In method list **tel** is required. If you whant get one contract add to request
 
     + Headers
 
-            Location: base/mobile_api/insurance/list
+            Location: base/api/insurance/list
             Method: POST
             Request: tel, cid
 
@@ -2989,13 +2989,13 @@ In method list **tel** is required. If you whant get one contract add to request
                 ]
             }
 
-### Check filled contracts [POST// (use: base/mobile_api/insurance/check_filled_contracts)]
+### Check filled contracts [POST// (use: base/api/insurance/check_filled_contracts)]
     
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/mobile_api/insurance/check_filled_contracts
+            Location: base/api/insurance/check_filled_contracts
             Method: POST
 
     + Schema
@@ -3045,7 +3045,7 @@ In method list **tel** is required. If you whant get one contract add to request
                 7 Не верный формат списка договоров
 
 
-### Send push to app [POST/{cid}/{public_key}/{text_ru}/{text_uk}/ (use: base/api/insurance/insurance/send_push)]
+### Send push to app [POST/{cid}/{public_key}/{text_ru}/{text_uk}/ (use: base/mobile_api/insurance/send_push)]
 
 + Parameters
     + cid (required, (string), `2`) ... *ID контракта/договора в системе -*
@@ -3057,7 +3057,7 @@ In method list **tel** is required. If you whant get one contract add to request
 
     + Headers
 
-            Location: base/api/insurance/insurance/send_push
+            Location: base/mobile_api/insurance/send_push
             Method: POST
 
     + Body 
@@ -3082,7 +3082,7 @@ In method list **tel** is required. If you whant get one contract add to request
             }
 
 
-### Send push to multiple divaces [POST/{cids}/{public_key}/{text_ru}/{text_uk}/ (use: base/api/insurance/insurance/send_push_multiple)]
+### Send push to multiple divaces [POST/{cids}/{public_key}/{text_ru}/{text_uk}/ (use: base/mobile_api/insurance/send_push_multiple)]
     
 + Parameters
     + cids (required, (array), `2`) ... *Массив ID контрактов/договоров в системе -*
@@ -3094,7 +3094,7 @@ In method list **tel** is required. If you whant get one contract add to request
 
     + Headers
 
-            Location: base/api/insurance/insurance/send_push_multiple
+            Location: base/mobile_api/insurance/send_push_multiple
             Method: POST
 
     + Body 
@@ -3135,7 +3135,7 @@ In method list **tel** is required. If you whant get one contract add to request
                 ],
             }
 
-### Send push to multiple divaces [POST/{cids}/{public_key}/ (use: base/api/insurance/insurance/send_push_multiple_personalized)]
+### Send push to multiple divaces [POST/{cids}/{public_key}/ (use: base/mobile_api/insurance/send_push_multiple_personalized)]
     
 + Parameters
     + cids (required, (array), `2`) ... *Массив ID контрактов/договоров в системе -*
@@ -3145,7 +3145,7 @@ In method list **tel** is required. If you whant get one contract add to request
 
     + Headers
 
-            Location: base/api/insurance/insurance/send_push_multiple_personalized
+            Location: base/mobile_api/insurance/send_push_multiple_personalized
             Method: POST
 
     + Body 
@@ -3191,10 +3191,10 @@ In method list **tel** is required. If you whant get one contract add to request
             } 
 
 
-# Chat API [/base/mobile_api/messages]
+# Chat API [/base/api/messages]
 <hr/>
 
-### Get messages chunk [POST/{page}/{count}/  (use: base/mobile_api/messages/chunk)]
+### Get messages chunk [POST/{page}/{count}/  (use: base/api/messages/chunk)]
 
 **NOTE #1:** *This method has key a **count** (messages count), if query has't a count, then **count=25** (default)*
 
@@ -3211,7 +3211,7 @@ Keys **page** and **count** are not required
 
     + Headers
 
-            Location: base/mobile_api/messages/chunk
+            Location: base/api/messages/chunk
             Method: POST
             Request: count, page
             
@@ -3279,7 +3279,7 @@ Keys **page** and **count** are not required
                 "data": []
             }
 
-### Upload file [POST/{conv_id}/{file}/  (use: base/mobile_api/files/upload)]
+### Upload file [POST/{conv_id}/{file}/  (use: base/{api|mobile_api}/files/upload)]
 
 Key **conv_id** and **file** are required
 
@@ -3291,11 +3291,14 @@ Key **conv_id** and **file** are required
 
     + Headers
 
-            Location: base/mobile_api/files/upload
+            Location: base/{api|mobile_api}/files/upload
             Method: POST
             Request: conv_id, file
 
     + Schema
+            
+            Route "base/api/files/upload" based on Passport token auth
+            Route "base/mobile_api/files/upload" based on session auth
             
             **==================================FAILS====================================**
             
@@ -3434,12 +3437,12 @@ Key **conv_id** and **file** are required
             }
 
  
-# Martlet API [/base/mobile_api/martlet]
+# Martlet API [/base/api/martlet]
 <hr/>
 
 **Innovation:**  *Returned response array will now have new key **status**, that indicates whether the request is successful or not.*
 
-### Activate code [POST/{code} (use: base/mobile_api/martlet/store)]
+### Activate code [POST/{code} (use: base/api/martlet/store)]
 
 Parameter **code** is required
 
@@ -3450,7 +3453,7 @@ Parameter **code** is required
 
     + Headers
 
-            Location: base/mobile_api/martlet/store
+            Location: base/api/martlet/store
             Method: POST
             Request: code
             
@@ -3473,7 +3476,7 @@ Parameter **code** is required
                 "errors": [
                     {
                         "code": 500,
-                        "message": "Something went wrong in MartletController@store. Request method: POST. Url: mobile_api/martlet/store",
+                        "message": "Something went wrong in MartletController@store. Request method: POST. Url: api/martlet/store",
                         "data": "Ошибка сервера, данные не были получены."
                     }
                 ],
@@ -3596,13 +3599,13 @@ Parameter **code** is required
                 ]
             }
             
-### List user codes [GET/ (use: base/mobile_api/martlet/show)]
+### List user codes [GET/ (use: base/api/martlet/show)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/mobile_api/martlet/show
+            Location: base/api/martlet/show
             Method: GET
 
     + Schema

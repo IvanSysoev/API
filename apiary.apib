@@ -394,6 +394,26 @@ HOST: http://example.net
                 "errors": []
             }
 
+### Выход [GET/ (use: base/api/auth/logout)]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/auth/logout
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+
+    + Schema
+
+            {
+                "message": "success",
+                "data": null,
+                "errors": []
+            }
+
 # HTTP REST API [/api/]
 <hr/>
 

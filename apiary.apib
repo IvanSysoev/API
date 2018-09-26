@@ -245,7 +245,7 @@ HOST: http://example.net
 + Parameters
     + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
     + client_secret (required, (string)) ... *выдается сервером oauth*
-    + provider (required, (integer)) ... *кодовый ключ соцсети, например 'google'*
+    + provider (required, (string)) ... *кодовое имя соцсети, например 'google' (список ниже)*
     + accessToken (required, (string)) ... *токен выданный соцсетью*
     + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера. Только если у партнера включена опция "регситрация с otp" + у пользователя нет привязанного верифицированного телефона.*
     + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регситрация с otp. Только если у пользователя нет привязанного верифицированного телефона."*
@@ -281,6 +281,75 @@ HOST: http://example.net
                 1014 'OTP required. OTP code sended to given phone.',
                 1015 'Phone verification is required.',
                 1016 'Need phone for verification.',
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1006,
+                        "message": "The user credentials were incorrect.",
+                        "data": "The user credentials were incorrect."
+                    }
+                ]
+            }
+            {
+                "message": "no message",
+                "data": {
+                    "token_type": "Bearer",
+                    "expires_in": 31536000,
+                    "access_token": "token_string",
+                    "refresh_token": "refresh_token_string",
+                    "id": 1090215,
+                    "codes_not_viewed": 0,
+                    "gift": false,
+                    "firstname": "Василий",
+                    "surname": "Зеленцов",
+                    "patronymic": null,
+                    "phone": "380990000001",
+                    "phone_verified": 1,
+                    "email": null,
+                    "isbackup": 0,
+                    "backup_date": "0",
+                    "backup_link": "",
+                    "user_photo": ""
+                },
+                "errors": []
+            }
+
+### Восстановление пароля [POST/{client_id}/{client_secret}/{phone}/{otp}/{fcm_token}/ (use: base/api/auth/forgot_password)]
+
++ Parameters
+    + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
+    + client_secret (required, (string)) ... *выдается сервером oauth*
+    + phone (required, (integer)) ... *телефон длина зависит от настроек партнера.*
+    + otp (required, (string)) ... *код otp one time password.*
+    + fcm_token (optional, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
+    
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/auth/forgot_password
+            Method: POST
+
+    + Body
+    
+            Возможные ошибки:
+                1000 'Server error',
+                1001 'Validation error',
+                1002 'client_id not found',
+                1003 'bad client_id',
+                1006 'The user credentials were incorrect.',
+                1010 'Can`t save client at this moment. Try again later.'
+                1011 'Wrong otp number.',
+                1012 'Allowed interval between sms - 1 minute',
+                1013 'Too many OTP sms requested. Try again later',
+                1014 'OTP required. OTP code sended to given phone.',
+                1015 'Phone verification is required.',
+                1016 'Need phone for verification.',
+                1017 'Client with provided phone is not registered.',
 
     + Schema
 

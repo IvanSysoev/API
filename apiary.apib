@@ -245,14 +245,14 @@ HOST: http://example.net
                 "errors": []
             }
 
-### аутентификация/регистрация соцсети [POST/{client_id}/{client_secret}/{provider}/{accessToken}/{idToken}/{otp}/{phone}/{fcm_token}/ (use: base/api/auth/login_social)]
+### аутентификация/регистрация соцсети [POST/{client_id}/{client_secret}/{provider}/{accessToken}/{serverAuthCode}/{otp}/{phone}/{fcm_token}/ (use: base/api/auth/login_social)]
 
 + Parameters
     + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
     + client_secret (required, (string)) ... *выдается сервером oauth*
     + provider (required, (string)) ... *кодовое имя соцсети, например 'google' (список ниже)*
-    + accessToken (optional, (string)) ... *токен выданный соцсетью (в запросе должен быть accessToken или idToken)*
-    + idToken (optional, (string)) ... *Id токен выданный соцсетью (в запросе должен быть accessToken или idToken)*
+    + accessToken (optional, (string)) ... *токен выданный соцсетью (в запросе должен быть accessToken или serverAuthCode)*
+    + serverAuthCode (optional, (string)) ... *serverAuthCode выданный соцсетью (в запросе должен быть accessToken или serverAuthCode)*
     + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера. Только если у партнера включена опция "регситрация с otp" + у пользователя нет привязанного верифицированного телефона.*
     + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регситрация с otp. Только если у пользователя нет привязанного верифицированного телефона."*
     + fcm_token (optional, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*

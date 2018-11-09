@@ -495,6 +495,133 @@ HOST: http://example.net
                 "errors": []
             }
 
+
+
+
+
+
+
+
+
+# Technic API [/api/technic_status/]
+<hr/>
+
+### Получение списка техники в ремонте [GET/ (use: base/api/technic_status/list{?page}{?count})]
+
++ Parameters
+    + page (optional) ... *номер страницы - начинаются с 1*
+    + count (optional) ... *количество елементов на странице - по умолчанию 25*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/technic_status/list
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": {
+                    "display": 0,
+                    "total": 0,
+                    "current_page": 1,
+                    "last_page": 1,
+                    "statuses": []
+                },
+                "errors": []
+            }
+
+            {
+                "message": "no message",
+                "data": {
+                    "display": 2,
+                    "total": 2,
+                    "current_page": 1,
+                    "last_page": 1,
+                    "statuses": [
+                        {
+                            "technic": "Планшеты ASUS",
+                            "diagnostic_result": "12.07 в работе, готов, на тесте",
+                            "status": "Выдача покупателю"
+                        },
+                        {
+                            "technic": "Смартфоны XIAOMI",
+                            "diagnostic_result": "",
+                            "status": ""
+                        }
+                    ]
+                },
+                "errors": []
+            }
+
+
+### Добавление техники в ремонте [POST/{code}/ (use: base/api/technic_status/add)]
+
++ Parameters
+    + code (required) ... *номер акта или ПРС*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/technic_status/add
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+            Возможные ошибки:
+                1001 'Validation error',
+                1019 'Нет такого кода в базе. Данные обновляются несколько раз в сутки. Возможно, вам следует попробовать немного позже.',
+
+    + Schema
+
+            {
+                "message": "Нет такого кода в базе. Данные обновляются несколько раз в сутки. Возможно, вам следует попробовать немного позже.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1019,
+                        "message": "Нет такого кода в базе. Данные обновляются несколько раз в сутки. Возможно, вам следует попробовать немного позже.",
+                        "data": "Нет такого кода в базе. Данные обновляются несколько раз в сутки. Возможно, вам следует попробовать немного позже."
+                    }
+                ]
+            }
+
+
+            {
+                "message": "Актов по данному коду: 1. Информация по ним добавлена в список.",
+                "data": {
+                    "display": 2,
+                    "total": 2,
+                    "current_page": 1,
+                    "last_page": 1,
+                    "statuses": [
+                        {
+                            "technic": "Планшеты ASUS",
+                            "diagnostic_result": "12.07 в работе, готов, на тесте",
+                            "status": "Выдача покупателю"
+                        },
+                        {
+                            "technic": "Смартфоны XIAOMI",
+                            "diagnostic_result": "",
+                            "status": ""
+                        }
+                    ]
+                },
+                "errors": []
+            }
+
+
+
+
+
+
+
 # HTTP REST API [/api/]
 <hr/>
 
@@ -3786,4 +3913,437 @@ Parameter **code** is required
                             ]
                         }
                     ]
+                }
+
+# Service Masters API [/service-masters]
+<hr/>
+
+**Common errors:**<br>
+
+&nbsp;&nbsp;&nbsp;**1000** - *Server error*<br>
+&nbsp;&nbsp;&nbsp;**1001** - *Validation error*<br>
+&nbsp;&nbsp;&nbsp;**1005** - *The user credentials were incorrect. Check social access_token.*<br>
+&nbsp;&nbsp;&nbsp;**1006** - *The user credentials were incorrect.*<br>
+
+### Auth login [POST/{phone}/{password}/  (use: api/auth/login_password)]
+
+**NOTE #1:** Key **phone** can be in formats [***ua, ru, by***].
+
++ Parameters
+    + phone: 380500000009 (required, (numeric)) - *phone number -*
+    + password: `my-pswd!#hello,123098765.QWE` (required, (mixed)) - *password -*
+    
++ Response 200 (application/json)
+
+        # Notes:
+
+         Don't forget about "application/json" in "Accept" key of headers.
+         
+    + Headers
+
+            Location: api/auth/login_password
+            Method: POST
+            Request: phone, password
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}]
+            
+    + Body
+
+            To the right and above click on "SHOW JSON SCHEMA", to open the response samples.👆
+            That's all you need to know.🙃
+            
+    + Schema
+
+            ⭅You can move page using the arrows on the keyboard⭆
+            
+            
+                                                FAILS 💩 
+            
+            {
+                "message": "Validation error",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "phone",
+                        "data": "The phone field is required"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "password",
+                        "data": "The password field is required"
+                    }
+                ]
+            }
+            
+                                                 ••
+            
+            {
+                "message": "Учетные данные пользователя неверны.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1006,
+                        "message": "Учетные данные пользователя неверны.",
+                        "data": "Учетные данные пользователя неверны."
+                    }
+                ]
+            }
+
+                                              SUCCESSFULLY 👍
+
+            ❗ Take "access_token" and use it in all other queries to api.
+            
+            {
+                "message": "no message",
+                "data": {
+                    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjlmMDlmOWM1MzM3YmFlMTE3ZTdiNDJiZDk3NDAyN2M0ZDA4MTNmOWUxMzEwMmI0OTAxNGYwNTljOTAwYmQ2ZDk1ZjdiMjQ0MGJlN2E3OTM0In0.eyJhdWQiOiIzIiwianRpIjoiOWYwOWY5YzUzMzdiYWUxMTdlN2I0MmJkOTc0MDI3YzRkMDgxM2Y5ZTEzMTAyYjQ5MDE0ZjA1OWM5MDBiZDZkOTVmN2IyNDQwYmU3YTc5MzQiLCJpYXQiOjE1NDE3NjM2MTgsIm5iZiI6MTU0MTc2MzYxOCwiZXhwIjoxNTczMjk5NjE4LCJzdWIiOiIzIiwic2NvcGVzIjpbXX0.WsrKQQbY0eNO3SEKtwqr1hwak-FgvxSrBHIVOR9oX1Em-zeURyUf7ik8Z64mDM-mOdaoVHbGh7MKNbFJ5u6u5mwdg1gs467KJKimESaDkN_KPyzTGxzsAJhxYNxGCaApcj8HK1Agn6iUBwKYUgyPL1Tk9zcyNt_TOgp86tRgZL2B2JoYK7hf_YoOW6PzplYasqCzlQulmSn9-GD1dW54bX6V2TsJmbdAg4eD21qWeZqv_v-HEjeu8DmHeadPGpNh66WBeBRz_wdGIM9k28YFIX4eZ9APJ9_W2-2H7eFDJP2WxoqOMWriAfRrTgt8WKv2DC4LU2xG3A8bDLiAKqYZpZVyO9gwDNlmYXB3qK3VX9XL2l054kkf9a1mZaHvbsTq6zKzNV_o9TtrCsdxCaKg6-Fa0Yt1WFSrEQGnwmivrs5CGg1n7y0cPuiz4HxB5Jh-jV3QTt4ajeXP84MhNth1PyisI89Ei96_2PDrutasetcf58SI_ybEeAM0eDhUJr-Uj-SIkAMxjDNPJcV3PFOOGfW6szULpCFLD9OCDQYh3GpmBhexJTNRgb6iKoG_zJGSEzIilSY-zCtbqyoyQ6TZe0W30kc_1rmgGJVKK2CzLupb8Gbs3ljA-g9l9RW8HY4o2RCb04GL1dyTVXv1IZfXf7VZdZkBmqW69dhHTK7k1w8",
+                    "id": 3,
+                    "name": null,
+                    "email": "fay.koch@example.com",
+                    "phone": "380000000009",
+                    "language": "ru"
+                },
+                "errors": []
+            }
+
+### User info [GET/  (use: api/user/info)]
+
++ Response 200 (application/json)
+
+        # Notes:
+
+         Don't forget about "access_token". Use it in headers.
+         Don't forget about "application/json" in "Accept" key of headers.
+    
+    + Headers
+
+            Location: api/user/info
+            Method: GET
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+            
+    + Body
+
+            To the right and above click on "SHOW JSON SCHEMA", to open the response samples.👆
+            That's all you need to know.🙃
+            
+    + Schema
+    
+            ⭅You can move page using the arrows on the keyboard⭆
+                
+                
+                                                FAILS 💩 
+ 
+            Raw HTML - if "Accept" key !== "application/json" in headers.       
+
+                                                 ••
+
+            {
+                "message": "Учетные данные пользователя неверны.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1005,
+                        "message": "Учетные данные пользователя неверны.",
+                        "data": "Учетные данные пользователя неверны. Проверьте социальный access_token."
+                    }
+                ]
+            }
+
+                                              SUCCESSFULLY 👍
+
+            {
+                "message": "no message",
+                "data": {
+                    "id": 3,
+                    "name": null,
+                    "email": "fay.koch@example.com",
+                    "phone": "380000000009",
+                    "language": "ru"
+                },
+                "errors": []
+            }
+            
+### Task list [POST/{page}/{count}/{status}/{date_range_from}/{date_range_to}  (use: api/task/list)]
+
+The date format in the "**date_range_from**, **date_range_to**" keys should only be **"Y-m-d**".
+
++ Parameters
+    + page: 3 (optional, (int)) - *page number -*
+    + count: 10 (optional, (int)) - *tasks count -*
+        + Default: 50
+    + status: closed (optional, (string)) - *task status -*
+        + Default: open && refused
+    + date_range_from: `2018-11-09` (optional, (string|date)) - *date range -*
+    + date_range_to: `2018-11-09` (optional, (string|date)) - *date range -*
+
++ Response 200 (application/json)
+
+        # Notes:
+
+         Don't forget about "access_token". Use it in headers.
+         Don't forget about "application/json" in "Accept" key of headers.
+
+    + Headers
+
+            Location: api/task/list
+            Method: POST
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
+    + Body
+
+            To the right and above click on "SHOW JSON SCHEMA", to open the response samples.👆
+            That's all you need to know.🙃
+            
+    + Schema
+    
+            ⭅You can move page using the arrows on the keyboard⭆
+            
+            
+                                                FAILS 💩
+                                                
+            Raw HTML - if "Accept" key !== "application/json" in headers.       
+                                                
+                                                 ••
+
+            {
+                "message": "Учетные данные пользователя неверны.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1005,
+                        "message": "Учетные данные пользователя неверны.",
+                        "data": "Учетные данные пользователя неверны. Проверьте социальный access_token."
+                    }
+                ]
+            }
+            
+                                                 ••
+
+            {
+                "message": "Validation error", 
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "date_range_from", 👻 Same with "date_range_to"
+                        "data": "The date range from is not a valid date"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "date_range_to", 👻 Same with "date_range_from"
+                        "data": "The date range to field is required when date range from is present"
+                    }
+                ]
+            }
+
+                                              SUCCESSFULLY 👍
+
+            {
+                "message": "no message",
+                "data": {
+                    "display": 0,
+                    "total": 3,
+                    "current_page": 100500,
+                    "last_page": 1,
+                    "tasks": [],
+                    "status_count": {
+                        "accepted": 3,
+                        "open": 2,
+                        "refused": 1,
+                        "working": 4,
+                        "closed": 0
+                    }
+                },
+                "errors": []
+            }
+
+                                                 ••
+
+            {
+                "message": "no message",
+                "data": {
+                    "display": 19,
+                    "total": 19,
+                    "current_page": 1,
+                    "last_page": 1,
+                    "tasks": [
+                        {
+                            "id": 14,
+                            "client_fio": "Яцута Оксана Михайловна",
+                            "task_code": "90002406663",
+                            "client_phone": "8029-568-55-96",
+                            "client_address": "минск, Рафиева, 25, к 1, кв. 284, п.9, э. 2",
+                            "client_device": null,
+                            "unit": "Минск Дзержинского 104 Патио",
+                            "type": "АКЦИЯ Установка стиральных машин \"СТАНДАРТ\"",
+                            "priority": null,
+                            "desired_client_time": "17.10.2018 23:59:59",
+                            "agreed_working_time": null,
+                            "working_time": null,
+                            "status": "accepted",
+                            "refused_comment": "",
+                            "working_planning_comment": null,
+                            "close_comment": null
+                        },
+                        {
+                            "id": 67,
+                            "client_fio": "Ищенко Дмитрий Николаевич",
+                            "task_code": "90002409210",
+                            "client_phone": "+375-25-969-57-11",
+                            "client_address": "Минск,ул.Варвашени,д.6,корп.4,кв.37",
+                            "client_device": null,
+                            "unit": "Минск Нестерова 49",
+                            "type": "АКЦИЯ Перенавес дверей с электронным управлением \"ПРЕМИУМ\"",
+                            "priority": null,
+                            "desired_client_time": "22.10.2018 23:59:59",
+                            "agreed_working_time": null,
+                            "working_time": null,
+                            "status": "accepted",
+                            "refused_comment": "",
+                            "working_planning_comment": null,
+                            "close_comment": null
+                        },
+                        ...
+                    ],
+                    "status_count": {
+                        "accepted": 19,
+                        "closed": 16,
+                        "open": 219,
+                        "refused": 24,
+                        "working": 1
+                    }
+                },
+                "errors": []
+            }
+            
+### Task edit [POST/{id}/{status}/{refused_comment}/{working_time}/{agreed_working_time}  (use: api/task/edit)]
+
+The date format in the "**working_time**, **agreed_working_time**" keys should only be **"Y-m-d H:m:s || Y-m-d H:m**".
+
++ Parameters
+    + id: 3 (required, (int)) - *task id -*
+    + status: accepted (required, (string)) - *task status -*
+    + refused_comment: `I'm done` (required, (string)) - *refused comment -*
+    + working_time: `2018-10-18 12:00` (required, (string|date)) - *working tike -*
+    + agreed_working_time: `2018-10-18 12:00` (required, (string|date)) - *agreed working time -*
+
++ Response 200 (application/json)
+
+        # Notes:
+
+         Don't forget about "access_token". Use it in headers.
+         Don't forget about "application/json" in "Accept" key of headers.
+
+    + Headers
+
+            Location: api/task/edit
+            Method: POST
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
+    + Body
+
+            To the right and above click on "SHOW JSON SCHEMA", to open the response samples.👆
+            That's all you need to know.🙃
+            
+    + Schema
+    
+            ⭅You can move page using the arrows on the keyboard⭆
+            
+            
+                                                FAILS 💩
+
+            Raw HTML - if "Accept" key !== "application/json" in headers.       
+
+                                                 ••
+
+                {
+                    "message": "Учетные данные пользователя неверны.",
+                    "data": null,
+                    "errors": [
+                        {
+                            "code": 1005,
+                            "message": "Учетные данные пользователя неверны.",
+                            "data": "Учетные данные пользователя неверны. Проверьте социальный access_token."
+                        }
+                    ]
+                }
+            
+                                                 ••
+            
+                {
+                    "message": "Validation error",
+                    "data": null,
+                    "errors": [
+                        {
+                            "code": 1001,
+                            "message": "id",
+                            "data": "The id field is required"
+                        },
+                        {
+                            "code": 1001,
+                            "message": "id",
+                            "data": "The id must be an integer"
+                        },
+                        {
+                            "code": 1001,
+                            "message": "id",
+                            "data": "The selected id is invalid"
+                        },
+                        {
+                            "code": 1001,
+                            "message": "status",
+                            "data": "The status field is required"
+                        },
+                        {
+                            "code": 1001,
+                            "message": "status",
+                            "data": "The selected status is invalid"
+                        },
+                        {
+                            "code": 1001, 👻 Same with other dependent keys.
+                            "message": "agreed_working_time",
+                            "data": "The agreed working time field is required"
+                        },
+                        {
+                            "code": 1001, 👻 Same with other dependent keys.
+                            "message": "agreed_working_time",
+                            "data": "The agreed working time is not a valid date"
+                        }
+                    ]
+                }
+
+                                                 ••
+
+                {
+                    "message": "Эта задача принимается другим пользователем.",
+                    "data": null,
+                    "errors": [
+                        {
+                            "code": 1101,
+                            "message": "Эта задача принимается другим пользователем.",
+                            "data": "Эта задача принимается другим пользователем."
+                        }
+                    ]
+                }
+
+                                                 ••
+
+                {
+                    "message": "Вы не можете выполнить эту операцию.",
+                    "data": null,
+                    "errors": [
+                        {
+                            "code": 1100,
+                            "message": "Вы не можете выполнить эту операцию.",
+                            "data": "Вы не можете выполнить эту операцию."
+                        }
+                    ]
+                }
+
+                                              SUCCESSFULLY 👍
+
+                {
+                    "message": "Success",
+                    "data": null,
+                    "errors": []
                 }

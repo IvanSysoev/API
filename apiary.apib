@@ -2072,7 +2072,48 @@ HOST: http://example.net
                 }]
             }
             
+        
             
+
+### Remove code [POST/{id} (use: base/api/gifts/remove/{id})]
+
++ Parameters
+    + id (required) ... *Идентификтор подарка*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/gifts/remove/{id}
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+            Возможные ошибки:
+                1007 'Nothing to change',
+
+    + Schema
+
+            {
+                "message": "Нечего менять",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1007,
+                        "message": "Нечего менять",
+                        "data": "Нечего менять"
+                    }
+                ]
+            }
+
+
+            {
+                "message": "Успешно удалено",
+                "data": null,
+                "errors": []
+            }
+      
+          
 
 
 ### Clear user's gifts  [POST/ (use: base/api/gifts/clear)]

@@ -397,7 +397,7 @@ HOST: http://example.net
                 "errors": []
             }
 
-### Изменение данных пользователя [POST/{firstname}/{surname}/{password}/{photo}/{otp}/{phone}/ (use: base/api/client/edit)]
+### Изменение данных пользователя [POST/{firstname}/{surname}/{password}/{photo}/{otp}/{phone}/{card}/ (use: base/api/client/edit)]
 
 + Parameters
     + firstname (optional, (string)) ... *имя*
@@ -406,7 +406,7 @@ HOST: http://example.net
     + photo (optional, (string)) ... *фото пользователя в формате **Base64***
     + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера. Нужен при изменении телефона.*
     + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регистрация с otp + пользователь меняет телефон."*
-
+    + card (optional, (string)) ... *Только для 5элемент. Номер бонусной карты. Должен быть привязан к телефону phone у партнера*
     
 + Response 200 (application/json)
     + Headers
@@ -438,6 +438,18 @@ HOST: http://example.net
                 "data": null,
                 "errors": (array)
             }
+            
+            {
+                "message": "Validation error",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "card",
+                        "data": "Неверный номер бонусной карты или он привязан к другому телефону"
+                    }
+                ]
+            }
 
 
 ### Получение данных пользователя [GET/ (use: base/api/client/info)]
@@ -451,6 +463,12 @@ HOST: http://example.net
 
     + Body
     
+            Параметры только для 5элемент:
+                "codes_not_viewed" - кол-во выбранных но не просмотренных подарочных кодов,
+                "gift": bool - есть или нет возможность выдачи подарка. Для true должны быть в наличии подарочные коды и available_gifts > 0,
+                "available_gifts" - количество подарков,
+                "not_read_notifications_count" - количество не прочитанных уведомлений,
+                "card" - номер бонусной карты,
 
     + Schema
 
@@ -458,8 +476,6 @@ HOST: http://example.net
                 "message": "no message",
                 "data": {
                     "id": 1104914,
-                    "codes_not_viewed": 1,
-                    "gift": true,
                     "firstname": "Ричард1",
                     "surname": "Фейнман",
                     "patronymic": "Филлипс",
@@ -469,7 +485,13 @@ HOST: http://example.net
                     "isbackup": 1,
                     "backup_date": "1130304721",
                     "backup_link": "test",
-                    "user_photo": "http://example.com/base/storage/uploads/images/client_photo/zcBOIwRQ5LebGxYhobzW7Wf4hMRRFdSQFs0cWzek.png"
+                    "user_photo": "http://example.com/base/storage/uploads/images/client_photo/zcBOIwRQ5LebGxYhobzW7Wf4hMRRFdSQFs0cWzek.png",
+                    
+                    "codes_not_viewed": 0,
+                    "gift": false,
+                    "available_gifts": 0,
+                    "not_read_notifications_count": 1,
+                    "card": "000000112065"
                 },
                 "errors": []
             }
@@ -493,6 +515,152 @@ HOST: http://example.net
                 "data": null,
                 "errors": []
             }
+
+
+
+
+# Nitifications API [/api/notifications/]
+<hr/>
+
+### Получение списка уведомлений [GET/ (use: base/api/notifications/get)]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/notifications/get
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": {
+                    "notifications": [],
+                    "count": 0
+                },
+                "errors": []
+            }
+
+            {
+                "message": "no message",
+                "data": {
+                    "notifications": [
+                        {
+                            "id": 48758,
+                            "webuser": 1075590,
+                            "title": "Test, благодарим за регистрацию.\r\n",
+                            "description": "\r\nТеперь Вы можете использовать все возможности сервиса удаленной технической поддержки.",
+                            "read": 1,
+                            "publish_date": "2018-10-19 10:50:05",
+                            "updated_at": null,
+                            "deleted_at": null
+                        }
+                    ],
+                    "count": 1
+                },
+                "errors": []
+            }
+
+
+### Удаление уведомления [POST/{id}/ (use: base/notifications/remove/{id})]
+
++ Parameters
+    + id (required) ... *Id уведомления*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/notifications/remove/{id}
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+            Возможные ошибки:
+                1007 'Nothing to change',
+
+    + Schema
+
+            {
+                "message": "Нечего менять",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1007,
+                        "message": "Нечего менять",
+                        "data": "Нечего менять"
+                    }
+                ]
+            }
+
+
+            {
+                "message": "Успешно удалено",
+                "data": null,
+                "errors": []
+            }
+
+
+### Чтение уведомления [POST/{id}/ (use: base/notifications/read/{id})]
+
++ Parameters
+    + id (required) ... *Id уведомления*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/notifications/read/{id}
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+            Возможные ошибки:
+                1051 'Nothing to change',
+
+    + Schema
+
+            {
+                "message": "Запись с предоставленным ID не найдена.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1051,
+                        "message": "Запись с предоставленным ID не найдена.",
+                        "data": "Запись с предоставленным ID не найдена."
+                    }
+               
+            }
+
+            {
+                "message": "Success",
+                "data": [
+                    {
+                        "id": 48758,
+                        "webuser": 1075590,
+                        "title": "Test, благодарим за регистрацию.\r\n",
+                        "description": "\r\nТеперь Вы можете использовать все возможности сервиса удаленной технической поддержки.",
+                        "read": 1,
+                        "publish_date": "2018-10-19 10:50:05",
+                        "updated_at": null,
+                        "deleted_at": null
+                    }
+                ],
+                "errors": []
+            }
+
+
+
+
+
+
+
+
+
 
 # Technic API [/api/technic_status/]
 <hr/>

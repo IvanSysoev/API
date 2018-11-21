@@ -551,13 +551,11 @@ HOST: http://example.net
                     "notifications": [
                         {
                             "id": 48758,
-                            "webuser": 1075590,
                             "title": "Test, благодарим за регистрацию.\r\n",
                             "description": "\r\nТеперь Вы можете использовать все возможности сервиса удаленной технической поддержки.",
                             "read": 1,
                             "publish_date": "2018-10-19 10:50:05",
-                            "updated_at": null,
-                            "deleted_at": null
+                            "publish_date_unix": 1539935405
                         }
                     ],
                     "count": 1
@@ -566,7 +564,7 @@ HOST: http://example.net
             }
 
 
-### Удаление уведомления [POST/{id}/ (use: base/notifications/remove/{id})]
+### Удаление уведомления [POST/{id}/ (use: base/api/notifications/remove/{id})]
 
 + Parameters
     + id (required) ... *Id уведомления*
@@ -574,7 +572,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/notifications/remove/{id}
+            Location: base/api/notifications/remove/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -605,7 +603,7 @@ HOST: http://example.net
             }
 
 
-### Чтение уведомления [POST/{id}/ (use: base/notifications/read/{id})]
+### Чтение уведомления [POST/{id}/ (use: base/api/notifications/read/{id})]
 
 + Parameters
     + id (required) ... *Id уведомления*
@@ -613,7 +611,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/notifications/read/{id}
+            Location: base/api/notifications/read/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -641,13 +639,11 @@ HOST: http://example.net
                 "data": [
                     {
                         "id": 48758,
-                        "webuser": 1075590,
                         "title": "Test, благодарим за регистрацию.\r\n",
                         "description": "\r\nТеперь Вы можете использовать все возможности сервиса удаленной технической поддержки.",
                         "read": 1,
                         "publish_date": "2018-10-19 10:50:05",
-                        "updated_at": null,
-                        "deleted_at": null
+                        "publish_date_unix": 1539935405
                     }
                 ],
                 "errors": []

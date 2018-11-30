@@ -519,6 +519,458 @@ HOST: http://example.net
 
 
 
+# Five Element API [/api/five_element/]
+<hr/>
+
+### Получение справочников по разделу заявок [GET/ (use: base/api/five_element/requests/info)]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/requests/info
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": {
+                    "requests_count": 1,
+                    "services": [
+                        {
+                            "id": 467,
+                            "code": "100541973730",
+                            "name": "Программа Защита+1TV от 420,1 до 450,0",
+                            "product_model": "H32D4002 Телевизор LED TCL",
+                            "product_name": "Телевизоры ЖК",
+                            "product_brand": "TCL",
+                            "sale_place": "Мозырь Дружбы 11А, МиксРитэйл ООО",
+                            "shopping_time": "29 ноября 2018",
+                            "expired": "9 октября 2019"
+                        }
+                    ],
+                    "technic_categories": [
+                        "Телевизоры и видео",
+                        "Телевизоры и аксессуары",
+                        "Телевизоры по диагонали",
+                        "Видеотехника",
+                        "DVD и Blu-ray плееры",
+                        "Видеопроекторы",
+                        "Домашние кинотеатры",
+                        "Звуковые панели и саундбары",
+                        "Кабели и переходники",
+                        "Микрофоны",
+                        "Пульты ДУ",
+                        "ТВ антенны",
+                        "Чистящие средства для электроники",
+                        "Экраны для проекторов",
+                        "3D видео",
+                        "3D очки",
+                        "Blu-ray плееры 3D",
+                        "Домашние кинотеатры 3D",
+                        "Звуковые панели с 3D",
+                        "3D телевизоры",
+                        "4K (Ultra HD) видео",
+                        "4K (Ultra HD) телевизоры",
+                        "Домашние кинотеатры 4K",
+                        "Аудиотехника",
+                        "Ноутбуки и компьютеры",
+                        "Телефоны и планшеты",
+                        "Фото и видеокамеры",
+                        "Игровая зона",
+                        "Спорт",
+                        "Техника для кухни",
+                        "Техника для дома",
+                        "Дома, дача, ремонт",
+                        "Автотовары"
+                    ],
+                    "request_reason": [
+                        "Неисправность в работе",
+                        "Первичная настройка",
+                        "Настройка IT сервисов/интернета",
+                        "Механическое повреждение",
+                        "Консультация",
+                        "ТО",
+                        "Другое"
+                    ]
+                },
+                "errors": []
+            }
+
+
+### Получение списка заявок [GET/ (use: base/api/five_element/requests/get)]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/requests/get
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            /*Доступны два типа: "prs_request" и "technic_status";*/
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": [
+                    {
+                        "id": 1,
+                        "product_category": null,
+                        "product_brand": null,
+                        "product_model": null,
+                        "created_at": "26.11.18 06:30",
+                        "created_at_sorting": "2018-11-26 18:30:37",
+                        "act_number": "00000545454",
+                        "technic": "TM-5581 цвет золотой Телефон GSM TEXET",
+                        "status": "Осталось совсем чуть-чуть до отправки в Сервисный Центр",
+                        "type": "technic_status"
+                    },
+                    {
+                        "id": 89,
+                        "status": "В работе",
+                        "contact_fio": "",
+                        "contact_phone": "",
+                        "product_model": "H32D4002 Телевизор LED TCL",
+                        "product_name": null,
+                        "product_brand": "TCL",
+                        "sale_place": "Мозырь Дружбы 11А, МиксРитэйл ООО",
+                        "created_at": "12.11.18 05:50",
+                        "created_at_sorting": "2018-11-12 17:50:44",
+                        "request_reason": "",
+                        "type": "prs_request",
+                        "code": "100541973730",
+                        "name": "Программа Защита+1TV от 420,1 до 450,0",
+                        "product_category": "Телевизоры ЖК",
+                        "shopping_time": "30 ноября 2018",
+                        "expired": "9 октября 2019"
+                    }
+                ],
+                "errors": []
+            }
+
+
+### Добавить ПРС заявку [POST/{contact_fio}/{contact_phone}/{service_id}/{technic_category}/{request_reason}/{request_comment}/ (use: base/api/five_element/requests/add_prs)]
+
++ Parameters
+    + contact_fio (required, (string)) ... *ФИО контактного лица от 2 до 100 символов*
+    + contact_phone (required, (integer)) ... *12 симовлов телефона*
+    + service_id (optional, (integer)) ... *id сервиса клиента (из списка - получение информационных данных по разделу заявок [GET/ (use: requests/info)])*
+    + technic_category (required, (string)) ... *(из списка - получение информационных данных по разделу заявок [GET/ (use: requests/info)])*
+    + request_reason (required, (integer)) ... *(из списка - получение информационных данных по разделу заявок [GET/ (use: requests/info)])*
+    + request_comment (required, (string)) ... *комментарий клиента по заявке (до 500 символов)*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/requests/add_prs
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+    + Schema
+
+            {
+                "message": "success",
+                "data": null,
+                "errors": []
+            }
+
+
+            {
+                "message": "Validation error",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "contact_fio",
+                        "data": "Поле contact fio обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "contact_phone",
+                        "data": "Поле contact phone обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "technic_category",
+                        "data": "Поле technic category обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "request_reason",
+                        "data": "Поле request reason обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "request_comment",
+                        "data": "Поле request comment обязательно"
+                    }
+                ]
+            }
+
+
+### Восстановить ПРС заявку [POST/{request_id}/{request_comment}/ (use: base/api/five_element/requests/restore_prs)]
+
++ Parameters
+    + request_id (required, (integer)) ... *id заявки, которую нужно восстановить*
+    + request_comment (required, (string)) ... *комментарий клиента по причине восстановления (до 500 символов)*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/requests/restore_prs
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+    + Schema
+
+            {
+                "message": "success",
+                "data": null,
+                "errors": []
+            }
+
+            {
+                "message": "Validation error",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "request_id",
+                        "data": "Поле request id обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "request_comment",
+                        "data": "Поле request comment обязательно"
+                    }
+                ]
+            }
+
+
+### Добавление заявки по установке техники [POST/{contact_fio}/{contact_phone}/{technic_category}/{address}/{install_date}/ (use: base/api/five_element/requests/add_install)]
+
++ Parameters
+    + contact_fio (required, (string)) ... *ФИО контактного лица от 2 до 100 символов*
+    + contact_phone (required, (integer)) ... *12 симовлов телефона*
+    + technic_category (required, (string)) ... *(из списка - получение информационных данных по разделу заявок [GET/ (use: requests/info)])*
+    + address (required, (integer)) ... *адрес клиента (от 3 до 200 символов)*
+    + install_date (required, (string)) ... *дата установки в формате http://php.net/manual/ru/datetime.formats.date.php например 2018-10-22 14:51:20*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/requests/add_install
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+    + Schema
+
+            {
+                "message": "success",
+                "data": null,
+                "errors": []
+            }
+
+            {
+                "message": "Validation error",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "technic_category",
+                        "data": "Поле technic category обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "contact_fio",
+                        "data": "Поле contact fio обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "contact_phone",
+                        "data": "Поле contact phone обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "address",
+                        "data": "Поле address обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "install_date",
+                        "data": "Поле install date обязательно"
+                    }
+                ]
+            }
+
+
+### Добавление отзыва клиента [POST/{description}/{email}/ (use: base/api/five_element/add_review)]
+
++ Parameters
+    + description (required, (string)) ... *Текст отзыва*
+    + email (required, (integer)) ... *email клиента*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/add_review
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+    + Schema
+
+            {
+                "message": "success",
+                "data": null,
+                "errors": []
+            }
+
+            {
+                "message": "Validation error",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "description",
+                        "data": "Поле description обязательно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "email",
+                        "data": "Поле email обязательно"
+                    }
+                ]
+            }
+
+
+### Получение списка сервисов (услуг) [GET/ (use: base/api/five_element/services/get)]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/services/get
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            /*Доступны два типа: "prs" и "martlet"*/
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": [
+                    {
+                        "id": 2,
+                        "licence": "32GAZ-F5S4R-RN1NW-86124",
+                        "name": "Kaspersky Safe Kids",
+                        "about": "это помощь в воспитании современного ребенка.\nОсобенности:Здоровое общение.Узнайте, если у ребенка проблемы с друзьями. Присматривайте за его публикациями на Facebook\nПравильное развитие.Научите детей не проводить все время у экрана. Лимитируйте время использования интернета и устройств\nПоиск детей.Задайте периметр, где ему следует быть в определенный период времени, и получите уведомление, если ребенок покинул его\nВзаимопонимание.Узнавайте об интересах вашего ребенка по тому, какую информацию он ищет в интернете. Так вы сможете лучше понимать его и помочь избежать неприятностей",
+                        "created_at_sorting": "2018-11-30 15:29:17",
+                        "type": "martlet"
+                    },
+                    {
+                        "id": 467,
+                        "code": "100541973730",
+                        "name": "Программа Защита+1TV от 420,1 до 450,0",
+                        "product_model": "H32D4002 Телевизор LED TCL",
+                        "product_name": "Телевизоры ЖК",
+                        "product_brand": "TCL",
+                        "sale_place": "Мозырь Дружбы 11А, МиксРитэйл ООО",
+                        "shopping_time": "30 ноября 2018",
+                        "expired": "9 октября 2019",
+                        "created_at_sorting": "2017-10-17 17:03:11",
+                        "type": "prs"
+                    }
+                ],
+                "errors": []
+            }
+
+### Удаление ПРС/Защита+ из аккаунта клиента [GET/ (use: base/api/five_element/services/prs/remove/{id})]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/services/prs/remove/{id}
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            Деактивирует ПРС/Защита+. Из БД он не удаляется. Может быть потом привязан к другому аккаунту.
+
+    + Schema
+
+            {
+                "message": "success",
+                "data": null,
+                "errors": []
+            }
+
+            {
+                "message": "Нечего менять",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1007,
+                        "message": "Нечего менять",
+                        "data": "Нечего менять"
+                    }
+                ]
+            }
+
+
+
+### Удаление Мартлет кодов [GET/ (use: base/api/five_element/services/martlet/remove/{id)]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/services/martlet/remove/{id
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            Удаление Мартлет кодов из аккаунта клиента (soft delete)
+
+    + Schema
+
+            {
+                "message": "success",
+                "data": null,
+                "errors": []
+            }
+
+            {
+                "message": "Нечего менять",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1007,
+                        "message": "Нечего менять",
+                        "data": "Нечего менять"
+                    }
+                ]
+            }
+            
+            
+
+
 # Nitifications API [/api/notifications/]
 <hr/>
 

@@ -1001,7 +1001,137 @@ HOST: http://example.net
                 ]
             }
             
+        
+        
+### Поиск модели/бренда [POST/{brand}/{model}/{field}/ (use: base/api/five_element/search_products)]
+
++ Parameters
+    + brand (required, (string)) ... *имя бренда*
+    + model (optional, (string)) ... *обязательно если в поле field указано model*
+    + field (required, (string)) ... *может иметь значения brand или model*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/search_products
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            Поиск модели или бренда по товарам 5элемент. Посик по полю model производится с учетом поля brand.
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": [
+                    "ASUS",
+                    "OYSTERS",
+                    "PANASONIC",
+                    "PHILIPS",
+                    "PRESTIGIO",
+                    "SAMSUNG",
+                    "SONY"
+                ],
+                "errors": []
+            }
+
+            {
+                "message": "Validation error",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "brand",
+                        "data": "Поле brand обязательно"
+                    }
+                ]
+            }   
+
+
+
+# Park Technic API [/api/park_technic/]
+<hr/>
+
+### Справочник создания техники [GET/ (use: base/api/park_technic/info)]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/park_technic/info
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            Удаление Мартлет кодов из аккаунта клиента (soft delete)
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": {
+                    "technic_categories": [
+                        {
+                            "id": 1,
+                            "name": "test",
+                            "parent_id": null,
+                            "image": "five_element/park_technic_images/ae5eced827ae999b92e37962e8e3f855.jpg",
+                            "image_big": "five_element/park_technic_images/72d149a541272b2eca054b05eee756ee.jpg",
+                            "image_black": "five_element/park_technic_images/c30b69b2cbd348d7cbf5fae01053667b.jpg",
+                            "childrens": [
+                                {
+                                    "id": 2,
+                                    "name": "sub test",
+                                    "parent_id": 1,
+                                    "image": "five_element/park_technic_images/cb084658dde21574c132821670b70f8b.jpg",
+                                    "image_big": "five_element/park_technic_images/4a838e81b6d831da74485dce4ff0abef.jpg",
+                                    "image_black": "five_element/park_technic_images/48dfb6db85b3c3da75cf73744280d5cf.jpg"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 3,
+                            "name": "test2",
+                            "parent_id": null,
+                            "image": "five_element/park_technic_images/2e9b0953db6af7a46898345873ab198c.jpg",
+                            "image_big": "five_element/park_technic_images/663f9632096b28da71a41d816c282e37.jpg",
+                            "image_black": "five_element/park_technic_images/91c5158cac6cc74f09b86743e6668bd2.jpg",
+                            "childrens": [
+                                {
+                                    "id": 4,
+                                    "name": "sub test2",
+                                    "parent_id": 3,
+                                    "image": "five_element/park_technic_images/2b1712fc4798b205b915e79be0c6dec5.jpg",
+                                    "image_big": "five_element/park_technic_images/e4a612d88b62dc217f062f194dcd5505.jpg",
+                                    "image_black": "five_element/park_technic_images/132637b1a8506433b3a5f0da54ddfedf.jpg"
+                                }
+                            ]
+                        }
+                    ],
+                    "exploitation_time": [
+                        "1-3 года",
+                        "3-6 года",
+                        "Более 6 лет"
+                    ]
+                },
+                "errors": []
+            }
             
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Nitifications API [/api/notifications/]
@@ -2530,7 +2660,10 @@ HOST: http://example.net
                 "errors": [],
                 "code": "666666666",
                 "app_link": "https://somelink.com",
+                "image_link" : "https://somelink.com/8d60a53828d59f85638b2d55e196ba74.jpg",
                 "activation_success_text": "Some custom text related to the gitft_type"
+                "title" : "Third type",
+                "description" : "code description goes here"
             }
             
             **------------------USER HAVEN'T AVAILABLE GIFTS------------------**

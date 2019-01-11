@@ -1065,7 +1065,6 @@ HOST: http://example.net
 
     + Body
 
-            Удаление Мартлет кодов из аккаунта клиента (soft delete)
 
     + Schema
 
@@ -1120,10 +1119,10 @@ HOST: http://example.net
             }
             
 
-### Добавление товара в парк [POST/{technic_category}/{brand}/{model}/{exploitation_time}/{repaired}/ (use: base/api/park_technic/add)]
+### Добавление товара в парк [POST/{technic_category_id}/{brand}/{model}/{exploitation_time}/{repaired}/ (use: base/api/park_technic/add)]
 
 + Parameters
-    + technic_category (required, (integer)) ... *ID катеогрии полученного в справочнике*
+    + technic_category_id (required, (integer)) ... *ID катеогрии полученного в справочнике*
     + brand (required, (string)) ... *обязательно - название бренда (получено по запросу base/api/five_element/search_products)*
     + model (required, (string)) ... *обязательно - название модели (получено по запросу base/api/five_element/search_products)*
     + exploitation_time (required, (string)) ... *срок эксплуатации, варианты в справочнике*
@@ -1154,7 +1153,7 @@ HOST: http://example.net
                 "errors": [
                     {
                         "code": 1001,
-                        "message": "technic_category",
+                        "message": "technic_category_id",
                         "data": "Выбранное значение из категория техники не действительно"
                     },
                     {
@@ -1166,13 +1165,153 @@ HOST: http://example.net
             }
 
 
+### Редактирование товара в парке [POST/{id}/{technic_category_id}/{brand}/{model}/{exploitation_time}/{repaired}/ (use: base/api/park_technic/add)]
+
++ Parameters
+    + id (required, (integer)) ... *ID товара из парка техники. Товар должен принадлежать пользователю и не быть привязан к ПРС (prs_service - null)*
+    + technic_category_id (required, (integer)) ... *ID катеогрии полученного в справочнике*
+    + brand (required, (string)) ... *обязательно - название бренда (получено по запросу base/api/five_element/search_products)*
+    + model (required, (string)) ... *обязательно - название модели (получено по запросу base/api/five_element/search_products)*
+    + exploitation_time (required, (string)) ... *срок эксплуатации, варианты в справочнике*
+    + repaired (required, (integer)) ... *был товар в ремонте или нет: 0 - нет, 1 - да*
 
 
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/park_technic/add
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
 
 
+    + Schema
+
+            {
+                "message": "Success",
+                "data": null,
+                "errors": []
+            }
+
+            {
+                "message": "Validation error",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "technic_category_id",
+                        "data": "Выбранное значение из категория техники не действительно"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "brand",
+                        "data": "Поле brand обязательно"
+                    }
+                ]
+            }
 
 
+### Список товаров из парка техники [GET/ (use: base/api/park_technic/get)]
 
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/park_technic/get
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            prs_service иожет быть null или содержать обьект купленного клиентом сервиса ПРС. technic_category должен присутствовать всегда.
+            Картинки могут быть null. 
+            repaired (товар был в ремонте) может иметь значения null - не известно, 0 - нет, 1 - да.
+
+    + Schema
+
+            {
+                "message": "no message",
+                "data": [
+                    {
+                        "id": 1,
+                        "brand": "SAMSUNG",
+                        "model": "tv wi-fi gprs hdtv 555",
+                        "technic_category_id": 2,
+                        "exploitation_time": "3-6 года",
+                        "repaired": 1,
+                        "prs_service": null,
+                        "technic_category": {
+                            "id": 2,
+                            "name": "sub test",
+                            "parent_id": 1,
+                            "image": "five_element/park_technic_images/cb084658dde21574c132821670b70f8b.jpg",
+                            "image_big": "five_element/park_technic_images/4a838e81b6d831da74485dce4ff0abef.jpg",
+                            "image_black": "five_element/park_technic_images/48dfb6db85b3c3da75cf73744280d5cf.jpg",
+                            "active": 1
+                        }
+                    },
+                    {
+                        "id": 26,
+                        "brand": "test",
+                        "model": "ux1000",
+                        "technic_category_id": 8,
+                        "exploitation_time": "1-3 года",
+                        "repaired": 0,
+                        "prs_service": {
+                            "id": 75238,
+                            "name": "Услуга Профилактика кондиционера от 2 400,1 до 2 600,0 (Тест)",
+                            "category": "Кондиционер",
+                            "model": "ux1000",
+                            "brand": "test",
+                            "expired": "04.10.2020"
+                        },
+                        "technic_category": {
+                            "id": 8,
+                            "name": "Кондиционер",
+                            "parent_id": 5,
+                            "image": "five_element/park_technic_images/cb084658dde21574c132821670b70f8b.jpg",
+                            "image_big": "five_element/park_technic_images/4a838e81b6d831da74485dce4ff0abef.jpg",
+                            "image_black": "five_element/park_technic_images/48dfb6db85b3c3da75cf73744280d5cf.jpg",
+                            "active": 0
+                        }
+                    }
+                ],
+                "errors": []
+            }
+
+
+### Удалить товар из парка [GET/ (use: base/api/park_technic/remove/{id})]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/park_technic/remove/{id}
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+            {id} - вместо плесхолдера вставлять id товара
+            
+    + Schema
+
+            {
+                "message": "Validation error",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "id",
+                        "data": "Выбранное значение из id не действительно"
+                    }
+                ]
+            }
+
+            {
+                "message": "Успешно удалено",
+                "data": null,
+                "errors": []
+            }
 
 
 

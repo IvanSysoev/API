@@ -875,14 +875,15 @@ HOST: http://example.net
     + Body
 
             /*
-                Доступны два типа type: "prs" и "martlet"
-                contract_link: ссылка на PDF файл (contract_type=zaschita) или на сайт (contract_type=prs)
-                contract_type: тип контар - zaschita или prs
+                Доступны два типа type: "prs" и "martlet":
+                Защита+/ПРС (prs)
+                contract_link: ссылка на PDF файлы - могут быть разные PDF (contract_type=zaschita) или на сайт (contract_type=prs)
+                contract_type: тип договора - zaschita или prs
                 
                 Мартлет (martlet)
                  - app_link: может содержать ссылку на Play Market, страницу описания продукта или AppStore (маловероятно).
                    Вообщем, лучше пересылать клик по данной ссылке на браузер.
-                   Может быть путой.
+                   Может быть пустой.
             */
 
     + Schema
@@ -1113,6 +1114,12 @@ HOST: http://example.net
                         "1-3 года",
                         "3-6 года",
                         "Более 6 лет"
+                    ],
+                    "brands": [
+                        "ALCATEL",
+                        "APPLE",
+                        "ASUS",
+                        "DAEWOO"
                     ]
                 },
                 "errors": []

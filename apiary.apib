@@ -1172,7 +1172,7 @@ HOST: http://example.net
             }
 
 
-### Редактирование товара в парке [POST/{id}/{technic_category_id}/{brand}/{model}/{exploitation_time}/{repaired}/ (use: base/api/park_technic/add)]
+### Редактирование товара в парке [POST/{id}/{technic_category_id}/{brand}/{model}/{exploitation_time}/{repaired}/ (use: base/api/park_technic/edit)]
 
 + Parameters
     + id (required, (integer)) ... *ID товара из парка техники. Товар должен принадлежать пользователю и не быть привязан к ПРС (prs_service - null)*
@@ -1186,7 +1186,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/park_technic/add
+            Location: base/api/park_technic/edit
             Method: POST
             Authorization: Bearer #TOKEN#
 

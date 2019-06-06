@@ -822,11 +822,12 @@ HOST: http://example.net
             }
 
 
-### Добавление отзыва клиента [POST/{description}/{email}/ (use: base/api/five_element/add_review)]
+### Добавление отзыва клиента [POST/{description}/{email}/{type} (use: base/api/five_element/add_review)]
 
 + Parameters
     + description (required, (string)) ... *Текст отзыва*
     + email (required, (integer)) ... *email клиента*
+    + type (max:100(string)) ... *Тип отзыва*
 
 + Response 200 (application/json)
     + Headers
@@ -858,6 +859,11 @@ HOST: http://example.net
                         "code": 1001,
                         "message": "email",
                         "data": "Поле email обязательно"
+                    }
+                    {
+                        "code": 1001,
+                        "message": "type",
+                        "data": "В поле type не может быть больше 100 символов"
                     }
                 ]
             }
@@ -1341,7 +1347,7 @@ HOST: http://example.net
 
 
 
-# Nitifications API [/api/notifications/]
+# Notifications API [/api/notifications/]
 <hr/>
 
 ### Получение списка уведомлений [GET/ (use: base/api/notifications/get)]

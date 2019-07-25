@@ -822,6 +822,77 @@ HOST: http://example.net
             }
 
 
+### Добавление задачи на установку мастеру [POST/{request_number}/{contact_phone}/{technic_category}/{technic_model}/{contact_fio}/{contact_phone}/{install_date}/ (use: base/api/five_element/requests/add_master_install)]
+
++ Parameters
+
+    + request_number (required, (string)) ... *Уникальный номер услуги*
+    + technic_category (required, (string)) ... *(из списка - получение информационных данных по разделу заявок [GET/ (use: requests/info)])*
+    + technic_model (required, (string)) ... *модель товара - любые символы (от 2 до 100)*
+    + contact_fio (required, (string)) ... *ФИО контактного лица от 2 до 100 символов*
+    + contact_phone (required, (integer)) ... *12 симовлов телефона*
+    + install_date (required, (string)) ... *дата установки в формате http://php.net/manual/ru/datetime.formats.date.php например 2018-10-22 14:51:20*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/requests/add_master_install
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            Если в ответе сервера errors не пустое нужно остаться на экране введения данных установки и отобразить текст ошибки.
+            Если ответ сервера не содержит ошибок нужно отобразить текст из параметра "message" или поле "message" в параметрe "data" ==>> "data": {"message": "some text"})
+
+    + Schema
+
+            {
+                "message": "Услуга «Установка» принята в работу. Ожидайте, пожалуйста, звонок от Мастера.",
+                "data": {
+                    "message": "Услуга «Установка» принята в работу. Ожидайте, пожалуйста, звонок от Мастера."
+                },
+                "errors": []
+            }
+
+            {
+                "message": "Услуга «Установка» уже в работе. Ожидайте, пожалуйста, звонок от Мастера .",
+                "data": {
+                    "message": "Услуга «Установка» уже в работе. Ожидайте, пожалуйста, звонок от Мастера ."
+                },
+                "errors": []
+            }
+
+            {
+                "message": "Услуга «Установка»  с таким уникальным номером не найдена. Приобрести данную услугу можно в ближайшем магазине 5Элемент.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "Услуга «Установка»  с таким уникальным номером не найдена. Приобрести данную услугу можно в ближайшем магазине 5Элемент.",
+                        "data": "Услуга «Установка»  с таким уникальным номером не найдена. Приобрести данную услугу можно в ближайшем магазине 5Элемент."
+                    }
+                ]
+            }
+
+            {
+                "message": "Поле request number должно содержать от 2 до 20 цифр, Поле телефон должно содержать от 12 до 12 цифр",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "request_number",
+                        "data": "Поле request number должно содержать от 2 до 20 цифр"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "contact_phone",
+                        "data": "Поле телефон должно содержать от 12 до 12 цифр"
+                    }
+                ]
+            }
+
+
 ### Добавление отзыва клиента [POST/{description}/{email}/{type} (use: base/api/five_element/add_review)]
 
 + Parameters
@@ -1385,15 +1456,29 @@ HOST: http://example.net
                 "data": {
                     "notifications": [
                         {
+                            "id": 48762,
+                            "title": "dwad",
+                            "description": "adwa",
+                            "read": 1,
+                            "type": "",
+                            "publish_date": "2019-01-25 01:00:00",
+                            "publish_date_unix": 1548370800,
+                            "image_default": "",
+                            "image_active": ""
+                        },
+                        {
                             "id": 48758,
                             "title": "Test, благодарим за регистрацию.\r\n",
                             "description": "\r\nТеперь Вы можете использовать все возможности сервиса удаленной технической поддержки.",
                             "read": 1,
+                            "type": "21esdw",
                             "publish_date": "2018-10-19 10:50:05",
-                            "publish_date_unix": 1539935405
+                            "publish_date_unix": 1539935405,
+                            "image_default": "http://sotest/base/storage/five_element/notification_pictogram/b4f0d2b9f77503f59a0b9241a9c01363.png",
+                            "image_active": "http://sotest/base/storage/five_element/notification_pictogram/5c36f39f8ad877c1cf840c5859afa535.png"
                         }
                     ],
-                    "count": 1
+                    "count": 2
                 },
                 "errors": []
             }
@@ -1479,6 +1564,17 @@ HOST: http://example.net
                         "read": 1,
                         "publish_date": "2018-10-19 10:50:05",
                         "publish_date_unix": 1539935405
+                    }
+                    {
+                        "id": 48758,
+                        "title": "Test, благодарим за регистрацию.\r\n",
+                        "description": "\r\nТеперь Вы можете использовать все возможности сервиса удаленной технической поддержки.",
+                        "type": "21esdw",
+                        "read": 1,
+                        "publish_date": "2018-10-19 10:50:05",
+                        "publish_date_unix": 1539935405,
+                        "image_default": "http://sotest/base/storage/five_element/notification_pictogram/b4f0d2b9f77503f59a0b9241a9c01363.png",
+                        "image_active": "http://sotest/base/storage/five_element/notification_pictogram/5c36f39f8ad877c1cf840c5859afa535.png"
                     }
                 ],
                 "errors": []
@@ -3009,7 +3105,7 @@ HOST: http://example.net
                             "id": 3,
                             "title": "Third type",
                             "description": "RRRRRRRRRRRRRRRRRR",
-                            "image_link": "8d60a53828d59f85638b2d55e196ba74.jpg",
+                            "image_link": "https:\/\/sotest.so24.net\/base\/storage\/gift\/type-images\/0e8ece0f5ab4856ab27e66c74d2b5414.jpg",
                             "app_link": "RRRRRRRRRRRRRR"
                         }
                     },

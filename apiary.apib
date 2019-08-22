@@ -517,8 +517,6 @@ HOST: http://example.net
             }
 
 
-
-
 # Five Element API [/api/five_element/]
 <hr/>
 
@@ -1782,6 +1780,45 @@ HOST: http://example.net
             {
                 "success": true,
                 "errors": (array)
+            }
+
+
+### Заказ обратного звонка [POST/{username}/{phone}/{comment}/{time_from}/{time_to}/{product_category}/ (use: base/api/get_callback)]
+
++ Parameters
+    + username (required, (string)) ... *контактное имя*
+    + phone (required, (string)) ... *контактный телефон*
+    + comment (required, (integer)) ... *комментарий клиента*
+    + time_from (required, (string)) ... *время начала промежутка для звонка в формате час:минута (13:24).*
+    + time_to (required, (string)) ... *время конца промежутка для звонка в формате час:минута (13:12).*
+    + product_category (required, (string)) ... *Категория товара*
+    
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/get_callback
+            Method: POST
+
+    + Body
+    
+            Возможные ошибки:
+                0 'Не верно указано время звонка',
+
+    + Schema
+
+            {
+                "success": true,
+                "errors":[]
+            }
+            {
+                "success": false,
+                "errors": [
+                    {
+                        "code": 0,
+                        "message": "bad_data",
+                        "data": "Не верно указано время звонка"
+                    }
+                ]
             }
 
 ### Регистрация через соц.сеть (android) [POST/{user_photo}/{username}/{social_type}/{social_id}/{app_name}/{partner_name} (use: api/registerSocial)]

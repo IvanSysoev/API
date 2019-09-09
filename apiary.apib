@@ -1131,6 +1131,41 @@ HOST: http://example.net
                     }
                 ]
             }   
+            
+            
+            
+### Скрытие страховки [POST/ (use: base/api/five_element/services/insurances/hide/{id})]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/services/insurances/hide/{id}
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            Скрытие страховки из аккаунта клиента (soft delete)
+
+    + Schema
+
+            {
+                "message": "Успешно удалено",
+                "data": null,
+                "errors": []
+            }
+
+            {
+                "message": "Запись с предоставленным ID не найдена.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1051,
+                        "message": "Запись с предоставленным ID не найдена.",
+                        "data": "Запись с предоставленным ID не найдена."
+                    }
+                ]
+            }
 
 
 
@@ -5105,6 +5140,174 @@ Parameter **code** is required
                         }
                     ]
                 }
+
+# RMS API [/rms/list]
+<hr/>
+
+
+### Task list [POST/{page}/{limit}/{filter}/{order}  (use: api/rms/list)]
+
+The date format in the "**date_range_from**, **date_range_to**" keys should only be **"Y-m-d**".
+
++ Parameters+
+    + page: 3 (optional, (int)) - *page number -*
+        + Default: 1
+    + limit: 25 (optional, (int)) - *tasks count -*
+        + Default: 50
+    + filter: array (optional, (array)) - *Array in format {'field_key': 'value'}, "field_key": e.g. status, "value": filter value (string or array). You can prepend field_key with filter type e.g. !=, > e.t.c.*
+        + Available types:
+        + "!" - not equil
+        + "<" - less
+        + "<=" - less or equil
+        + ">" - more
+        + ">=" - more or equil
+    + order: array (optional, (array)) - *Array in format {'field_key': 'order'}, "field_key": e.g. status, "oder": asc or desc*
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: api/rms/list
+            Method: POST
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
+    + Body
+
+            To the right and above click on "SHOW JSON SCHEMA", to open the response samples.👆
+            That's all you need to know.🙃
+            
+    + Schema
+    
+            {
+                "message": "Учетные данные пользователя неверны.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1005,
+                        "message": "Учетные данные пользователя неверны.",
+                        "data": "Учетные данные пользователя неверны. Проверьте социальный access_token."
+                    }
+                ]
+            }
+            
+                                                 ••
+
+            {
+                "message": "Validation error", 
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1001,
+                        "message": "date_range_from", 👻 Same with "date_range_to"
+                        "data": "The date range from is not a valid date"
+                    },
+                    {
+                        "code": 1001,
+                        "message": "date_range_to", 👻 Same with "date_range_from"
+                        "data": "The date range to field is required when date range from is present"
+                    }
+                ]
+            }
+
+                                              SUCCESSFULLY 👍
+
+            {
+                "message": "no message",
+                "data": {
+                    "display": 0,
+                    "total": 3,
+                    "current_page": 100500,
+                    "last_page": 1,
+                    "tasks": [],
+                    "status_count": {
+                        "accepted": 3,
+                        "open": 2,
+                        "refused": 1,
+                        "working": 4,
+                        "closed": 0
+                    }
+                },
+                "errors": []
+            }
+
+                                                 ••
+
+            {
+                "message": "no message",
+                "data": {
+                    "display": 19,
+                    "total": 19,
+                    "current_page": 1,
+                    "last_page": 1,
+                    "tasks": [
+                        {
+                            "id": 79,
+                            "client_fio": "Ananimous Ananimous",
+                            "task_code": null,
+                            "client_phone": "375000000001",
+                            "client_address": "Демрово, Минская, Минский, ул. течст, д. 12, кв. 43",
+                            "client_device": "Ноутбук V3-772G-54208G1TMakk Acer Aspire Ноутбук ACER",
+                            "unit": "Минск В.Голубка 2",
+                            "type": null,
+                            "priority": null,
+                            "desired_client_time": " ",
+                            "agreed_working_time": null,
+                            "working_time": null,
+                            "status": "open",
+                            "refused_comment": null,
+                            "working_planning_comment": null,
+                            "close_comment": null,
+                            "is_new": 1,
+                            "task_type": "repair",
+                            "created_at": "07.03.2019 15:26:58",
+                            "prs_type": "ПРС",
+                            "service_request_id": 5348,
+                            "service_id": "100041512093",
+                            "description": "Описание: ТЕСТ; Коментарий клиента: ТЕСТ; Причина обращения: Первичная настройка",
+                            "business_process_id": "555666333",
+                            "max_repair_date": "28.03.2019",
+                            "max_repair_price": "769.93"
+                        },
+                        {
+                            "id": 47,
+                            "client_fio": "Буенкова Н,Н",
+                            "task_code": "90002681106",
+                            "client_phone": "80292662064",
+                            "client_address": "Борисов Чаловской 53-27",
+                            "client_device": null,
+                            "unit": "Борисов Гагарина ФайвТрэйд",
+                            "type": "АКЦИЯ Установка посудомоечных машин \"ПРЕМИУМ\"",
+                            "priority": null,
+                            "desired_client_time": "18.04.2019 23:59:59",
+                            "agreed_working_time": null,
+                            "working_time": null,
+                            "status": "open",
+                            "refused_comment": null,
+                            "working_planning_comment": null,
+                            "close_comment": null,
+                            "is_new": 1,
+                            "task_type": "installation",
+                            "created_at": "28.02.2019 11:21:21",
+                            "prs_type": null,
+                            "service_request_id": null,
+                            "service_id": "100576153173",
+                            "description": null,
+                            "business_process_id": "",
+                            "max_repair_date": null,
+                            "max_repair_price": ""
+                        },
+                        ...
+                    ],
+                    "status_count": {
+                        "accepted": 19,
+                        "closed": 16,
+                        "open": 219,
+                        "refused": 24,
+                        "working": 1
+                    }
+                },
+                "errors": []
+            }
 
 # Masters API [/service-masters]
 <hr/>

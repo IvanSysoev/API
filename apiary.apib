@@ -1166,6 +1166,82 @@ HOST: http://example.net
                     }
                 ]
             }
+            
+            
+### активация услуг [POST/{activation_code}/{app_type}/ (use: base/api/five_element/services/prs/activate)]
+
++ Parameters
+     + activation_code (required, (string)) ... *код услуги*
+     + app_type (optional, (string)) ... *ios/android идентификация*
+        
++ Response 200 (application/json)
+
+    + Headers
+    
+            Location: base/api/five_element/services/prs/activate
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            Активация услуг
+            /*
+                Доступны два значения "app_type": "andoid" и "ios":
+            */
+
+    + Schema
+    
+            {
+                "message": "Успешно активировано",
+                "data": null,
+                "errors": []
+            }
+
+            //страховка
+            {
+                "message": "Успешно активировано",
+                "data": {
+                    "message_title": "deSXCAafcsacfsascfacafsfasvadefs",
+                    "message_text": "cszafscsacfsdcafsdcdscf"
+                },
+                "errors": []
+            }
+
+            {
+                "message": "Unknown partner",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1104,
+                        "message": "Unknown partner",
+                        "data": "Unknown partner"
+                    }
+                ]
+            }
+            
+            {
+                "message": "Code already activated.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1102,
+                        "message": "Code already activated.",
+                        "data": "Code already activated."
+                    }
+                ]
+            }
+            
+            {
+                "message": "Code not found",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1103,
+                        "message": "Code not found",
+                        "data": "Code not found"
+                    }
+                ]
+            }
 
 
 
@@ -5659,14 +5735,15 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
         + Default: 1
     + limit: 25 (optional, (int)) - *tasks count -*
         + Default: 50
-    + filter: array (optional, (array)) - *Array in format {'field_key': 'value'}, "field_key": e.g. status, "value": filter value (string or array). You can prepend field_key with filter type e.g. !=, > e.t.c.*
+    + filter: array (optional, (array)) - *Array in format {'key': 'key', "value": }, "field_key": e.g. status, "value": filter value (string or array).*
         + Available types:
+        + "like" - search piece of text
         + "!" - not equil
         + "<" - less
         + "<=" - less or equil
         + ">" - more
         + ">=" - more or equil
-    + order: array (optional, (array)) - *Array in format {'field_key': 'order'}, "field_key": e.g. status, "oder": asc or desc*
+    + order: array (optional, (array)) - *Object in format {'field_key': 'order'}, "field_key": e.g. status, "oder": asc or desc*
 
 + Response 200 (application/json)
 
@@ -5678,7 +5755,25 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
 
     + Body
 
-            Body txt
+            {
+                "page": 1,
+                "limit": 50,
+                "filter": [
+                    {
+                        "key": "id",
+                        "type": "=",
+                        "value": "23"
+                    },
+                    {
+                        "key": "name",
+                        "type": "=",
+                        "value": "hhhh"
+                    }
+                ],
+                "order": {
+                    "field_key": "asc"
+                }
+            }
             
     + Schema
     
@@ -5693,8 +5788,7 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                     }
                 ]
             }
-            
-                                                 ••
+
 
             {
                 "message": "Validation error", 
@@ -5705,15 +5799,9 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                         "message": "date_range_from", 👻 Same with "date_range_to"
                         "data": "The date range from is not a valid date"
                     },
-                    {
-                        "code": 1001,
-                        "message": "date_range_to", 👻 Same with "date_range_from"
-                        "data": "The date range to field is required when date range from is present"
-                    }
                 ]
             }
 
-                                              SUCCESSFULLY 👍
 
             {
                 "message": "no message",
@@ -5745,7 +5833,12 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                     "last_page": 1,
                     "tasks": [
                         {
-                            "id": 79,
+                            "id": {
+                                "type": "integer",
+                                "value": 123,
+                                "eav": true,
+                                "eav_key": null
+                            },
                             "client_fio": "Ananimous Ananimous",
                             "task_code": null,
                             "client_phone": "375000000001",

@@ -957,7 +957,7 @@ HOST: http://example.net
     + Body
 
             /*
-                Доступны два типа type: "prs" и "martlet":
+                Доступны три типа type: "prs", "martlet", "insurance":
                 Защита+/ПРС (prs)
                 contract_link: ссылка на PDF файлы - могут быть разные PDF (contract_type=zaschita) или на сайт (contract_type=prs)
                 contract_type: тип договора - zaschita или prs
@@ -966,6 +966,9 @@ HOST: http://example.net
                  - app_link: может содержать ссылку на Play Market, страницу описания продукта или AppStore (маловероятно).
                    Вообщем, лучше пересылать клик по данной ссылке на браузер.
                    Может быть пустой.
+                   
+                Страховка (insurance)
+                 -  
             */
 
     + Schema
@@ -1133,116 +1136,6 @@ HOST: http://example.net
             }   
             
             
-            
-### Скрытие страховки [GET/ (use: base/api/five_element/services/insurances/hide/{id})]
-
-+ Response 200 (application/json)
-    + Headers
-    
-            Location: base/api/five_element/services/insurances/hide/{id}
-            Method: GET
-            Authorization: Bearer #TOKEN#
-
-    + Body
-
-            Скрытие страховки из аккаунта клиента
-
-    + Schema
-
-            {
-                "message": "Успешно удалено",
-                "data": null,
-                "errors": []
-            }
-
-            {
-                "message": "Запись с предоставленным ID не найдена.",
-                "data": null,
-                "errors": [
-                    {
-                        "code": 1051,
-                        "message": "Запись с предоставленным ID не найдена.",
-                        "data": "Запись с предоставленным ID не найдена."
-                    }
-                ]
-            }
-            
-            
-### активация услуг [POST/{activation_code}/{app_type}/ (use: base/api/five_element/services/prs/activate)]
-
-+ Parameters
-     + activation_code (required, (string)) ... *код услуги*
-     + app_type (optional, (string)) ... *ios/android идентификация*
-        
-+ Response 200 (application/json)
-
-    + Headers
-    
-            Location: base/api/five_element/services/prs/activate
-            Method: POST
-            Authorization: Bearer #TOKEN#
-
-    + Body
-
-            Активация услуг
-            /*
-                Доступны два значения "app_type": "andoid" и "ios":
-            */
-
-    + Schema
-    
-            {
-                "message": "Успешно активировано",
-                "data": null,
-                "errors": []
-            }
-
-            //страховка
-            {
-                "message": "Успешно активировано",
-                "data": {
-                    "message_title": "deSXCAafcsacfsascfacafsfasvadefs",
-                    "message_text": "cszafscsacfsdcafsdcdscf"
-                },
-                "errors": []
-            }
-
-            {
-                "message": "Unknown partner",
-                "data": null,
-                "errors": [
-                    {
-                        "code": 1104,
-                        "message": "Unknown partner",
-                        "data": "Unknown partner"
-                    }
-                ]
-            }
-            
-            {
-                "message": "Code already activated.",
-                "data": null,
-                "errors": [
-                    {
-                        "code": 1102,
-                        "message": "Code already activated.",
-                        "data": "Code already activated."
-                    }
-                ]
-            }
-            
-            {
-                "message": "Code not found",
-                "data": null,
-                "errors": [
-                    {
-                        "code": 1103,
-                        "message": "Code not found",
-                        "data": "Code not found"
-                    }
-                ]
-            }
-
 
 
 # Park Technic API [/api/park_technic/]
@@ -5722,7 +5615,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                 
                 
                 
-# RMS API [/api/rms]
+# RMS API [/rms/list]
 <hr/>
 
 
@@ -5735,15 +5628,14 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
         + Default: 1
     + limit: 25 (optional, (int)) - *tasks count -*
         + Default: 50
-    + filter: array (optional, (array)) - *Array in format {'key': 'key', "value": }, "field_key": e.g. status, "value": filter value (string or array).*
+    + filter: array (optional, (array)) - *Array in format {'field_key': 'value'}, "field_key": e.g. status, "value": filter value (string or array). You can prepend field_key with filter type e.g. !=, > e.t.c.*
         + Available types:
-        + "like" - search piece of text
         + "!" - not equil
         + "<" - less
         + "<=" - less or equil
         + ">" - more
         + ">=" - more or equil
-    + order: array (optional, (array)) - *Object in format {'field_key': 'order'}, "field_key": e.g. status, "oder": asc or desc*
+    + order: array (optional, (array)) - *Array in format {'field_key': 'order'}, "field_key": e.g. status, "oder": asc or desc*
 
 + Response 200 (application/json)
 
@@ -5755,25 +5647,8 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
 
     + Body
 
-            {
-                "page": 1,
-                "limit": 50,
-                "filter": [
-                    {
-                        "key": "id",
-                        "type": "=",
-                        "value": "23"
-                    },
-                    {
-                        "key": "name",
-                        "type": "=",
-                        "value": "hhhh"
-                    }
-                ],
-                "order": {
-                    "field_key": "asc"
-                }
-            }
+            To the right and above click on "SHOW JSON SCHEMA", to open the response samples.👆
+            That's all you need to know.🙃
             
     + Schema
     
@@ -5788,8 +5663,8 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                     }
                 ]
             }
-
-
+            
+                                                 ••
             {
                 "message": "Validation error", 
                 "data": null,
@@ -5799,10 +5674,14 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                         "message": "date_range_from", 👻 Same with "date_range_to"
                         "data": "The date range from is not a valid date"
                     },
+                    {
+                        "code": 1001,
+                        "message": "date_range_to", 👻 Same with "date_range_from"
+                        "data": "The date range to field is required when date range from is present"
+                    }
                 ]
             }
-
-
+                                              SUCCESSFULLY 👍
             {
                 "message": "no message",
                 "data": {
@@ -5821,9 +5700,7 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                 },
                 "errors": []
             }
-
                                                  ••
-
             {
                 "message": "no message",
                 "data": {
@@ -5833,12 +5710,7 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                     "last_page": 1,
                     "tasks": [
                         {
-                            "id": {
-                                "type": "integer",
-                                "value": 123,
-                                "eav": true,
-                                "eav_key": null
-                            },
+                            "id": 79,
                             "client_fio": "Ananimous Ananimous",
                             "task_code": null,
                             "client_phone": "375000000001",

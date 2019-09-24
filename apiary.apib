@@ -968,7 +968,8 @@ HOST: http://example.net
                    Может быть пустой.
                    
                 Страховка (insurance)
-                 -  
+                 - contract_link: ссылка на PDF файлы - могут быть разные PDF (contract_type=insurance)
+                 - contract_type=insurance
             */
 
     + Schema
@@ -976,6 +977,28 @@ HOST: http://example.net
             {
                 "message": "no message",
                 "data": [
+                    {
+                        "id": 17,
+                        "name": "vasya",
+                        "surname": "pupkin",
+                        "last_name": "grigorovich",
+                        "imei": "4156412",
+                        "brand": "ELECTROLUX",
+                        "model": "ZSPC2010 Пылесос ELECTROLUX",
+                        "device_price": "448.00",
+                        "insurance_amount": "452.48",
+                        "expired_at": "23.09.2020",
+                        "used": 0,
+                        "approved": null,
+                        "denied": 0,
+                        "created_at_sorting": "2019-09-24 14:58:15",
+                        "activated_time": "25.09.2019",
+                        "phone": "375999999715",
+                        "reported": 0,
+                        "type": "insurance",
+                        "contract_link": "https://sotest.so24.net/base/storage/five_element/insurance.pdf",
+                        "contract_type": "insurance"
+                    },
                     {
                         "id": 2,
                         "licence": "32GAZ-F5S4R-RN1NW-86124",
@@ -1136,6 +1159,79 @@ HOST: http://example.net
             }   
             
             
+            
+### Активация страховки [POST/{prs_id}/{imei}/{name}/{last_name}/{surname}/{notification_id} (use: base/api/five_element/services/insurances/activate)]
+
++ Parameters
+    + prs_id (required, (int)) ... *id услуги*
+    + imei (required, (string)) ... *imei устройства*
+    + name (required, (string)) ... *имя пользователя*
+    + last_name (required, (string)) ... *отчество пользователя*
+    + surname (required, (string)) ... *фамилия пользователя*
+    + notification_id (required, (int)) ... *id уведомления*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/services/insurances/activate
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+    
+            Возможные ошибки:
+                1001 'Поле \"#название поля#\" обезательно',
+                1102 '"Страхование\" уже активировано',
+                1105 'Защита+ была активирована другим пользователем',
+                1106 'Защита+ не найдена',
+                1107 'Время активации \"Страхования\" (14 дней) истекло',
+          
+      
+
+    + Schema
+
+            {
+                "message": "Успешно активировано",
+                "data": null,
+                "errors": []
+            }   
+            
+
+
+### Скрытие страховки [GET/(use: base/api/five_element/services/insurances/hide/{id})]
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/services/martlet/remove/{id}
+            Method: GET
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            Скрытие страховки из аккаунта клиента
+
+    + Schema
+
+            {
+                "message": "success",
+                "data": null,
+                "errors": []
+            }
+
+            {
+                "message": "Запись с предоставленным ID не найдена.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1051,
+                        "message": "Запись с предоставленным ID не найдена.",
+                        "data": "Запись с предоставленным ID не найдена."
+                    }
+                ]
+            }
+            
+
 
 
 # Park Technic API [/api/park_technic/]
@@ -1458,6 +1554,17 @@ HOST: http://example.net
                 "data": {
                     "notifications": [
                         {
+                            "id": 56987,
+                            "title": "Страховка: Заголовок уведомления",
+                            "description": "Ваша версия хрень, установите новую.",
+                            "read": 1,
+                            "publish_date": "2019-09-21 09:57:46",
+                            "type": "insurance",
+                            "publish_date_unix": 1569049066,
+                            "image_default": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/3a34989ef0aa795bdb5df1dfb7f1bf01.png",
+                            "image_active": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/7d468de9feb551258606c8c79082ee4f.png"
+                        },
+                        {
                             "id": 48762,
                             "title": "dwad",
                             "description": "adwa",
@@ -1563,14 +1670,6 @@ HOST: http://example.net
                         "id": 48758,
                         "title": "Test, благодарим за регистрацию.\r\n",
                         "description": "\r\nТеперь Вы можете использовать все возможности сервиса удаленной технической поддержки.",
-                        "read": 1,
-                        "publish_date": "2018-10-19 10:50:05",
-                        "publish_date_unix": 1539935405
-                    }
-                    {
-                        "id": 48758,
-                        "title": "Test, благодарим за регистрацию.\r\n",
-                        "description": "\r\nТеперь Вы можете использовать все возможности сервиса удаленной технической поддержки.",
                         "type": "21esdw",
                         "read": 1,
                         "publish_date": "2018-10-19 10:50:05",
@@ -1581,14 +1680,38 @@ HOST: http://example.net
                 ],
                 "errors": []
             }
-
-
-
-
-
-
-
-
+            
+            {
+                "message": "Success",
+                "data": [
+                    {
+                        "id": 56996,
+                        "title": "Страховка: Заголовок уведомления",
+                        "description": "Ваша версия хрень, установите новую.",
+                        "read": 1,
+                        "extra_data": {
+                            "insurance": {
+                                "prs_id": 881781,
+                                "description": "Страховка: Текст уведомления",
+                                "name": "Василий",
+                                "surname": "Зеленцов",
+                                "patronymic": "Фуцы",
+                                "brand": "ELECTROLUX",
+                                "model": "ZSPC2010 Пылесос ELECTROLUX",
+                                "price": 448,
+                                "shopping_time": 1568764800
+                            }
+                        },
+                        "publish_date": "2019-09-24 14:56:21",
+                        "type": "insurance",
+                        "publish_date_unix": 1569326181,
+                        "updated_at": "2019-09-24 14:56:31",
+                        "image_default": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/3a34989ef0aa795bdb5df1dfb7f1bf01.png",
+                        "image_active": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/7d468de9feb551258606c8c79082ee4f.png"
+                    }
+                ],
+                "errors": []
+            }
 
 
 # Technic API [/api/technic_status/]
@@ -1848,11 +1971,11 @@ HOST: http://example.net
             "errors" - массив содержащий сообщения об ошибках
             
             Индикатор "social_type":
-                0 - "google+"
-                1 - "facebook"
-                2 - "vk"
+                0 - "google+",
+                1 - "facebook",
+                2 - "vk",
                 3 - "ok"
-
+                
     + Schema
     
             {
@@ -2601,6 +2724,12 @@ HOST: http://example.net
 
     + Body
     
+            Возможные ошибки:
+                1000 'Ошибка сервера',
+                1007 'Нечего менять',
+                1105 'Защита+ была активирована другим пользователем',
+                1106 'Ошибка сервера',
+
             "success" - результат операции (true/false)
             "errors" - массив содержащий сообщения об ошибках
             "errors" - подарки

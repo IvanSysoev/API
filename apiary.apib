@@ -1040,6 +1040,52 @@ HOST: http://example.net
                 ],
                 "errors": []
             }
+            
+            
+            
+### Активация Защита+ [POST/{activation_code}/ (use: base/api/five_element/services/prs/activate)]
+
++ Parameters
+    + activation_code (required, (string)) ... *Код активации*
+
++ Response 200 (application/json)
+    + Headers
+    
+            Location: base/api/five_element/services/prs/activate
+            Method: POST
+            Authorization: Bearer #TOKEN#
+
+    + Body
+
+            Возможные ошибки:
+                1000 'Ошибка сервера',
+                1007 'Нечего менять',
+                1105 'Защита+ была активирована другим пользователем',
+                1106 'Защита+ не найдена'
+
+    + Schema
+
+            {
+                "message": "Успешно активировано",
+                "data": null,
+                "errors": []
+            }
+
+            {
+                "message": "Нечего менять",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1007,
+                        "message": "Нечего менять",
+                        "data": "Нечего менять"
+                    }
+                ]
+            }
+            
+            
+            
+            
 
 ### Удаление ПРС/Защита+ из аккаунта клиента [GET/ (use: base/api/five_element/services/prs/remove/{id})]
 

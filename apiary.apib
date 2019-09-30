@@ -978,10 +978,12 @@ HOST: http://example.net
                 "message": "no message",
                 "data": [
                     {
-                        "id": 22,
-                        "name": "vasya",
-                        "surname": "pupkin",
-                        "last_name": "grigorovich",
+                        "id": 23,
+                        "name": "Страховка: Заголовок услуги",
+                        "description": "Страховка: Текст услуги",
+                        "user_name": "vasya",
+                        "user_surname": "pupkin",
+                        "user_last_name": "grigorovich",
                         "imei": "4156412",
                         "brand": "ELECTROLUX",
                         "model": "ZSPC2010 Пылесос ELECTROLUX",
@@ -990,7 +992,7 @@ HOST: http://example.net
                         "expired_at": "26.09.2020",
                         "used": 0,
                         "denied": 0,
-                        "created_at_sorting": "2019-09-27 14:00:45",
+                        "created_at_sorting": "2019-09-27 14:25:04",
                         "activated_time": "28.09.2019",
                         "phone": "375999999715",
                         "reported": 0,
@@ -998,7 +1000,9 @@ HOST: http://example.net
                         "process_description_text": "Страховка: Текст описания действий при страховом случае",
                         "type": "insurance",
                         "contract_link": "https://sotest.so24.net/base/storage/five_element/insurance.pdf",
-                        "contract_type": "insurance"
+                        "contract_type": "insurance",
+                        "status_text": "Активна",
+                        "status_color": " #50AC2F"
                     },
                     {
                         "id": 2,
@@ -1094,7 +1098,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/services/prs/remove/{id}
+            Location: base/api/five_element/services/insurances/hide/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 

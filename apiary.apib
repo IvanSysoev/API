@@ -1777,31 +1777,30 @@ HOST: http://example.net
                 "message": "Success",
                 "data": [
                     {
-                        "id": 56997,
+                        "id": 57167,
                         "title": "Страховка: Заголовок уведомления",
-                        "description": "Ваша версия хрень, установите новую.",
+                        "description": "Старая версия",
                         "read": 1,
                         "extra_data": {
                             "insurance": {
-                                "prs_id": 8817824,
-                                "description": "Страховка: Текст уведомления",
+                                "prs_id": 8818127,
+                                "description": "<p class=\"MsoNormal\"><span lang=\"RU\" style=\"mso-ansi-language: RU;\">Уважаемый пользователь! </span></p>\r\n<p class=\"MsoNormal\"><span lang=\"RU\" style=\"mso-ansi-language: RU;\">Для активации страховки просим Вас обратить внимание на правильное заполнение данных:</span></p>\r\n<p class=\"MsoNormal\"><span lang=\"RU\" style=\"mso-ansi-language: RU;\"><span style=\"mso-spacerun: yes;\"> </span>- Если Вы активируете страховку на устройстве, к которому приобрели услугу «Защита+», то все данные в регистрационном поле должны соответствовать приобретенному устройству.<span style=\"mso-spacerun: yes;\">  </span></span></p>\r\n<p class=\"MsoNormal\"><span lang=\"RU\" style=\"mso-ansi-language: RU;\">- Если Вы активируете страховку на другом устройстве, то отредактируйте, пожалуйста, поле imei код, и введите в поле imei устройства, к которому приобретали услугу «Защита+»</span></p>",
                                 "name": "Василий",
                                 "surname": "Зеленцов",
                                 "patronymic": "Фуцы",
-                                "brand": "ELECTROLUX",
-                                "model": "ZSPC2010 Пылесос ELECTROLUX",
-                                "price": "448.03",
-                                "shopping_time": 1568764800,
-                                "terms": "Условия",
-                                "terms_title": "Заголовок условия"
+                                "brand": "Bosch",
+                                "model": "SPV25FX20R Встраиваемая посудомоечная машина Bosch",
+                                "price": "984",
+                                "shopping_time": 1569801600,
+                                "terms": "quam.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Ut enim ad minim ikad veniam, quis nostrud exercitatn ullamco laboris nisinuli.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Ut enim ad minim ikad veniam, quis nostrud exercitatn ullamco laboris nisinuli.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Ut enim ad minim ikad veniam, quam.\r\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Ut enim ad minim ikad veniam, quis nostrud exercitatn ullamco laboris nisinuli.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Ut enim ad minim ikad veniam, quis nostrud exercitatn ullamco laboris nisinuli.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Ut enim ad minim ikad veniam,aliqua. Ut enim ad minim ikad veniam, quis nostrud exercitatn ullamco laboris nisinuli.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Ut enim ad minim ikad veniam,",
+                                "terms_title": "Правила №31"
                             }
                         },
-                        "publish_date": "2019-09-24 16:20:31",
+                        "publish_date": "2019-10-02 17:13:34",
                         "type": "insurance",
-                        "publish_date_unix": 1569331231,
-                        "updated_at": "2019-09-24 16:20:43",
-                        "image_default": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/3a34989ef0aa795bdb5df1dfb7f1bf01.png",
-                        "image_active": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/7d468de9feb551258606c8c79082ee4f.png"
+                        "publish_date_unix": 1570025614,
+                        "image_default": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/fda4eb8c42440fcb3e7724a2c1730873.png",
+                        "image_active": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/06a3e3495cf0d1a51839569fbd716c47.png"
                     }
                 ],
                 "errors": []
@@ -6119,4 +6118,115 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                         }
                     }
                 ]
+            }
+                
+                
+
+# SURVEY [/api/user/survey]
+<hr/>
+
+
+### Template list [GET/  (use: api/user/survey/template/list)]
+
++ Parameters+
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: api/user/survey/template/list
+            Method: GET
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
+    + Body
+
+            
+    + Schema
+    
+            {
+                "message": "Учетные данные пользователя неверны.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1005,
+                        "message": "Учетные данные пользователя неверны.",
+                        "data": "Учетные данные пользователя неверны. Проверьте социальный access_token."
+                    }
+                ]
+            }
+
+            {
+                "message": "no message",
+                "data": {
+                    "templates": [
+                        {
+                            "id": 1,
+                            "name": "Опрос TEST"
+                        }
+                    ]
+                },
+                "errors": []
+            }
+
+
+### Get survey template data [GET/{id}  (use: api/user/survey/template/{id})]
+
++ Parameters+
+    + id (required, (int)) ... *template id
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: api/user/survey/template/{id}
+            Method: GET
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
+    + Body
+
+            
+    + Schema
+
+            {
+                "message": "no message",
+                "data": {
+                    "template_id": "1",
+                    "questions": [
+                        {
+                            "id": "5d95973a22da6e0b340058f5",
+                            "type": "select",
+                            "label": "Question1",
+                            "description": "Question1",
+                            "options": [
+                                {
+                                    "id": "_1",
+                                    "value": "Магазин 1"
+                                },
+                                {
+                                    "id": "_2",
+                                    "value": "Магазин 2"
+                                },
+                                {
+                                    "id": "_3",
+                                    "value": "Магазин 3"
+                                },
+                                {
+                                    "id": "_4",
+                                    "value": "Магазин 4"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "5d97051422da6e0b340058f6",
+                            "type": "text",
+                            "label": "Делали сегодня зарядку?",
+                            "description": "Делали сегодня зарядку?",
+                            "options": {
+                                "id": "null",
+                                "value": ""
+                            }
+                        }
+                    ]
+                },
+                "errors": []
             }

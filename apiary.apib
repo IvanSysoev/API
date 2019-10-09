@@ -6121,11 +6121,11 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                 
                 
 
-# SURVEY [/api/user/survey]
+# SURVEY [/base/api/user/survey]
 <hr/>
 
 
-### Template list [GET/  (use: api/user/survey/template/list)]
+### Template list [GET/  (use: base/api/user/survey/templates)]
 
 + Parameters+
 
@@ -6133,7 +6133,7 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
 
     + Headers
 
-            Location: api/user/survey/template/list
+            Location: base/api/user/survey/templates
             Method: GET
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 
@@ -6157,10 +6157,19 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
             {
                 "message": "no message",
                 "data": {
+                    "total": 2,
                     "templates": [
                         {
-                            "id": 1,
-                            "name": "Опрос TEST"
+                            "id": "1",
+                            "name": "Опрос TEST",
+                            "description": "Очень длинный текст",
+                            "total_questions": "2"
+                        },
+                        {
+                            "id": "2",
+                            "name": "Template 2",
+                            "description": "Template 2",
+                            "total_questions": "1"
                         }
                     ]
                 },
@@ -6168,7 +6177,7 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
             }
 
 
-### Get survey template data [GET/{id}  (use: api/user/survey/template/{id})]
+### Get survey template data [GET/{id}  (use: base/api/user/survey/templates/{id})]
 
 + Parameters+
     + id (required, (int)) ... *template id
@@ -6177,12 +6186,25 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
 
     + Headers
 
-            Location: api/user/survey/template/{id}
+            Location: base/api/user/survey/templates/{id}
             Method: GET
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 
     + Body
-
+    
+            Available params types:
+            select
+            string
+            checklist
+            
+            Question contain properties param with object describing some setting:
+            All:
+             - required (bool): true | false
+             
+            Checklist:
+             - min (int)
+             - max (int)
+             - required (bool) - depends on min value - if (min > 0) => true
             
     + Schema
 
@@ -6190,12 +6212,17 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                 "message": "no message",
                 "data": {
                     "template_id": "1",
+                    "name": "Опрос TEST",
+                    "description": "Очень длинный текст",
                     "questions": [
                         {
                             "id": "5d95973a22da6e0b340058f5",
                             "type": "select",
                             "label": "Question1",
                             "description": "Question1",
+                            "properties": {
+                                "required": true
+                            }
                             "options": [
                                 {
                                     "id": "_1",
@@ -6220,12 +6247,85 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                             "type": "text",
                             "label": "Делали сегодня зарядку?",
                             "description": "Делали сегодня зарядку?",
-                            "options": {
-                                "id": "null",
-                                "value": ""
+                            "properties": {
+                                "required": false
                             }
-                        }
+                        },
+                        {
+                            "id": "5d9d996122da6e25b4001fd4",
+                            "type": "checklist",
+                            "label": "checklist test",
+                            "description": "checklist test",
+                            "properties": {
+                                "min": 1,
+                                "max": 3,
+                                "required": true
+                            },
+                            "options": [
+                                {
+                                    "id": "_1",
+                                    "value": "checklist test 1"
+                                },
+                                {
+                                    "id": "_2",
+                                    "value": "checklist test 2"
+                                }
+                            ]
+                        },
                     ]
+                },
+                "errors": []
+            }
+            
+            
+### Create survey [POST/{template_id}/{template_param}  (use: base/api/user/survey/surveys)]
+
++ Parameters+
+    + template_id (required, (int)) ... *template id
+    + template_param (depends, (mixed)) ... *template parameter contains value corresponding to param type
+    
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/api/user/survey/surveys
+            Method: GET
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
+    + Body
+
+            Available params types:
+            Select: value conntains string with selected key (id) 
+            String: value conntains string with input text
+            Checklist: value conntains array of string values 
+            
+            Example
+            
+            {
+                "template_id": "1",
+                "answers": [
+                    {
+                        "id": "5d95973a22da6e0b340058f5",
+                        "value": "_2", //Select
+                    },
+                    {
+                        "id": "5d97051422da6e0b340058f6",
+                        "value": "test text" //Text
+                    },
+                    {
+                        "id": "2d97051422da6e0b34005834",
+                        "value": ['_1', '_4'] //Checklist
+                    },
+                ]
+            }
+
+            
+    + Schema
+
+            {
+                "message": "Success",
+                "data": {
+                    "survey_id": "5d9aff8d22da6e42d4001715"
                 },
                 "errors": []
             }

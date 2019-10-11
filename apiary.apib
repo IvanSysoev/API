@@ -6196,6 +6196,9 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
             select
             string
             checklist
+            textarea
+            number
+            range
             
             Question contain properties param with object describing some setting:
             All:
@@ -6205,6 +6208,12 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
              - min (int)
              - max (int)
              - required (bool) - depends on min value - if (min > 0) => true
+             
+             Checklist:
+             - min (float)
+             - max (float)
+             - step (float)
+             - required (bool) - depends on config setting
             
     + Schema
 
@@ -6272,6 +6281,36 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                                 }
                             ]
                         },
+                        {
+                            "id": "5d9df07c22da6e3ccc000aa3",
+                            "type": "textarea",
+                            "label": "Textarea test",
+                            "description": "Textarea test",
+                            "properties": {
+                                "required": false
+                            }
+                        },
+                        {
+                            "id": "5d9f0e9c22da6e2850006b93",
+                            "type": "number",
+                            "label": "numbert test",
+                            "description": "numbert test",
+                            "properties": {
+                                "required": false
+                            }
+                        },
+                        {
+                            "id": "5da041fe22da6e2eb80034b3",
+                            "type": "range",
+                            "label": "range test",
+                            "description": "range test",
+                            "properties": {
+                                "required": false,
+                                "min": 0,
+                                "max": 10,
+                                "step": 2
+                            }
+                        }
                     ]
                 },
                 "errors": []
@@ -6297,7 +6336,10 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
             Available params types:
             Select: value conntains string with selected key (id) 
             String: value conntains string with input text
-            Checklist: value conntains array of string values 
+            Checklist: value conntains array of string values
+            Textarea: value conntains long string
+            Number: value conntains string with float number
+            Range: value conntains string with float number
             
             Example
             
@@ -6316,6 +6358,18 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                         "id": "2d97051422da6e0b34005834",
                         "value": ['_1', '_4'] //Checklist
                     },
+                    {
+                        "id": "9497051422da6e0b34005468",
+                        "value": "test textarea" //Textarea
+                    },
+                    {
+                        "id": "3565051422da6e0b34005659",
+                        "value": "5.54" //Number
+                    },
+                    {
+                        "id": "5d9f0e9c22da6e2850006b93",
+                        "value": "5.534" //Range
+                    }
                 ]
             }
 

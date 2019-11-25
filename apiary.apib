@@ -5860,46 +5860,136 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 <hr/>
 
 
-### Task list [POST/{page}/{limit}/{filter}/{order}  (use: base/api/user/rms/request/get)]
-
-The date format in the "**date_range_from**, **date_range_to**" keys should only be **"Y-m-d**".
+### Task list [POST/{page}/{limit}/{filter}/{order}  (use: base/api/user/rms/request)]
 
 + Parameters+
     + page: 3 (optional, (int)) - *page number -*
         + Default: 1
-    + limit: 25 (optional, (int)) - *tasks count -*
+    + limit: 25 (optional, (int)) - *tasks count on one page. Max is 50, default 50*
         + Default: 50
-    + filter: array (optional, (array)) - *Array in format {'field_key': 'value'}, "field_key": e.g. status, "value": filter value (string or array). You can prepend field_key with filter type e.g. !=, > e.t.c.*
+    + filters: array (optional, (array)) - *Array of filters
         + Available types:
-        + "!" - not equil
+        + "=" - equil
+        + "<>" - not equil
         + "<" - less
         + "<=" - less or equil
         + ">" - more
         + ">=" - more or equil
-    + order: array (optional, (array)) - *Array in format {'field_key': 'order'}, "field_key": e.g. status, "oder": asc or desc*
+    + orders: array (optional, (array)) - *Array of orders
+        + Available types:
+            + "asc" - asc
+            + "desc" - desc
+    + options: array (optional, (object)) - *options
+        + Available optins:
+            + "type" - available types: "preview"
+
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/user/rms/request/get
+            Location: base/api/user/rms/request
             Method: POST
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 
     + Body
 
-            Available attribute types:
-                 select
-                 radio
-                 checklist
-                 text
-                 textarea
-                 number
-                 range
-                 date
-                 datetime
-             
-            Attribute params:
+            ================ REQUEST ================
+            Options parametrs:
+             - type "preview" return list of tasks with data required for preview task
+            
+            Example:
+            {
+                "page": "1",
+                "limit": "2",
+                "filters": [
+                    {
+                        "id": "status_id",
+                        "type": "=",
+                        "value": "30"
+                    },
+                    {
+                        "id": "status_id",
+                        "type": "=",
+                        "value": "31"
+                    }
+                ],
+                "orders": [
+                    {
+                        "id": "status_id",
+                        "type": "asc"
+                    },
+                    {
+                        "id": "created_at",
+                        "type": "desc"
+                    }
+                ],
+                "options": {
+                    "type": "preview"
+                }
+            }
+            
+
+            ================ RESPONSE ================
+            Api response has "data" param with following format:
+            {
+                "display": 19, // show number of loaded tasks
+                "total": 19, // show number of all available tasks
+                "current_page": 1,
+                "last_page": 1,
+                "tasks": [{
+                    "id": "123",
+                    "type": {
+                        "id": "10",
+                        "name": "Установка",
+                        "show_in_preview": true, // do you need to show type info in prewiev
+                        "key": "installation"
+                    },
+                    "status": {
+                        "id": "30", // Curent task status id 
+                        "name": "Новая", // Curent task status label
+                        "options": [ // available statuses for change
+                            {
+                                "id": "30",
+                                "value": "Новая",
+                                "required_attributes": [ // ID of required fields
+                                    "description",
+                                    "5dcaabd822da6e355c000b23"
+                                ]
+                            }
+                        ]
+                    },
+                    "client": {
+                        "id": 1075599,
+                        "firstname": "Anonymous",
+                        "surname": "Anonymous",
+                        "patronymic": "Anonymous",
+                        "fio": "Anonymous Anonymous Anonymous",
+                        "phone": "375000000000",
+                        "email": "Anonymous@example.com",
+                        "show_in_preview": true // do you need to show client info in prewiev
+                    },
+                    "created_user": {
+                        "id": 1,
+                        "name": "Дима",
+                        "phone": "375000000001",
+                        "email": "tester@example.com",
+                        "show_in_preview": true // do you need to show created user info in prewiev
+                    },
+                    "attributes": [object1, object2, ...] // see definition below
+                }]
+            }
+
+            ========================= Predefined task params ==========================
+                id - string
+                status - object
+                type - (object | null)
+                created_user - (object | null)
+                client - (object | null)
+
+
+            ===============ATTRIBUTE==============
+            Attribute object params:
                 "id": string,
                 "type": string,
                 "label": string,
@@ -5907,11 +5997,25 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                 "properties": object,
                 "values": array,
                 "options": array, optional
+
+            Available attribute "type" param values:
+                select
+                radio
+                checklist
+                text
+                textarea
+                number
+                range
+                date
+                datetime
+
             
             Attribute contain properties param with object describing some setting:
             All attributes:
              - required: bool - (true | false) - value must be set 
              - can_edit: bool - (true | false) - available for editing, restrict editing this attribute if "false"
+             - show_in_preview: bool - (true | false) - do you need to show this attribute in preview,
+             - required_for_statuses: array of id`s for which attribute is required to set,
              - key: string - attribute unique key in current EAV Group (RMS request Type), can be empty string
              
             Checklist properties param contains:
@@ -5924,24 +6028,30 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
              - max (float)
              - step (float)
              
+            "values" attribute param is always array. This array contain elements in following formats:
+                select -> one string element or empty array
+                radio -> one string element or empty array
+                checklist -> ANY number of string elements or empty array
+                text -> one string element or empty array
+                textarea -> one string element or empty array
+                number -> one float element or empty array
+                range -> one float element or empty array
+                date ->  one string element or empty array, format "2019-04-09"
+                datetime ->  one string element or empty array, format "2019-04-09 10:51:06"
              
+            ========================= Predefined attributes ==========================
+            
             Every RMS request may have predefined attributes. This attributes contain constant id value:
-              Always present:
-                increment_id - attribute type: number
-                status_id - attribute type: select
+              Always present attributes with following "id":
                 state - attribute type: radio
                 description - attribute type: textarea
                 expert_comment - attribute type: textarea
-                type_name - attribute type: text
                 
-              Optional:
-                created_user - attribute type: text
+                
+              Optional attributes with "id":
                 channel - attribute type: text
                 reason - attribute type: text
-                client_name - attribute type: text
-                client_phone - attribute type: text
-                client_email - attribute type: text
-
+            
             
     + Schema
     
@@ -5977,301 +6087,344 @@ The date format in the "**date_range_from**, **date_range_to**" keys should only
                     "current_page": 1,
                     "last_page": 1,
                     "tasks": [
-                        [
-                            {
-                                "id": "status_id",
-                                "type": "select",
-                                "label": "Статус",
-                                "description": "",
-                                "properties": {
-                                    "required": true,
-                                    "can_edit": true,
-                                    "key": ""
-                                },
-                                "options": [
-                                    {
-                                        "id": "33",
-                                        "value": "Завершена"
-                                    }
-                                ], // any number of objects or empty array
-                                "values": [
-                                    "33"
-                                ] // one string element or empty array
+                        {
+                             "id": "123",
+                            "type": {
+                                "id": "10",
+                                "name": "Установка",
+                                "show_in_preview": true, // do you need to show type info in prewiev
+                                "key": "installation"
                             },
-                            {
-                                "id": "state",
-                                "type": "radio",
-                                "label": "Состояние",
-                                "description": "",
-                                "properties": {
-                                    "required": true,
-                                    "can_edit": true,
-                                    "key": ""
-                                },
-                                "options": [
+                            "status": {
+                                "id": "30", // Curent task status id 
+                                "name": "Новая", // Curent task status label
+                                "options": [ // available statuses for change
                                     {
-                                        "id": "0",
-                                        "value": "Открыто"
+                                        "id": "30",
+                                        "value": "Новая",
+                                        "required_attributes": [ // ID of required fields
+                                            "description",
+                                            "5dcaabd822da6e355c000b23"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "client": {
+                                "id": 1075599,
+                                "firstname": "Anonymous",
+                                "surname": "Anonymous",
+                                "patronymic": "Anonymous",
+                                "fio": "Anonymous Anonymous Anonymous",
+                                "phone": "375000000000",
+                                "email": "Anonymous@example.com",
+                                "show_in_preview": true // do you need to show client info in prewiev
+                            },
+                            "created_user": {
+                                "id": 1,
+                                "name": "Дима",
+                                "phone": "375000000001",
+                                "email": "tester@example.com",
+                                "show_in_preview": true // do you need to show created user info in prewiev
+                            },
+                            "attributes": [
+                                {
+                                    "id": "234h2bvuj43h2vbbg",
+                                    "type": "select",
+                                    "label": "Селект для теста",
+                                    "description": "",
+                                    "properties": {
+                                        "required": true,
+                                        "can_edit": true,
+                                        "show_in_preview": true,
+                                        "required_for_statuses": [
+                                            "30"
+                                        ],
+                                        "key": ""
                                     },
-                                    {
-                                        "id": "1",
-                                        "value": "Закрыто"
-                                    }
-                                ], // any number of objects or empty array
-                                "values": [
-                                    "0"
-                                ] // one string element or empty array
-                            },
-                            {
-                                "id": "5dc194f622da6e3288001173",
-                                "type": "checklist",
-                                "label": "checklisttest",
-                                "description": "checklisttest",
-                                "properties": {
-                                    "required": true,
-                                    "can_edit": false,
-                                    "key": "checklisttest",
-                                    "min": 1,
-                                    "max": 3
+                                    "options": [
+                                        {
+                                            "id": "33",
+                                            "value": "Завершена"
+                                        }
+                                    ], // any number of objects or empty array
+                                    "values": [
+                                        "33"
+                                    ] // one string element or empty array
                                 },
-                                "values": ["_1"], // any number of string elements or empty array
-                                "options": [
-                                    {
-                                        "id": "_1",
-                                        "value": "checklisttest 1"
+                                {
+                                    "id": "state",
+                                    "type": "radio",
+                                    "label": "Состояние",
+                                    "description": "",
+                                    "properties": {
+                                        "required": true,
+                                        "can_edit": true,
+                                        "show_in_preview": true,
+                                        "required_for_statuses": [
+                                            "30"
+                                        ],
+                                        "key": ""
                                     },
-                                    {
-                                        "id": "_2",
-                                        "value": "checklisttest 2"
-                                    }
-                                ] // any objects or empty array
-                            },
-                            {
-                                "id": "5d14cc3b22da6e2918006543",
-                                "type": "text",
-                                "label": "testattr",
-                                "description": "testattr",
-                                "properties": {
-                                    "required": false,
-                                    "can_edit": false,
-                                    "key": "testattr"
+                                    "options": [
+                                        {
+                                            "id": "0",
+                                            "value": "Открыто"
+                                        },
+                                        {
+                                            "id": "1",
+                                            "value": "Закрыто"
+                                        }
+                                    ], // any number of objects or empty array
+                                    "values": [
+                                        "0"
+                                    ] // one string element or empty array
                                 },
-                                "values": []  // one string element or empty array
-                            },
-                            {
-                                "id": "description",
-                                "type": "textarea",
-                                "label": "Комментарий клиента",
-                                "description": "",
-                                "properties": {
-                                    "required": false,
-                                    "can_edit": true,
-                                    "key": ""
+                                {
+                                    "id": "5dc194f622da6e3288001173",
+                                    "type": "checklist",
+                                    "label": "checklisttest",
+                                    "description": "checklisttest",
+                                    "properties": {
+                                        "required": true,
+                                        "can_edit": false,
+                                        "show_in_preview": true,
+                                        "required_for_statuses": [
+                                            "30"
+                                        ],
+                                        "key": "checklisttest",
+                                        "min": 1,
+                                        "max": 3
+                                    },
+                                    "values": ["_1"], // any number of string elements or empty array
+                                    "options": [
+                                        {
+                                            "id": "_1",
+                                            "value": "checklisttest 1"
+                                        },
+                                        {
+                                            "id": "_2",
+                                            "value": "checklisttest 2"
+                                        }
+                                    ] // any objects or empty array
                                 },
-                                "values": [
-                                    "Описание: тест комм; Требование: Гарантийный ремонт 14"
-                                ]  // one string element or empty array
-                            },
-                            {
-                                "id": "increment_id",
-                                "type": "number",
-                                "label": "#",
-                                "description": "Порядковый номер",
-                                "properties": {
-                                    "required": false,
-                                    "can_edit": false,
-                                    "key": ""
+                                {
+                                    "id": "5d14cc3b22da6e2918006543",
+                                    "type": "text",
+                                    "label": "testattr",
+                                    "description": "testattr",
+                                    "properties": {
+                                        "required": false,
+                                        "can_edit": false,
+                                        "show_in_preview": true,
+                                        "required_for_statuses": [
+                                            "30"
+                                        ],
+                                        "key": "testattr"
+                                    },
+                                    "values": []  // array with one string element or empty array
                                 },
-                                "values": [20] // one float element or empty array
-                            },
-                            {
-                                "id": "5dcaabd822da6e355c000b23",
-                                "type": "range",
-                                "label": "testrange",
-                                "description": "testrange",
-                                "properties": {
-                                    "required": false,
-                                    "can_edit": false,
-                                    "key": "testrange",
-                                    "min": 1,
-                                    "max": 10,
-                                    "step": 1
+                                {
+                                    "id": "description",
+                                    "type": "textarea",
+                                    "label": "Комментарий клиента",
+                                    "description": "",
+                                    "properties": {
+                                        "required": false,
+                                        "can_edit": true,
+                                        "key": ""
+                                    },
+                                    "values": [
+                                        "Описание: тест комм; Требование: Гарантийный ремонт 14"
+                                    ]  // array with one string element or empty array
                                 },
-                                "values": [2.23] // one float element or empty array
-                            },
-                            {
-                                "id": "5cadf365a6b9f91f84004f15",
-                                "type": "date",
-                                "label": "Предельная дата ремонта",
-                                "description": "Предельная дата ремонта",
-                                "properties": {
-                                    "required": false,
-                                    "can_edit": false,
-                                    "key": "max_repair_date"
+                                {
+                                    "id": "increment_id",
+                                    "type": "number",
+                                    "label": "#",
+                                    "description": "Порядковый номер",
+                                    "properties": {
+                                        "required": false,
+                                        "can_edit": false,
+                                        "show_in_preview": true,
+                                        "required_for_statuses": [
+                                            "30"
+                                        ],
+                                        "key": ""
+                                    },
+                                    "values": [20] // array with one float element or empty array
                                 },
-                                "values": ["2017-10-10"]
-                            }, // one string element or empty array, format "2017-10-10"
-                            {
-                                "id": "5c98e276a6b9f92d28005824",
-                                "type": "datetime",
-                                "label": "Создана",
-                                "description": "Создана",
-                                "properties": {
-                                    "required": false,
-                                    "can_edit": false,
-                                    "key": "Дата"
+                                {
+                                    "id": "5dcaabd822da6e355c000b23",
+                                    "type": "range",
+                                    "label": "testrange",
+                                    "description": "testrange",
+                                    "properties": {
+                                        "required": false,
+                                        "can_edit": false,
+                                        "show_in_preview": true,
+                                        "required_for_statuses": [
+                                            "30"
+                                        ],
+                                        "key": "testrange",
+                                        "min": 1,
+                                        "max": 10,
+                                        "step": 1
+                                    },
+                                    "values": [2.23] // array with one float element or empty array
                                 },
-                                "values": [
-                                    "2019-04-09 10:51:06"
-                                ] // one string element or empty array, format "2019-04-09 10:51:06"
-                            },
-                        ]
-                    ],
-                    "status_count": [
-                        {
-                            "id": 30,
-                            "name": "Новая",
-                            "key": "open",
-                            "count": 19
-                        },
-                        {
-                            "id": 31,
-                            "name": "Принята",
-                            "key": "accepted",
-                            "count": 1
-                        },
-                        {
-                            "id": 32,
-                            "name": "В работе",
-                            "key": "working",
-                            "count": 0
+                                {
+                                    "id": "5cadf365a6b9f91f84004f15",
+                                    "type": "date",
+                                    "label": "Предельная дата ремонта",
+                                    "description": "Предельная дата ремонта",
+                                    "properties": {
+                                        "required": false,
+                                        "can_edit": false,
+                                        "show_in_preview": true,
+                                        "required_for_statuses": [
+                                            "30"
+                                        ],
+                                        "key": "max_repair_date"
+                                    },
+                                    "values": ["2017-10-10"]
+                                }, // one string element or empty array, format "2017-10-10"
+                                {
+                                    "id": "5c98e276a6b9f92d28005824",
+                                    "type": "datetime",
+                                    "label": "Создана",
+                                    "description": "Создана",
+                                    "properties": {
+                                        "required": false,
+                                        "can_edit": false,
+                                        "key": "Дата"
+                                    },
+                                    "values": [
+                                        "2019-04-09 10:51:06"
+                                    ] // one string element or empty array, format "2019-04-09 10:51:06"
+                                }
+                            ]
                         }
                     ]
                 },
                 "errors": []
             }
 
-### Task edit GET [GET/{id}  (use: api/rms/edit/{id})]
 
-+ Parameters+
-    + id: 3 (required, (int)) - *task id -*
-
+### Task get count of tasks [GET/  (use: base/api/user/rms/request/count)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: api/rms/edit/{id}
-            Method: POST
+            Location: base/api/user/rms/request/count
+            Method: GET
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
 
     + Body
 
-            Body txt
-            
-    + Schema
-    
             {
-                "message": "Учетные данные пользователя неверны.",
+                "message": "no message",
                 "data": {
-                    "id": {
-                        "type": "integer",
-                        "value": 123,
-                        "eav_key": null
-                    },
-                    "status": {
-                        "type": "select",
-                        "value": "122",
-                        "options": {
-                            "1": "Новая",
-                            "2": "В работе",
-                        }",
-                        "eav_key": null
-                    },
-                    "request_type_id": {
-                        "type": "integer",
-                        "value": 7,
-                        "eav_key": null
-                    },
-                    "l32vyuewnflo": {
-                        "type": "text",
-                        "value": "Ananimous Ananimous",
-                        "eav_key": "client_fio"
-                    },
-                    "fneifnoij334": {
-                        "type": "text",
-                        "value": "Демрово, Минская, Минский, ул. течст, д. 12, кв. 43",
-                        "eav_key": "client_address"
-                    },
-                    "jndvsm23vsdkj34": {
-                        "type": "select",
-                        "value": "_2",
-                        "relatinal_value": "Минск В.Голубка 2",
-                        "options": {
-                            "_1": "Минск В.Голубка 2",
-                            "_2": "Острой Джамми 33",
-                        }",
-                        "eav_key": "unit"
-                    },
-                    "jndvsmvsdkwdj34": {
-                        "type": "datetime",
-                        "value": "07.03.2019 15:26:58",
-                        "eav_key": "max_repair_date"
-                    },
-                    "cscs34342": {
-                        "type": "date",
-                        "value": "07.03.2019",
-                        "eav_key": "time_of_deadline"
-                    },
+                    "status_count": [
+                        {
+                            "id": 30, // status id
+                            "name": "Новая", // status name
+                            "key": "open", // status key (used in some api behaviors)
+                            "count": 19 // number of tasks in current status
+                        }
+                        {
+                            "id": 31,
+                            "name": "Принята",
+                            "key": "accepted",
+                            "count": 1
+                        }
+                    ]
                 },
                 "errors": []
             }
 
-### Task edit UPDATE [POST/{id}/{status}/{params}  (use: api/rms/edit/{id})]
+
+
+### Task edit UPDATE [PATCH/{id}  (use: base/api/user/rms/request/{id})]
 
 + Parameters+
     + id: 3 (required, (int)) - *task id -*
-    + status: accepted (required, (string)) - *task status -*
-    + params: values (optional, (any type)) - any additional fields
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: api/rms/edit/{id}
-            Method: POST
+            Location: base/api/user/rms/request/{id}
+            Method: PATCH
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
 
     + Body
 
-            Body txt
-            
-    + Schema
-    
+            In body of request server expects following format:
             {
-                "message": "Validation error", 
-                "data": null,
-                "errors": [
+                "id": "1", // RMS Request id (task id)
+                "attributes": [
                     {
-                        "code": 1001,
-                        "message": "date_range_from", Same with "date_range_to"
-                        "data": {
-                            "param": "cscs34342",
-                            "message": "date_range_from", Same with "date_range_to"
-                        }
-                    },
-                    {
-                        "code": 1001,
-                        "message": "date_range_to", 👻 Same with "date_range_from"
-                        "data": {
-                            "param": "3412341dfdsa",
-                            "message": "datetime wrong formst"
-                        }
+                        "id": "5d95973a22da6e0b340058f5", // attribute id
+                        "values": ["_2"], // attribute value or values
                     }
                 ]
             }
-                
-                
+            
+            Example
+            
+            {
+                "id": "1", //
+                "attributes": [
+                    {
+                        "id": "5d95973a22da6e0b340058f5",
+                        "values": ["_2"], //select
+                    },
+                    {
+                        "id": "5d97051422da6e0b340058f6",
+                        "values": ["test text"] //text
+                    },
+                    {
+                        "id": "2d97051422da6e0b34005834",
+                        "values": ["_1", "_4"] //checklist
+                    },
+                    {
+                        "id": "9497051422da6e0b34005468",
+                        "values": ["test textarea"] //textarea
+                    },
+                    {
+                        "id": "3565051422da6e0b34005659",
+                        "values": ["5.54"] //number
+                    },
+                    {
+                        "id": "5d9f0e9c22da6e2850006b93",
+                        "values": ["5.534"] //range
+                    },
+                    {
+                        "id": "5d9f0e9c22da6e2850006b3293",
+                        "values": ["2017-10-10"] //date
+                    },
+                    {
+                        "id": "5d9f0e9c22da6e2850006b3293",
+                        "values": ["2019-04-09 10:51:06"] //datetime
+                    }
+                    
+                    
+                ]
+            }
+
+
+    + Schema
+    
+            {
+                "message": "Success",
+                "data": null,
+                "errors": []
+            }      
+
+
 
 # SURVEY [/base/api/user/survey]
 <hr/>

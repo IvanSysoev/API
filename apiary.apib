@@ -6426,6 +6426,51 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
 
 
+### Get filters [GET/  (use: base/api/user/rms/request/filters)]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: base/api/user/rms/request/filters
+            Method: GET
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
+
+    + Body
+
+            {
+                "message": "no message",
+                "data": {
+                    "filters": [
+                        {
+                            "id": "request_type_id",
+                            "type": "select",
+                            "label": "Тип заявки",
+                            "options": {
+                                "8": "Ремонт",
+                                "10": "Установка",
+                                "12": "Обращение клиента"
+                            }
+                        },
+                        {
+                            "id": "created_at",
+                            "type": "date_range",
+                            "label": "Дата создания"
+                        },
+                        {
+                            "id": "task_id",
+                            "type": "integer",
+                            "label": "Номер заявки"
+                        }
+                    ]
+                },
+                "errors": []
+            }
+
+
+
+
 # SURVEY [/base/api/user/survey]
 <hr/>
 

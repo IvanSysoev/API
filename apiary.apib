@@ -5863,11 +5863,11 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 ### Task list [POST/{page}/{limit}/{filter}/{order}  (use: base/api/user/rms/request)]
 
 + Parameters+
-    + page: 3 (optional, (int)) - *page number -*
+    + page: int (optional) - *page number -*
         + Default: 1
-    + limit: 25 (optional, (int)) - *tasks count on one page. Max is 50, default 50*
+    + limit: int (optional) - *tasks count on one page. Max is 50, default 50*
         + Default: 50
-    + filters: array (optional, (array)) - *Array of filters
+    + filters: array (optional) - *Array of filters
         + Available types:
         + "=" - equil
         + "<>" - not equil
@@ -5875,14 +5875,16 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
         + "<=" - less or equil
         + ">" - more
         + ">=" - more or equil
-    + orders: array (optional, (array)) - *Array of orders
+    + orders: array (optional) - *Array of orders
         + Available types:
             + "asc" - asc
             + "desc" - desc
-    + options: array (optional, (object)) - *options
+    + options: object (optional) - *options
         + Available optins:
             + "type" - available types: "preview"
-
+    + search: object (optional) - *quick search (search  in fields chosen by server, like task_id)
+        + Available optins:
+            + "term" - string with search text
 
 + Response 200 (application/json)
 
@@ -5926,6 +5928,9 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                 ],
                 "options": {
                     "type": "preview"
+                },
+                "search": {
+                    "term": "1234"
                 }
             }
             
@@ -5942,7 +5947,6 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                     "type": {
                         "id": "10",
                         "name": "Установка",
-                        "show_in_preview": true, // do you need to show type info in prewiev
                         "key": "installation"
                     },
                     "status": {
@@ -5967,14 +5971,12 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                         "fio": "Anonymous Anonymous Anonymous",
                         "phone": "375000000000",
                         "email": "Anonymous@example.com",
-                        "show_in_preview": true // do you need to show client info in prewiev
                     },
                     "created_user": {
                         "id": 1,
                         "name": "Дима",
                         "phone": "375000000001",
                         "email": "tester@example.com",
-                        "show_in_preview": true // do you need to show created user info in prewiev
                     },
                     "attributes": [object1, object2, ...] // see definition below
                 }]
@@ -6013,8 +6015,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
             Attribute contain properties param with object describing some setting:
             All attributes:
              - required: bool - (true | false) - value must be set 
-             - can_edit: bool - (true | false) - available for editing, restrict editing this attribute if "false"
-             - show_in_preview: bool - (true | false) - do you need to show this attribute in preview,
+             - api_show_edit_form_for_statuses: array of id`s for which the attribute edit form have to be shown
              - required_for_statuses: array of id`s for which attribute is required to set,
              - key: string - attribute unique key in current EAV Group (RMS request Type), can be empty string
              
@@ -6092,7 +6093,6 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                             "type": {
                                 "id": "10",
                                 "name": "Установка",
-                                "show_in_preview": true, // do you need to show type info in prewiev
                                 "key": "installation"
                             },
                             "status": {
@@ -6117,14 +6117,12 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                 "fio": "Anonymous Anonymous Anonymous",
                                 "phone": "375000000000",
                                 "email": "Anonymous@example.com",
-                                "show_in_preview": true // do you need to show client info in prewiev
                             },
                             "created_user": {
                                 "id": 1,
                                 "name": "Дима",
                                 "phone": "375000000001",
                                 "email": "tester@example.com",
-                                "show_in_preview": true // do you need to show created user info in prewiev
                             },
                             "attributes": [
                                 {
@@ -6134,8 +6132,10 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "",
                                     "properties": {
                                         "required": true,
-                                        "can_edit": true,
-                                        "show_in_preview": true,
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
                                         "required_for_statuses": [
                                             "30"
                                         ],
@@ -6158,8 +6158,10 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "",
                                     "properties": {
                                         "required": true,
-                                        "can_edit": true,
-                                        "show_in_preview": true,
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
                                         "required_for_statuses": [
                                             "30"
                                         ],
@@ -6186,8 +6188,10 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "checklisttest",
                                     "properties": {
                                         "required": true,
-                                        "can_edit": false,
-                                        "show_in_preview": true,
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
                                         "required_for_statuses": [
                                             "30"
                                         ],
@@ -6214,8 +6218,10 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "testattr",
                                     "properties": {
                                         "required": false,
-                                        "can_edit": false,
-                                        "show_in_preview": true,
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
                                         "required_for_statuses": [
                                             "30"
                                         ],
@@ -6230,7 +6236,10 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "",
                                     "properties": {
                                         "required": false,
-                                        "can_edit": true,
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
                                         "key": ""
                                     },
                                     "values": [
@@ -6244,8 +6253,10 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "Порядковый номер",
                                     "properties": {
                                         "required": false,
-                                        "can_edit": false,
-                                        "show_in_preview": true,
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
                                         "required_for_statuses": [
                                             "30"
                                         ],
@@ -6260,8 +6271,10 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "testrange",
                                     "properties": {
                                         "required": false,
-                                        "can_edit": false,
-                                        "show_in_preview": true,
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
                                         "required_for_statuses": [
                                             "30"
                                         ],
@@ -6279,8 +6292,10 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "Предельная дата ремонта",
                                     "properties": {
                                         "required": false,
-                                        "can_edit": false,
-                                        "show_in_preview": true,
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
                                         "required_for_statuses": [
                                             "30"
                                         ],
@@ -6295,7 +6310,10 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "Создана",
                                     "properties": {
                                         "required": false,
-                                        "can_edit": false,
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
                                         "key": "Дата"
                                     },
                                     "values": [
@@ -6439,6 +6457,19 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
     + Body
 
+            ===============FILTER OBJECT==============
+                "id": string (required),
+                "type": string (required),
+                "label": string (required),
+                "options": array, optional
+
+            ===============Available filter types==============
+                select
+                date_range
+                integer
+                
+    + Schema
+    
             {
                 "message": "no message",
                 "data": {
@@ -6447,11 +6478,20 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                             "id": "request_type_id",
                             "type": "select",
                             "label": "Тип заявки",
-                            "options": {
-                                "8": "Ремонт",
-                                "10": "Установка",
-                                "12": "Обращение клиента"
-                            }
+                            "options": [
+                                {
+                                    "id": 8,
+                                    "value": "Ремонт"
+                                },
+                                {
+                                    "id": 10,
+                                    "value": "Установка"
+                                },
+                                {
+                                    "id": 12,
+                                    "value": "Обращение клиента"
+                                }
+                            ]
                         },
                         {
                             "id": "created_at",
@@ -6467,7 +6507,6 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                 },
                 "errors": []
             }
-
 
 
 

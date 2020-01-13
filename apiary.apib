@@ -6020,6 +6020,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
             All attributes:
              - required: bool - (true | false) - value must be set 
              - api_show_edit_form_for_statuses: array of id`s for which the attribute edit form have to be shown
+             - show_in_full_preview: bool - (true | false) - determine showing attribute on full preview
              - required_for_statuses: array of id`s for which attribute is required to set,
              - key: string - attribute unique key in current EAV Group (RMS request Type), can be empty string
              
@@ -6140,6 +6141,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "",
                                     "properties": {
                                         "required": true,
+                                        "show_in_full_preview": true
                                         "api_show_edit_form_for_statuses": [
                                             "30",
                                             "31"
@@ -6166,6 +6168,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "",
                                     "properties": {
                                         "required": true,
+                                        "show_in_full_preview": true
                                         "api_show_edit_form_for_statuses": [
                                             "30",
                                             "31"
@@ -6196,6 +6199,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "checklisttest",
                                     "properties": {
                                         "required": true,
+                                        "show_in_full_preview": true
                                         "api_show_edit_form_for_statuses": [
                                             "30",
                                             "31"
@@ -6226,6 +6230,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "testattr",
                                     "properties": {
                                         "required": false,
+                                        "show_in_full_preview": true
                                         "api_show_edit_form_for_statuses": [
                                             "30",
                                             "31"
@@ -6244,9 +6249,13 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "",
                                     "properties": {
                                         "required": false,
+                                        "show_in_full_preview": true
                                         "api_show_edit_form_for_statuses": [
                                             "30",
                                             "31"
+                                        ],
+                                        "required_for_statuses": [
+                                            "30"
                                         ],
                                         "key": ""
                                     },
@@ -6261,6 +6270,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "Порядковый номер",
                                     "properties": {
                                         "required": false,
+                                        "show_in_full_preview": true
                                         "api_show_edit_form_for_statuses": [
                                             "30",
                                             "31"
@@ -6279,6 +6289,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "testrange",
                                     "properties": {
                                         "required": false,
+                                        "show_in_full_preview": true
                                         "api_show_edit_form_for_statuses": [
                                             "30",
                                             "31"
@@ -6300,6 +6311,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "Предельная дата ремонта",
                                     "properties": {
                                         "required": false,
+                                        "show_in_full_preview": true
                                         "api_show_edit_form_for_statuses": [
                                             "30",
                                             "31"
@@ -6318,10 +6330,12 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     "description": "Создана",
                                     "properties": {
                                         "required": false,
+                                        "show_in_full_preview": true
                                         "api_show_edit_form_for_statuses": [
                                             "30",
                                             "31"
                                         ],
+                                        "required_for_statuses": [],
                                         "key": "Дата"
                                     },
                                     "values": [

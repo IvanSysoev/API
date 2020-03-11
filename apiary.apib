@@ -112,7 +112,7 @@ HOST: http://example.net
     + email (optional, (string)) ... *Email*
     + password (required, (string)) ... *пароль*
     + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регистрация с otp"*
-    + fcm_token (optional, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
+    + fcm_token (required, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
     
 + Response 200 (application/json)
     + Headers
@@ -182,7 +182,7 @@ HOST: http://example.net
     + password (required, (string)) ... *пароль*
     + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера. Только если у партнера включена опция "регистрация с otp" + у пользователя нет привязанного верифицированного телефона.*
     + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регистрация с otp" + у пользователя нет привязанного верифицированного телефона."*
-    + fcm_token (optional, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
+    + fcm_token (required, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
     
 + Response 200 (application/json)
     + Headers
@@ -255,7 +255,7 @@ HOST: http://example.net
     + serverAuthCode (optional, (string)) ... *serverAuthCode выданный соц сетью (в запросе должен быть accessToken или serverAuthCode)*
     + phone (optional, (integer)) ... *телефон длина зависит от настроек партнера. Только если у партнера включена опция "регистрация с otp" + у пользователя нет привязанного верифицированного телефона.*
     + otp (optional, (string)) ... *код otp one time password. Только если у партнера включена опция "регистрация с otp. Только если у пользователя нет привязанного верифицированного телефона."*
-    + fcm_token (optional, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don't work without fcm token)*
+    + fcm_token (required, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don't work without fcm token)*
 
 + Response 200 (application/json)
     + Headers
@@ -333,7 +333,7 @@ HOST: http://example.net
     + client_secret (required, (string)) ... *выдается сервером oauth*
     + phone (required, (integer)) ... *телефон длина зависит от настроек партнера.*
     + otp (required, (string)) ... *код otp one time password.*
-    + fcm_token (optional, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
+    + fcm_token (required, (string)) ... *firebase cloud message token. need to proper work mobile apps (for example, chat don`t work without fcm token)*
     
 + Response 200 (application/json)
     + Headers

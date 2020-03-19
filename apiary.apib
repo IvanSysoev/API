@@ -5853,6 +5853,59 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                 }
                 
                 
+### Send review [POST/{description}  (use: api/user/send_review)]
++ Parameters
+    + description: good! (required, (string)) - *description -*
+    
++ Response 200 (application/json)
+
+        # Notes:
+
+         Don't forget about "access_token". Use it in headers.
+         Don't forget about "application/json" in "Accept" key of headers.
+    
+    + Headers
+    
+    
+
+            Location: api/user/send_review
+            Method: GET
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+            
+    + Body
+
+            To the right and above click on "SHOW JSON SCHEMA", to open the response samples.👆
+            That's all you need to know.🙃
+            
+    + Schema
+    
+                
+                                                FAILS 💩 
+ 
+            Raw HTML - if "Accept" key !== "application/json" in headers.       
+
+                                                 ••
+
+            {
+                "message": "Учетные данные пользователя неверны.",
+                "data": null,
+                "errors": [
+                    {
+                        "code": 1005,
+                        "message": "Учетные данные пользователя неверны.",
+                        "data": "Учетные данные пользователя неверны. Проверьте социальный access_token."
+                    }
+                ]
+            }
+
+                                              SUCCESSFULLY 👍
+
+            {
+                "message": "no message",
+                "data": null,
+                "errors": []
+            }              
+                
                 
                 
                 

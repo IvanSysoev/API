@@ -100,7 +100,7 @@ HOST: http://example.net
                 ]
             }
 
-### Регистрация (username + password) [POST/{client_id}/{client_secret}/{phone}/{firstname}/{surname}/{patronymic}/{email}/{password}/{otp}/{fcm_token}/ (use: base/api/auth/register)]
+### Регистрация (username + password) [POST/{client_id}/{client_secret}/{phone}/{firstname}/{surname}/{patronymic}/{email}/{password}/{otp}/{fcm_token}/ (use: api/auth/register)]
 
 + Parameters
     + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
@@ -117,7 +117,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/auth/register
+            Location: api/auth/register
             Method: POST
 
     + Body
@@ -174,7 +174,7 @@ HOST: http://example.net
             }
 
 
-### Аутентификация по логину и паролю [POST/{client_id}/{client_secret}/{phone}/{password}/{otp}/{fcm_token}/ (use: base/api/auth/login_password)]
+### Аутентификация по логину и паролю [POST/{client_id}/{client_secret}/{phone}/{password}/{otp}/{fcm_token}/ (use: api/auth/login_password)]
 
 + Parameters
     + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
@@ -187,7 +187,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/auth/login_password
+            Location: api/auth/login_password
             Method: POST
 
     + Body
@@ -245,7 +245,7 @@ HOST: http://example.net
                 "errors": []
             }
 
-### Аутентификация/регистрация соцсети [POST/{client_id}/{client_secret}/{provider}/{accessToken}/{serverAuthCode}/{otp}/{phone}/{fcm_token}/ (use: base/api/auth/login_social)]
+### Аутентификация/регистрация соцсети [POST/{client_id}/{client_secret}/{provider}/{accessToken}/{serverAuthCode}/{otp}/{phone}/{fcm_token}/ (use: api/auth/login_social)]
 
 + Parameters
     + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
@@ -260,7 +260,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/auth/login_social
+            Location: api/auth/login_social
             Method: POST
 
     + Body
@@ -326,7 +326,7 @@ HOST: http://example.net
                 "errors": []
             }
 
-### Восстановление пароля [POST/{client_id}/{client_secret}/{phone}/{otp}/{fcm_token}/ (use: base/api/auth/forgot_password)]
+### Восстановление пароля [POST/{client_id}/{client_secret}/{phone}/{otp}/{fcm_token}/ (use: api/auth/forgot_password)]
 
 + Parameters
     + client_id (required, (string)) ... *id клиента - выдается сервером oauth*
@@ -338,7 +338,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/auth/forgot_password
+            Location: api/auth/forgot_password
             Method: POST
 
     + Body
@@ -397,7 +397,7 @@ HOST: http://example.net
                 "errors": []
             }
 
-### Изменение данных пользователя [POST/{firstname}/{surname}/{password}/{photo}/{otp}/{phone}/{card}/ (use: base/api/client/edit)]
+### Изменение данных пользователя [POST/{firstname}/{surname}/{password}/{photo}/{otp}/{phone}/{card}/ (use: api/client/edit)]
 
 + Parameters
     + firstname (optional, (string)) ... *имя*
@@ -411,7 +411,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/client/edit
+            Location: api/client/edit
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -452,12 +452,12 @@ HOST: http://example.net
             }
 
 
-### Получение данных пользователя [GET/ (use: base/api/client/info)]
+### Получение данных пользователя [GET/ (use: api/client/info)]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/client/info
+            Location: api/client/info
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -485,7 +485,7 @@ HOST: http://example.net
                     "isbackup": 1,
                     "backup_date": "1130304721",
                     "backup_link": "test",
-                    "user_photo": "http://example.com/base/storage/uploads/images/client_photo/zcBOIwRQ5LebGxYhobzW7Wf4hMRRFdSQFs0cWzek.png",
+                    "user_photo": "http://example.com/storage/uploads/images/client_photo/zcBOIwRQ5LebGxYhobzW7Wf4hMRRFdSQFs0cWzek.png",
                     
                     "codes_not_viewed": 0,
                     "gift": false,
@@ -496,12 +496,12 @@ HOST: http://example.net
                 "errors": []
             }
 
-### Выход [GET/ (use: base/api/auth/logout)]
+### Выход [GET/ (use: api/auth/logout)]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/auth/logout
+            Location: api/auth/logout
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -520,12 +520,12 @@ HOST: http://example.net
 # Five Element API [/api/five_element/]
 <hr/>
 
-### Получение справочников по разделу заявок [GET/ (use: base/api/five_element/requests/info)]
+### Получение справочников по разделу заявок [GET/ (use: api/five_element/requests/info)]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/requests/info
+            Location: api/five_element/requests/info
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -602,12 +602,12 @@ HOST: http://example.net
             }
 
 
-### Получение списка заявок [GET/ (use: base/api/five_element/requests/get)]
+### Получение списка заявок [GET/ (use: api/five_element/requests/get)]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/requests/get
+            Location: api/five_element/requests/get
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -659,7 +659,7 @@ HOST: http://example.net
             }
 
 
-### Добавить ПРС заявку [POST/{contact_fio}/{contact_phone}/{service_id}/{technic_category}/{request_reason}/{request_comment}/ (use: base/api/five_element/requests/add_prs)]
+### Добавить ПРС заявку [POST/{contact_fio}/{contact_phone}/{service_id}/{technic_category}/{request_reason}/{request_comment}/ (use: api/five_element/requests/add_prs)]
 
 + Parameters
     + contact_fio (required, (string)) ... *ФИО контактного лица от 2 до 100 символов*
@@ -672,7 +672,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/requests/add_prs
+            Location: api/five_element/requests/add_prs
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -732,7 +732,7 @@ HOST: http://example.net
             }
 
 
-### Восстановить ПРС заявку [POST/{request_id}/{request_comment}/ (use: base/api/five_element/requests/restore_prs)]
+### Восстановить ПРС заявку [POST/{request_id}/{request_comment}/ (use: api/five_element/requests/restore_prs)]
 
 + Parameters
     + request_id (required, (integer)) ... *id заявки, которую нужно восстановить*
@@ -741,7 +741,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/requests/restore_prs
+            Location: api/five_element/requests/restore_prs
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -773,7 +773,7 @@ HOST: http://example.net
             }
 
 
-### Добавление заявки по установке техники [POST/{contact_fio}/{contact_phone}/{technic_category}/{address}/{install_date}/ (use: base/api/five_element/requests/add_install)]
+### Добавление заявки по установке техники [POST/{contact_fio}/{contact_phone}/{technic_category}/{address}/{install_date}/ (use: api/five_element/requests/add_install)]
 
 + Parameters
     + contact_fio (required, (string)) ... *ФИО контактного лица от 2 до 100 символов*
@@ -785,7 +785,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/requests/add_install
+            Location: api/five_element/requests/add_install
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -832,7 +832,7 @@ HOST: http://example.net
             }
 
 
-### Добавление задачи на установку мастеру [POST/{request_number}/{contact_phone}/{technic_category}/{technic_model}/{contact_fio}/{contact_phone}/{install_date}/ (use: base/api/five_element/requests/add_master_install)]
+### Добавление задачи на установку мастеру [POST/{request_number}/{contact_phone}/{technic_category}/{technic_model}/{contact_fio}/{contact_phone}/{install_date}/ (use: api/five_element/requests/add_master_install)]
 
 + Parameters
 
@@ -846,7 +846,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/requests/add_master_install
+            Location: api/five_element/requests/add_master_install
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -903,7 +903,7 @@ HOST: http://example.net
             }
 
 
-### Добавление отзыва клиента [POST/{description}/{email}/{type} (use: base/api/five_element/add_review)]
+### Добавление отзыва клиента [POST/{description}/{email}/{type} (use: api/five_element/add_review)]
 
 + Parameters
     + description (required, (string)) ... *Текст отзыва*
@@ -913,7 +913,7 @@ HOST: http://example.net
 + Response 200 (application/json) 
     + Headers
     
-            Location: base/api/five_element/add_review
+            Location: api/five_element/add_review
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -957,12 +957,12 @@ HOST: http://example.net
             }
 
 
-### Получение списка сервисов (услуг) [GET/ (use: base/api/five_element/services/get)]
+### Получение списка сервисов (услуг) [GET/ (use: api/five_element/services/get)]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/services/get
+            Location: api/five_element/services/get
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1013,7 +1013,7 @@ HOST: http://example.net
                         "payout_description": "Описание условий выплаты",
                         "process_description_definition": "<p>* хищение смартфона -- умышленное противоправное безвозмездное завладение смартфоном с корыстной целью путем грабежа, разбоя, кражи, вымогательства</p>\r\n<p>** сроки, в течение которых необходимо обратиться в милицию и Белгосстрах указаны в Правилах страхования №31.</p>",
                         "type": "insurance",
-                        "contract_link": "https://sotest.so24.net/base/storage/five_element/insurance.pdf",
+                        "contract_link": "https://sotest.so24.net/storage/five_element/insurance.pdf",
                         "contract_type": "insurance",
                         "status_text": "Не активен",
                         "status_color": "#CF2B2B",
@@ -1040,7 +1040,7 @@ HOST: http://example.net
                         "expired": "03-04-2021",
                         "created_at_sorting": "2019-10-17 10:07:30",
                         "type": "prs",
-                        "contract_link": "https://sotest.so24.net/base/storage/oferta-zaschita.pdf",
+                        "contract_link": "https://sotest.so24.net/storage/oferta-zaschita.pdf",
                         "contract_type": "zaschita",
                         "status_color": "#50AC2F",
                         "status_text": "Активна",
@@ -1058,7 +1058,7 @@ HOST: http://example.net
                         "expired": "02-04-2021",
                         "created_at_sorting": "2019-10-17 10:07:17",
                         "type": "prs",
-                        "contract_link": "https://sotest.so24.net/base/storage/oferta-zaschita.pdf",
+                        "contract_link": "https://sotest.so24.net/storage/oferta-zaschita.pdf",
                         "contract_type": "zaschita",
                         "status_color": "#CF2B2B",
                         "status_text": "Не активна",
@@ -1070,7 +1070,7 @@ HOST: http://example.net
             
             
             
-### Активация Защита+ [POST/{activation_code}/ (use: base/api/five_element/services/prs/activate)]
+### Активация Защита+ [POST/{activation_code}/ (use: api/five_element/services/prs/activate)]
 
 + Parameters
     + activation_code (required, (string)) ... *Код активации*
@@ -1078,7 +1078,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/services/prs/activate
+            Location: api/five_element/services/prs/activate
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -1124,12 +1124,12 @@ HOST: http://example.net
             
             
 
-### Удаление ПРС/Защита+ из аккаунта клиента [GET/ (use: base/api/five_element/services/prs/remove/{id})]
+### Удаление ПРС/Защита+ из аккаунта клиента [GET/ (use: api/five_element/services/prs/remove/{id})]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/services/insurances/hide/{id}
+            Location: api/five_element/services/insurances/hide/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1159,12 +1159,12 @@ HOST: http://example.net
 
 
 
-### Удаление Мартлет кодов [GET/ (use: base/api/five_element/services/martlet/remove/{id})]
+### Удаление Мартлет кодов [GET/ (use: api/five_element/services/martlet/remove/{id})]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/services/martlet/remove/{id}
+            Location: api/five_element/services/martlet/remove/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1194,7 +1194,7 @@ HOST: http://example.net
             
         
         
-### Поиск модели/бренда [POST/{brand}/{model}/{field}/ (use: base/api/five_element/search_products)]
+### Поиск модели/бренда [POST/{brand}/{model}/{field}/ (use: api/five_element/search_products)]
 
 + Parameters
     + brand (required, (string)) ... *имя бренда*
@@ -1204,7 +1204,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/search_products
+            Location: api/five_element/search_products
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -1242,7 +1242,7 @@ HOST: http://example.net
             
             
             
-### Активация страховки [POST/{prs_id}/{imei}/{name}/{last_name}/{surname}/{notification_id} (use: base/api/five_element/services/insurances/activate)]
+### Активация страховки [POST/{prs_id}/{imei}/{name}/{last_name}/{surname}/{notification_id} (use: api/five_element/services/insurances/activate)]
 
 + Parameters
     + prs_id (required, (int)) ... *id услуги*
@@ -1255,7 +1255,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/services/insurances/activate
+            Location: api/five_element/services/insurances/activate
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -1294,7 +1294,7 @@ HOST: http://example.net
                     "process_description_title": "Страховка: Заголовок описания действий при страховом случае",
                     "process_description_text": "<p><strong>Страховка</strong>: Текст описания <strong>действий</strong> при страховом случае</p>",
                     "type": "insurance",
-                    "contract_link": "https://sotest.so24.net/base/storage/five_element/insurance.pdf",
+                    "contract_link": "https://sotest.so24.net/storage/five_element/insurance.pdf",
                     "contract_type": "insurance",
                     "status_text": "Активна",
                     "status_color": "#50AC2F"
@@ -1304,12 +1304,12 @@ HOST: http://example.net
             
 
 
-### Скрытие страховки [GET/(use: base/api/five_element/services/insurances/hide/{id})]
+### Скрытие страховки [GET/(use: api/five_element/services/insurances/hide/{id})]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/five_element/services/martlet/remove/{id}
+            Location: api/five_element/services/martlet/remove/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1343,12 +1343,12 @@ HOST: http://example.net
 # Park Technic API [/api/park_technic/]
 <hr/>
 
-### Справочник создания техники [GET/ (use: base/api/park_technic/info)]
+### Справочник создания техники [GET/ (use: api/park_technic/info)]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/park_technic/info
+            Location: api/park_technic/info
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1430,12 +1430,12 @@ HOST: http://example.net
             }
             
 
-### Добавление товара в парк [POST/{technic_category_id}/{brand}/{model}/{exploitation_time}/{repaired}/ (use: base/api/park_technic/add)]
+### Добавление товара в парк [POST/{technic_category_id}/{brand}/{model}/{exploitation_time}/{repaired}/ (use: api/park_technic/add)]
 
 + Parameters
     + technic_category_id (required, (integer)) ... *ID катеогрии полученного в справочнике*
-    + brand (required, (string)) ... *обязательно - название бренда (получено по запросу base/api/five_element/search_products)*
-    + model (required, (string)) ... *обязательно - название модели (получено по запросу base/api/five_element/search_products)*
+    + brand (required, (string)) ... *обязательно - название бренда (получено по запросу api/five_element/search_products)*
+    + model (required, (string)) ... *обязательно - название модели (получено по запросу api/five_element/search_products)*
     + exploitation_time (required, (string)) ... *срок эксплуатации, варианты в справочнике*
     + repaired (required, (integer)) ... *был товар в ремонте или нет: 0 - нет, 1 - да*
 
@@ -1443,7 +1443,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/park_technic/add
+            Location: api/park_technic/add
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -1476,13 +1476,13 @@ HOST: http://example.net
             }
 
 
-### Редактирование товара в парке [POST/{id}/{technic_category_id}/{brand}/{model}/{exploitation_time}/{repaired}/ (use: base/api/park_technic/edit)]
+### Редактирование товара в парке [POST/{id}/{technic_category_id}/{brand}/{model}/{exploitation_time}/{repaired}/ (use: api/park_technic/edit)]
 
 + Parameters
     + id (required, (integer)) ... *ID товара из парка техники. Товар должен принадлежать пользователю и не быть привязан к ПРС (prs_service - null)*
     + technic_category_id (required, (integer)) ... *ID катеогрии полученного в справочнике*
-    + brand (required, (string)) ... *обязательно - название бренда (получено по запросу base/api/five_element/search_products)*
-    + model (required, (string)) ... *обязательно - название модели (получено по запросу base/api/five_element/search_products)*
+    + brand (required, (string)) ... *обязательно - название бренда (получено по запросу api/five_element/search_products)*
+    + model (required, (string)) ... *обязательно - название модели (получено по запросу api/five_element/search_products)*
     + exploitation_time (required, (string)) ... *срок эксплуатации, варианты в справочнике*
     + repaired (required, (integer)) ... *был товар в ремонте или нет: 0 - нет, 1 - да*
 
@@ -1490,7 +1490,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/park_technic/edit
+            Location: api/park_technic/edit
             Method: POST
             Authorization: Bearer #TOKEN#
 
@@ -1523,12 +1523,12 @@ HOST: http://example.net
             }
 
 
-### Список товаров из парка техники [GET/ (use: base/api/park_technic/get)]
+### Список товаров из парка техники [GET/ (use: api/park_technic/get)]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/park_technic/get
+            Location: api/park_technic/get
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1594,12 +1594,12 @@ HOST: http://example.net
             }
 
 
-### Удалить товар из парка [GET/ (use: base/api/park_technic/remove/{id})]
+### Удалить товар из парка [GET/ (use: api/park_technic/remove/{id})]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/park_technic/remove/{id}
+            Location: api/park_technic/remove/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1632,12 +1632,12 @@ HOST: http://example.net
 # Notifications API [/api/notifications/]
 <hr/>
 
-### Получение списка уведомлений [GET/ (use: base/api/notifications/get)]
+### Получение списка уведомлений [GET/ (use: api/notifications/get)]
 
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/notifications/get
+            Location: api/notifications/get
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1667,8 +1667,8 @@ HOST: http://example.net
                             "publish_date": "2019-09-21 09:57:46",
                             "type": "insurance",
                             "publish_date_unix": 1569049066,
-                            "image_default": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/3a34989ef0aa795bdb5df1dfb7f1bf01.png",
-                            "image_active": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/7d468de9feb551258606c8c79082ee4f.png"
+                            "image_default": "https://sotest.so24.net/storage/five_element/notification_pictogram/3a34989ef0aa795bdb5df1dfb7f1bf01.png",
+                            "image_active": "https://sotest.so24.net/storage/five_element/notification_pictogram/7d468de9feb551258606c8c79082ee4f.png"
                         },
                         {
                             "id": 48762,
@@ -1689,8 +1689,8 @@ HOST: http://example.net
                             "type": "21esdw",
                             "publish_date": "2018-10-19 10:50:05",
                             "publish_date_unix": 1539935405,
-                            "image_default": "http://sotest/base/storage/five_element/notification_pictogram/b4f0d2b9f77503f59a0b9241a9c01363.png",
-                            "image_active": "http://sotest/base/storage/five_element/notification_pictogram/5c36f39f8ad877c1cf840c5859afa535.png"
+                            "image_default": "http://sotest/storage/five_element/notification_pictogram/b4f0d2b9f77503f59a0b9241a9c01363.png",
+                            "image_active": "http://sotest/storage/five_element/notification_pictogram/5c36f39f8ad877c1cf840c5859afa535.png"
                         }
                     ],
                     "count": 2
@@ -1699,7 +1699,7 @@ HOST: http://example.net
             }
 
 
-### Удаление уведомления [POST/{id}/ (use: base/api/notifications/remove/{id})]
+### Удаление уведомления [POST/{id}/ (use: api/notifications/remove/{id})]
 
 + Parameters
     + id (required) ... *Id уведомления*
@@ -1707,7 +1707,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/notifications/remove/{id}
+            Location: api/notifications/remove/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1738,7 +1738,7 @@ HOST: http://example.net
             }
 
 
-### Чтение уведомления [POST/{id}/ (use: base/api/notifications/read/{id})]
+### Чтение уведомления [POST/{id}/ (use: api/notifications/read/{id})]
 
 + Parameters
     + id (required) ... *Id уведомления*
@@ -1746,7 +1746,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/notifications/read/{id}
+            Location: api/notifications/read/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1785,8 +1785,8 @@ HOST: http://example.net
                         "read": 1,
                         "publish_date": "2018-10-19 10:50:05",
                         "publish_date_unix": 1539935405,
-                        "image_default": "http://sotest/base/storage/five_element/notification_pictogram/b4f0d2b9f77503f59a0b9241a9c01363.png",
-                        "image_active": "http://sotest/base/storage/five_element/notification_pictogram/5c36f39f8ad877c1cf840c5859afa535.png"
+                        "image_default": "http://sotest/storage/five_element/notification_pictogram/b4f0d2b9f77503f59a0b9241a9c01363.png",
+                        "image_active": "http://sotest/storage/five_element/notification_pictogram/5c36f39f8ad877c1cf840c5859afa535.png"
                     }
                 ],
                 "errors": []
@@ -1818,8 +1818,8 @@ HOST: http://example.net
                         "publish_date": "2019-10-02 17:13:34",
                         "type": "insurance",
                         "publish_date_unix": 1570025614,
-                        "image_default": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/fda4eb8c42440fcb3e7724a2c1730873.png",
-                        "image_active": "https://sotest.so24.net/base/storage/five_element/notification_pictogram/06a3e3495cf0d1a51839569fbd716c47.png"
+                        "image_default": "https://sotest.so24.net/storage/five_element/notification_pictogram/fda4eb8c42440fcb3e7724a2c1730873.png",
+                        "image_active": "https://sotest.so24.net/storage/five_element/notification_pictogram/06a3e3495cf0d1a51839569fbd716c47.png"
                     }
                 ],
                 "errors": []
@@ -1829,7 +1829,7 @@ HOST: http://example.net
 # Technic API [/api/technic_status/]
 <hr/>
 
-### Получение списка техники в ремонте [GET/ (use: base/api/technic_status/list{?page}{?count})]
+### Получение списка техники в ремонте [GET/ (use: api/technic_status/list{?page}{?count})]
 
 + Parameters
     + page (optional) ... *номера страниц - начинаются с 1*
@@ -1838,7 +1838,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/technic_status/list
+            Location: api/technic_status/list
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -1883,7 +1883,7 @@ HOST: http://example.net
             }
 
 
-### Добавление техники в ремонте [POST/{code}/ (use: base/api/technic_status/add)]
+### Добавление техники в ремонте [POST/{code}/ (use: api/technic_status/add)]
 
 + Parameters
     + code (required) ... *номер акта или ПРС*
@@ -1891,7 +1891,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/technic_status/add
+            Location: api/technic_status/add
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -2022,7 +2022,7 @@ HOST: http://example.net
             }
 
 
-### Заказ обратного звонка [POST/{username}/{phone}/{comment}/{time_from}/{time_to}/{product_category}/ (use: base/api/get_callback)]
+### Заказ обратного звонка [POST/{username}/{phone}/{comment}/{time_from}/{time_to}/{product_category}/ (use: api/get_callback)]
 
 + Parameters
     + username (required, (string)) ... *контактное имя*
@@ -2035,7 +2035,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/get_callback
+            Location: api/get_callback
             Method: POST
 
     + Body
@@ -2906,13 +2906,13 @@ HOST: http://example.net
                 "errors": (array)
             }
 
-### Формат ошибок [GET/ (use: base/api/bonuses/get)]
+### Формат ошибок [GET/ (use: api/bonuses/get)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/bonuses/get
+            Location: api/bonuses/get
             Method: GET
 
     + Body
@@ -3022,7 +3022,7 @@ HOST: http://example.net
                 "notice" : "Иногда cодержит заметки разработчика PHP"
             }
 
-### Сохранить бэкап-ссылку для приложения [POST/{backup_link} (use: base/api/user/update_backup_link)]
+### Сохранить бэкап-ссылку для приложения [POST/{backup_link} (use: api/user/update_backup_link)]
 
 + Parameters
     + backup_link: `http://backup.su?key=value` (required, (string)) - *app backup-link -*
@@ -3031,7 +3031,7 @@ HOST: http://example.net
 
     + Headers
     
-            Location: base/api/user/update_backup_link
+            Location: api/user/update_backup_link
             Method: POST
 
     + Schema
@@ -3174,7 +3174,7 @@ HOST: http://example.net
             Location: api/prs_createservice
             Method: POST
             
-# Gift API [/base/api/gifts/]
+# Gift API [/api/gifts/]
 <hr>
 
 **Error codes:**
@@ -3191,13 +3191,13 @@ HOST: http://example.net
 
 **122** - *Something went wrong! Can't write to DB. Check your code_id*
 
-### Get available types [GET/ (use: base/api/gifts/get)]
+### Get available types [GET/ (use: api/gifts/get)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/gifts/get
+            Location: api/gifts/get
             Method: GET
                     
     + Schema
@@ -3236,7 +3236,7 @@ HOST: http://example.net
 
 
 
-### Activate code [POST/{type_id} (use: base/api/gifts/activate)]
+### Activate code [POST/{type_id} (use: api/gifts/activate)]
 
 + Parameters
     + type_id (required, (int)) ... *идентификатор типа*
@@ -3245,7 +3245,7 @@ HOST: http://example.net
 
     + Headers
 
-            Location: base/api/gifts/activate
+            Location: api/gifts/activate
             Method: POST
         
 
@@ -3291,7 +3291,7 @@ HOST: http://example.net
         
             
 
-### Remove code [POST/{id} (use: base/api/gifts/remove/{id})]
+### Remove code [POST/{id} (use: api/gifts/remove/{id})]
 
 + Parameters
     + id (required) ... *Идентификтор подарка*
@@ -3299,7 +3299,7 @@ HOST: http://example.net
 + Response 200 (application/json)
     + Headers
     
-            Location: base/api/gifts/remove/{id}
+            Location: api/gifts/remove/{id}
             Method: GET
             Authorization: Bearer #TOKEN#
 
@@ -3332,13 +3332,13 @@ HOST: http://example.net
           
 
 
-### Clear user's gifts  [POST/ (use: base/api/gifts/clear)]
+### Clear user's gifts  [POST/ (use: api/gifts/clear)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/gifts/clear
+            Location: api/gifts/clear
             Method: POST
 
     + Schema
@@ -3353,13 +3353,13 @@ HOST: http://example.net
                 }
             }
 
-### Get user's codes [GET/ (use: base/api/gifts/user/all)]
+### Get user's codes [GET/ (use: api/gifts/user/all)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/gifts/user/all
+            Location: api/gifts/user/all
             Method: GET
 
     + Schema
@@ -3387,7 +3387,7 @@ HOST: http://example.net
                             "id": 3,
                             "title": "Third type",
                             "description": "RRRRRRRRRRRRRRRRRR",
-                            "image_link": "https:\/\/sotest.so24.net\/base\/storage\/gift\/type-images\/0e8ece0f5ab4856ab27e66c74d2b5414.jpg",
+                            "image_link": "https:\/\/sotest.so24.net\/storage\/gift\/type-images\/0e8ece0f5ab4856ab27e66c74d2b5414.jpg",
                             "app_link": "RRRRRRRRRRRRRR"
                         }
                     },
@@ -3426,14 +3426,14 @@ HOST: http://example.net
                             "id": 4,
                             "title": "Metallic",
                             "description": "Metall",
-                            "image_link": "https:\/\/sotest.so24.net\/base\/storage\/gift\/type-images\/0e8ece0f5ab4856ab27e66c74d2b5414.jpg",
+                            "image_link": "https:\/\/sotest.so24.net\/storage\/gift\/type-images\/0e8ece0f5ab4856ab27e66c74d2b5414.jpg",
                             "app_link": ""
                         }
                     }
                 ]
             }
 
-### View code [POST/{code_id} (use: base/api/gifts/view)]
+### View code [POST/{code_id} (use: api/gifts/view)]
 
 In View code method **code_id** is required
 
@@ -3444,7 +3444,7 @@ In View code method **code_id** is required
     
     + Headers
 
-            Location: base/api/gifts/view
+            Location: api/gifts/view
             Method: POST
 
     + Schema
@@ -3501,7 +3501,7 @@ In View code method **code_id** is required
                 "errors": []
             }
 
-# Bonus API [/base/api/bonuses]
+# Bonus API [/api/bonuses]
 <hr>
 
 **Error codes:**
@@ -3546,7 +3546,7 @@ In View code method **code_id** is required
 
     + Headers
 
-            Location: base/api/bonuses/*
+            Location: api/bonuses/*
 
     + Schema
             
@@ -3587,13 +3587,13 @@ In View code method **code_id** is required
                     "cards": []
                 }
                 
-### Get all user's cards [GET/ (use: base/api/bonuses/get)]
+### Get all user's cards [GET/ (use: api/bonuses/get)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/bonuses/get
+            Location: api/bonuses/get
             Method: GET
 
     + Schema
@@ -3652,7 +3652,7 @@ In View code method **code_id** is required
                     ]
                 }
 
-### Add new card [POST/ (use: base/api/bonuses/add)]
+### Add new card [POST/ (use: api/bonuses/add)]
 
 In add method **name**, **card** and **phone** are required.
 
@@ -3660,7 +3660,7 @@ In add method **name**, **card** and **phone** are required.
 
     + Headers
 
-            Location: base/api/bonuses/add
+            Location: api/bonuses/add
             Method: POST
             Request: (string)name, (numeric)card, (int)phone
 
@@ -3764,7 +3764,7 @@ In add method **name**, **card** and **phone** are required.
                     ]
                 }
 
-### Remove card [POST/ (use: base/api/bonuses/remove)] 
+### Remove card [POST/ (use: api/bonuses/remove)] 
 
 In remove method **card_id** is required.
 
@@ -3772,7 +3772,7 @@ In remove method **card_id** is required.
 
     + Headers
 
-            Location: base/api/bonuses/remove
+            Location: api/bonuses/remove
             Method: POST
             Request: (int)card_id
 
@@ -3838,7 +3838,7 @@ In remove method **card_id** is required.
                     ]
                 }
                 
-# Insurance API [/base/api/insurance]
+# Insurance API [/api/insurance]
 <hr>
 
 **Actions:**
@@ -3949,7 +3949,7 @@ Smart errors:<br>
 
     + Headers
 
-            Location: base/api/insurance/*
+            Location: api/insurance/*
 
     + Schema
 
@@ -4436,7 +4436,7 @@ Smart errors:<br>
                     "data": []
                 }
 
-### Auth [POST/{tel}/ (use: base/api/insurance/auth)]
+### Auth [POST/{tel}/ (use: api/insurance/auth)]
 
 In auth method **tel** is required
 
@@ -4447,7 +4447,7 @@ In auth method **tel** is required
 
     + Headers
 
-            Location: base/api/insurance/auth
+            Location: api/insurance/auth
             Method: POST
             Request: tel
 
@@ -4465,7 +4465,7 @@ In auth method **tel** is required
                 ]
             }
 
-### Activate [POST/{tel}/{num}/ (use: base/api/insurance/activate)]
+### Activate [POST/{tel}/{num}/ (use: api/insurance/activate)]
 
 In activate method **tel** and **num** are required
 
@@ -4477,7 +4477,7 @@ In activate method **tel** and **num** are required
 
     + Headers
 
-            Location: base/api/insurance/activate
+            Location: api/insurance/activate
             Method: POST
             Request: tel, num
 
@@ -4496,7 +4496,7 @@ In activate method **tel** and **num** are required
                 ]
             }
 
-### Sms confirm (otp) [POST/{smsid}/{otp}/{cid}/ (use: base/api/insurance/sms_confirm)]
+### Sms confirm (otp) [POST/{smsid}/{otp}/{cid}/ (use: api/insurance/sms_confirm)]
 
 In sms confirm method **smsid** and **otp** are required, and if from method ***Activate*** parameter **cid** required too
 
@@ -4509,7 +4509,7 @@ In sms confirm method **smsid** and **otp** are required, and if from method ***
 
     + Headers
 
-            Location: base/api/insurance/sms_confirm
+            Location: api/insurance/sms_confirm
             Method: POST
             Request: smsid, otp, cid
 
@@ -4549,7 +4549,7 @@ In sms confirm method **smsid** and **otp** are required, and if from method ***
                         ]
             }
 
-### Sign form [POST/{cid}/{name}/{secname}/{surname}/{email}/{inn}/{birthday}/{type}/{passport}/{passportdate}/{passportissued}/{index}/{region}/{district}/{city}/{street}/{brand}/{model}/{serial}/ (use: base/api/insurance/sign_form)]
+### Sign form [POST/{cid}/{name}/{secname}/{surname}/{email}/{inn}/{birthday}/{type}/{passport}/{passportdate}/{passportissued}/{index}/{region}/{district}/{city}/{street}/{brand}/{model}/{serial}/ (use: api/insurance/sign_form)]
 
 In sign form method:
 
@@ -4591,7 +4591,7 @@ Not required: **email**, **inn**, **index**, **street**
 
     + Headers
 
-            Location: base/api/insurance/sign_form
+            Location: api/insurance/sign_form
             Method: POST
             Request: cid, name, secname, surname, email, inn, birthday, type, passport, passportdate, passportissued, index, region, district, city, street, bran, model, serial
 
@@ -4609,7 +4609,7 @@ Not required: **email**, **inn**, **index**, **street**
                 ]
             }
 
-### List [POST/{tel}/{cid}/ (use: base/api/insurance/get_list_contracts)]
+### List [POST/{tel}/{cid}/ (use: api/insurance/get_list_contracts)]
 
 In method list **tel** is required. If you whant get one contract add to request **cid**.
 
@@ -4621,7 +4621,7 @@ In method list **tel** is required. If you whant get one contract add to request
 
     + Headers
 
-            Location: base/api/insurance/list
+            Location: api/insurance/list
             Method: POST
             Request: tel, cid
 
@@ -4661,13 +4661,13 @@ In method list **tel** is required. If you whant get one contract add to request
                 ]
             }
 
-### Check filled contracts [POST// (use: base/api/insurance/check_filled_contracts)]
+### Check filled contracts [POST// (use: api/insurance/check_filled_contracts)]
     
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/insurance/check_filled_contracts
+            Location: api/insurance/check_filled_contracts
             Method: POST
 
     + Schema
@@ -4717,7 +4717,7 @@ In method list **tel** is required. If you whant get one contract add to request
                 7 Не верный формат списка договоров
 
 
-### Send push to app [POST/{cid}/{public_key}/{text_ru}/{text_uk}/ (use: base/mobile_api/insurance/send_push)]
+### Send push to app [POST/{cid}/{public_key}/{text_ru}/{text_uk}/ (use: mobile_api/insurance/send_push)]
 
 + Parameters
     + cid (required, (string), `2`) ... *ID контракта/договора в системе -*
@@ -4729,7 +4729,7 @@ In method list **tel** is required. If you whant get one contract add to request
 
     + Headers
 
-            Location: base/mobile_api/insurance/send_push
+            Location: mobile_api/insurance/send_push
             Method: POST
 
     + Body 
@@ -4754,7 +4754,7 @@ In method list **tel** is required. If you whant get one contract add to request
             }
 
 
-### Send push to multiple divaces [POST/{cids}/{public_key}/{text_ru}/{text_uk}/ (use: base/mobile_api/insurance/send_push_multiple)]
+### Send push to multiple divaces [POST/{cids}/{public_key}/{text_ru}/{text_uk}/ (use: mobile_api/insurance/send_push_multiple)]
     
 + Parameters
     + cids (required, (array), `2`) ... *Массив ID контрактов/договоров в системе -*
@@ -4766,7 +4766,7 @@ In method list **tel** is required. If you whant get one contract add to request
 
     + Headers
 
-            Location: base/mobile_api/insurance/send_push_multiple
+            Location: mobile_api/insurance/send_push_multiple
             Method: POST
 
     + Body 
@@ -4807,7 +4807,7 @@ In method list **tel** is required. If you whant get one contract add to request
                 ],
             }
 
-### Send push to multiple divaces [POST/{cids}/{public_key}/ (use: base/mobile_api/insurance/send_push_multiple_personalized)]
+### Send push to multiple divaces [POST/{cids}/{public_key}/ (use: mobile_api/insurance/send_push_multiple_personalized)]
     
 + Parameters
     + cids (required, (array), `2`) ... *Массив ID контрактов/договоров в системе -*
@@ -4817,7 +4817,7 @@ In method list **tel** is required. If you whant get one contract add to request
 
     + Headers
 
-            Location: base/mobile_api/insurance/send_push_multiple_personalized
+            Location: mobile_api/insurance/send_push_multiple_personalized
             Method: POST
 
     + Body 
@@ -4863,10 +4863,10 @@ In method list **tel** is required. If you whant get one contract add to request
             } 
 
 
-# Chat API [/base/api/messages]
+# Chat API [/api/messages]
 <hr/>
 
-### Get messages chunk [POST/{page}/{count}/  (use: base/api/messages/chunk)]
+### Get messages chunk [POST/{page}/{count}/  (use: api/messages/chunk)]
 
 **NOTE #1:** *This method has key a **count** (messages count), if query has't a count, then **count=25** (default)*
 
@@ -4883,7 +4883,7 @@ Keys **page** and **count** are not required
 
     + Headers
 
-            Location: base/api/messages/chunk
+            Location: api/messages/chunk
             Method: POST
             Request: count, page
             
@@ -4951,7 +4951,7 @@ Keys **page** and **count** are not required
                 "data": []
             }
 
-### Upload file [POST/{conv_id}/{file}/  (use: base/{api|mobile_api}/files/upload)]
+### Upload file [POST/{conv_id}/{file}/  (use: {api|mobile_api}/files/upload)]
 
 Key **conv_id** and **file** are required
 
@@ -4963,14 +4963,14 @@ Key **conv_id** and **file** are required
 
     + Headers
 
-            Location: base/{api|mobile_api}/files/upload
+            Location: {api|mobile_api}/files/upload
             Method: POST
             Request: conv_id, file
 
     + Schema
             
-            Route "base/api/files/upload" based on Passport token auth
-            Route "base/mobile_api/files/upload" based on session auth
+            Route "api/files/upload" based on Passport token auth
+            Route "mobile_api/files/upload" based on session auth
             
             **==================================FAILS====================================**
             
@@ -5109,12 +5109,12 @@ Key **conv_id** and **file** are required
             }
 
  
-# Martlet API [/base/api/martlet]
+# Martlet API [/api/martlet]
 <hr/>
 
 **Innovation:**  *Returned response array will now have new key **status**, that indicates whether the request is successful or not.*
 
-### Activate code [POST/{code} (use: base/api/martlet/store)]
+### Activate code [POST/{code} (use: api/martlet/store)]
 
 Parameter **code** is required
 
@@ -5125,7 +5125,7 @@ Parameter **code** is required
 
     + Headers
 
-            Location: base/api/martlet/store
+            Location: api/martlet/store
             Method: POST
             Request: code
             
@@ -5271,13 +5271,13 @@ Parameter **code** is required
                 ]
             }
             
-### List user codes [GET/ (use: base/api/martlet/show)]
+### List user codes [GET/ (use: api/martlet/show)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/martlet/show
+            Location: api/martlet/show
             Method: GET
 
     + Schema
@@ -5909,11 +5909,11 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                 
                 
                 
-# RMS API [/base/api/user/rms/request]
+# RMS API [/api/user/rms/request]
 <hr/>
 
 
-### Task list [POST/{page}/{limit}/{filter}/{order}  (use: base/api/user/rms/request)]
+### Task list [POST/{page}/{limit}/{filter}/{order}  (use: api/user/rms/request)]
 
 + Parameters+
     + page: int (optional) - *page number -*
@@ -5943,7 +5943,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
     + Headers
 
-            Location: base/api/user/rms/request
+            Location: api/user/rms/request
             Method: POST
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 
@@ -6393,13 +6393,13 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
             }
 
 
-### Task get count of tasks [GET/  (use: base/api/user/rms/request/count)]
+### Task get count of tasks [GET/  (use: api/user/rms/request/count)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/user/rms/request/count
+            Location: api/user/rms/request/count
             Method: GET
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 
@@ -6431,7 +6431,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
 
 
-### Task edit UPDATE [PATCH/{id}  (use: base/api/user/rms/request/{id})]
+### Task edit UPDATE [PATCH/{id}  (use: api/user/rms/request/{id})]
 
 + Parameters+
     + id: 3 (required, (int)) - *task id -*
@@ -6440,7 +6440,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
     + Headers
 
-            Location: base/api/user/rms/request/{id}
+            Location: api/user/rms/request/{id}
             Method: PATCH
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 
@@ -6511,13 +6511,13 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
 
 
-### Get filters [GET/  (use: base/api/user/rms/request/filters)]
+### Get filters [GET/  (use: api/user/rms/request/filters)]
 
 + Response 200 (application/json)
 
     + Headers
 
-            Location: base/api/user/rms/request/filters
+            Location: api/user/rms/request/filters
             Method: GET
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 
@@ -6577,11 +6577,11 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
 
 
-# SURVEY [/base/api/user/survey]
+# SURVEY [/api/user/survey]
 <hr/>
 
 
-### Template list [GET/  (use: base/api/user/survey/templates)]
+### Template list [GET/  (use: api/user/survey/templates)]
 
 + Parameters+
 
@@ -6589,7 +6589,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
     + Headers
 
-            Location: base/api/user/survey/templates
+            Location: api/user/survey/templates
             Method: GET
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 
@@ -6633,7 +6633,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
             }
 
 
-### Get survey template data [GET/{id}  (use: base/api/user/survey/templates/{id})]
+### Get survey template data [GET/{id}  (use: api/user/survey/templates/{id})]
 
 + Parameters+
     + id (required, (int)) ... *template id
@@ -6642,7 +6642,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
     + Headers
 
-            Location: base/api/user/survey/templates/{id}
+            Location: api/user/survey/templates/{id}
             Method: GET
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 
@@ -6773,7 +6773,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
             }
             
             
-### Create survey [POST/{template_id}/{template_param}  (use: base/api/user/survey/surveys)]
+### Create survey [POST/{template_id}/{template_param}  (use: api/user/survey/surveys)]
 
 + Parameters+
     + template_id (required, (int)) ... *template id
@@ -6783,7 +6783,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
 
     + Headers
 
-            Location: base/api/user/survey/surveys
+            Location: api/user/survey/surveys
             Method: GET
             Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
 

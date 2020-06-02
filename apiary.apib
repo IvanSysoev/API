@@ -99,6 +99,32 @@ HOST: http://example.net
                     }
                 ]
             }
+            
+            В некоторых url есть проверка минимально допустимой версии приложения.
+            Для ее работы на сервер необходимо передавать в заголовках параметр "App-Version".
+            В случае если проверка не пройдена сервер сгенерирует ошибку с кодом 1053.
+            Ошибка может быть сгенерирована в случае если не указан "App-Version" или "App-Version" имеет версию ниже допустиомой
+            Для удобства обновления в параметре data.app_download могут быть переданы ссылка для обновления и текст для описания ссылки.
+            data.app_download.link - (string) ссылка на приложение. Может сожержать пустую строку.
+            data.app_download.title - (string) Описание ссылки на приложение. Может сожержать пустую строку.
+
+            Тело ответа будет содержать:
+            {
+                "message": "There is a new version of the application. Update your application.",
+                "data": {
+                    "app_download": {
+                        "link": "google.com", // может быть пустой строкой
+                        "title": "Обновите приложение по ссылке!", // может быть пустой строкой
+                    }
+                },
+                "errors": [
+                    {
+                        "code": 1053,
+                        "message": "There is a new version of the application. Update your application.",
+                        "data": "There is a new version of the application. Update your application."
+                    }
+                ]
+            }
 
 ### Регистрация (username + password) [POST/{client_id}/{client_secret}/{phone}/{firstname}/{surname}/{patronymic}/{email}/{password}/{otp}/{fcm_token}/ (use: api/auth/register)]
 

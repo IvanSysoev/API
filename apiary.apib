@@ -6086,6 +6086,7 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                 "options": array, optional
 
             Available attribute "type" param values:
+                select_search
                 select
                 radio
                 checklist
@@ -6109,12 +6110,13 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
              - max (int)
              - required (bool) - depends on attribute setting OR min value - if (min > 0) => true
              
-             Radio properties param contains:
+            Radio properties param contains:
              - min (float)
              - max (float)
              - step (float)
              
             "values" attribute param is always array. This array contain elements in following formats:
+                select_search -> one string element or empty array
                 select -> one string element or empty array
                 radio -> one string element or empty array
                 checklist -> ANY number of string elements or empty array
@@ -6124,6 +6126,9 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                 range -> one float element or empty array
                 date ->  one string element or empty array, format "2019-04-09"
                 datetime ->  one string element or empty array, format "2019-04-09 10:51:06"
+             
+            Select_search has special behavior: options for this attribute must be loaded with individual API call.
+                See "EAV options search" topic in this documentation
              
             ========================= Predefined attributes ==========================
             
@@ -6214,6 +6219,32 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                 "email": "tester@example.com",
                             },
                             "attributes": [
+                                {
+                                    "id": "234h2bvuj45465",
+                                    "type": "select_search",
+                                    "label": "Селект с поиском опций",
+                                    "description": "",
+                                    "properties": {
+                                        "show_in_full_preview": true
+                                        "api_show_edit_form_for_statuses": [
+                                            "30",
+                                            "31"
+                                        ],
+                                        "required_for_statuses": [
+                                            "30"
+                                        ],
+                                        "key": ""
+                                    },
+                                    "options": [
+                                        {
+                                            "id": "21",
+                                            "value": "Завершена"
+                                        }
+                                    ], // array with one object representing entity from value param. If values param empty options ompty to
+                                    "values": [
+                                        "21"
+                                    ] // one string element or empty array
+                                },
                                 {
                                     "id": "234h2bvuj43h2vbbg",
                                     "type": "select",
@@ -6414,6 +6445,80 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
                                     ] // one string element or empty array, format "2019-04-09 10:51:06"
                                 }
                             ]
+                        }
+                    ]
+                },
+                "errors": []
+            }
+
+
+### EAV options search [POST/{page}/{limit}/{attribute_id}/{q}  (use: api/user/rms/eav/options/search)]
+
++ Parameters+
+    + page: int (optional) - *page number*
+        + Default: 1
+    + limit: int (optional) - *options number on one page*
+        + Default: 20
+        + Max: 500
+    + attribute_id: string (required) - *which EAV attribute options must be searched*
+    + q: string (optional) - *Options will be filtered with search text*
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: api/user/rms/eav/options/search
+            Method: POST
+            Headers: [{"key":"Accept","value":"application/json"}, {"key":"Content-Type","value":"application/json"}, {"key":"Authorization","value":"Bearer eyJ0eXAi..."}]
+
+    + Body
+
+            ================ REQUEST ================
+            Example:
+            {
+                "page": "1",
+                "limit": "2",
+                "attribute_id": "safse454hb5hj4b5",
+                "q": "абро"
+            }
+
+
+            ================ RESPONSE ================
+            Api response has "data" param with following object:
+
+            {
+                "current_page": 3, // (int) current page number
+                "per_page": 20, // (int) per page options number (depends on limit param in request)
+                "from": 41, // (int) number of the first item in the results
+                "to": 41, // (int) number of the last item in the results
+                "has_more_pages": false, // (bool) Determine if there is more items in the data store.
+                "options": [
+                    {
+                        "id": 20244,
+                        "value": "ул. Абросимова"
+                    }
+                ]
+            }
+
+            
+    + Schema
+    
+            {
+                "message": "no message",
+                "data": {
+                    "current_page": 1,
+                    "per_page": 20,
+                    "from": 1,
+                    "to": 2,
+                    "has_more_pages": false,
+                    "options": [
+                        {
+                            "id": 20244,
+                            "value": "ул. Абросимова"
+                        },
+                        {
+                            "id": 6947,
+                            "value": "ул. Габровская"
                         }
                     ]
                 },

@@ -6489,9 +6489,9 @@ The date format in the "**working_time**, **agreed_working_time**" keys should o
             {
                 "current_page": 3, // (int) current page number
                 "per_page": 20, // (int) per page options number (depends on limit param in request)
-                "from": 41, // (int) number of the first item in the results
-                "to": 41, // (int) number of the last item in the results
-                "has_more_pages": false, // (bool) Determine if there is more items in the data store.
+                "from": 41, // (int|null) number of the first option in the results. Null if no options found
+                "to": 41, // (int|null) number of the last option in the results. Null if no options found
+                "has_more_pages": false, // (bool) Determine if there is more options in the data store.
                 "options": [
                     {
                         "id": 20244,
